@@ -179,9 +179,9 @@ export default function Listings() {
                 )}
               </div>
             </div>
-            {(priceRange > 0 || minBeds > 0) && (
+            {(priceRange > 0 || minBeds > 0 || selectedArea) && (
               <button
-                onClick={() => { setPriceRange(0); setMinBeds(0); setSortBy("newest"); }}
+                onClick={() => { setPriceRange(0); setMinBeds(0); setSelectedArea(""); setSortBy("newest"); }}
                 className="flex items-center gap-1 text-xs text-destructive hover:underline"
               >
                 <X className="h-3 w-3" /> Clear all filters
