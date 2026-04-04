@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { useListings } from "@/contexts/ListingsContext";
+import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import {
   Building2,
   MessageCircle,
@@ -11,17 +12,33 @@ import {
   ChevronRight,
   Home,
   CircleDot,
+  CreditCard,
+  Crown,
+  Loader2,
 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
 
 export default function Dashboard() {
   const { listings } = useListings();
+  const { subscribed, subscriptionTier, subscriptionEnd, refreshSubscription, role } = useAuth();
+  const { toast } = useToast();
   const [conversations, setConversations] = useState<any[]>([]);
+  const [searchParams] = useSearchParams();
+  const [managingPortal, setManagingPortal] = useState(false);
 
   useEffect(() => {
     supabase.from("conversations").select("*").then(({ data }) => {
       if (data) setConversations(data);
     });
   }, []);
+
+  useEffect(() => {
+    if (searchParams.get("checkout") === "success") {
+      toast({ title: "Subscription activated! 🎉", description: "You can now list unlimited properties." });
+      refreshSubscription();
+    }
+  }, [searchParams]);
 
   const totalUnits = listings.length;
   const occupiedUnits = listings.filter((l) => !l.available).length;
@@ -30,6 +47,19 @@ export default function Dashboard() {
   const totalRevenue = listings.reduce((sum, l) => sum + l.price, 0);
   const pendingMessages = conversations.reduce((sum, c) => sum + c.unread, 0);
   const activeInquiries = conversations.filter((c) => c.status === "inquiry").length;
+
+  const handleManageSubscription = async () => {
+    setManagingPortal(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("customer-portal");
+      if (error) throw error;
+      if (data?.url) window.open(data.url, "_blank");
+    } catch (err: any) {
+      toast({ title: "Error", description: err.message, variant: "destructive" });
+    } finally {
+      setManagingPortal(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background pb-20">
@@ -40,6 +70,59 @@ export default function Dashboard() {
       </header>
 
       <main className="px-4 py-4 space-y-4">
+        {/* Subscription status banner */}
+        {role === "landlord" && (
+          <div className={`rounded-xl border p-4 ${
+            subscribed
+              ? "border-primary/30 bg-primary/5"
+              : "border-accent/30 bg-accent/5"
+          }`}>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                {subscribed ? (
+                  <Crown className="h-5 w-5 text-primary" />
+                ) : (
+                  <CreditCard className="h-5 w-5 text-accent" />
+                )}
+                <div>
+                  {subscribed ? (
+                    <>
+                      <p className="text-sm font-semibold text-foreground">
+                        {subscriptionTier === "annual" ? "Annual" : "Monthly"} Plan Active
+                      </p>
+                      {subscriptionEnd && (
+                        <p className="text-xs text-muted-foreground">
+                          Renews {new Date(subscriptionEnd).toLocaleDateString()}
+                        </p>
+                      )}
+                    </>
+                  ) : (
+                    <>
+                      <p className="text-sm font-semibold text-foreground">No Active Subscription</p>
+                      <p className="text-xs text-muted-foreground">Subscribe to list properties</p>
+                    </>
+                  )}
+                </div>
+              </div>
+              {subscribed ? (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleManageSubscription}
+                  disabled={managingPortal}
+                >
+                  {managingPortal && <Loader2 className="h-3 w-3 animate-spin mr-1" />}
+                  Manage
+                </Button>
+              ) : (
+                <Button size="sm" asChild>
+                  <Link to="/pricing">Subscribe</Link>
+                </Button>
+              )}
+            </div>
+          </div>
+        )}
+
         {/* Stats grid */}
         <div className="grid grid-cols-2 gap-3">
           <StatCard
@@ -78,9 +161,13 @@ export default function Dashboard() {
         <div>
           <h2 className="mb-3 text-sm font-semibold text-muted-foreground uppercase tracking-wider">Quick Actions</h2>
           <div className="space-y-2">
-            <QuickAction to="/add-property" icon={<Plus className="h-5 w-5" />} label="Add New Property" />
+            {role === "landlord" && !subscribed ? (
+              <QuickAction to="/pricing" icon={<CreditCard className="h-5 w-5" />} label="Subscribe to List Properties" />
+            ) : (
+              <QuickAction to="/add-property" icon={<Plus className="h-5 w-5" />} label="Add New Property" />
+            )}
             <QuickAction to="/inbox" icon={<MessageCircle className="h-5 w-5" />} label="View Messages" badge={pendingMessages > 0 ? pendingMessages : undefined} />
-            <QuickAction to="/" icon={<Home className="h-5 w-5" />} label="Browse Listings" />
+            <QuickAction to="/listings" icon={<Home className="h-5 w-5" />} label="Browse Listings" />
           </div>
         </div>
 
@@ -88,8 +175,18 @@ export default function Dashboard() {
         <div>
           <div className="mb-3 flex items-center justify-between">
             <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">My Properties</h2>
-            <Link to="/add-property" className="text-xs font-medium text-primary">+ Add</Link>
+            {subscribed && (
+              <Link to="/add-property" className="text-xs font-medium text-primary">+ Add</Link>
+            )}
           </div>
+          {listings.length === 0 && (
+            <div className="rounded-xl border border-border bg-card p-6 text-center">
+              <Building2 className="mx-auto h-8 w-8 text-muted-foreground/40 mb-2" />
+              <p className="text-sm text-muted-foreground">
+                {subscribed ? "No properties yet. Add your first listing!" : "Subscribe to start listing properties."}
+              </p>
+            </div>
+          )}
           <div className="space-y-2">
             {listings.map((listing) => (
               <Link
@@ -161,7 +258,7 @@ export default function Dashboard() {
           <Building2 className="h-6 w-6" />
           <span className="text-[10px] font-medium">Dashboard</span>
         </Link>
-        <Link to="/" className="flex flex-col items-center gap-0.5 text-muted-foreground">
+        <Link to="/listings" className="flex flex-col items-center gap-0.5 text-muted-foreground">
           <Home className="h-6 w-6" />
           <span className="text-[10px]">Listings</span>
         </Link>
