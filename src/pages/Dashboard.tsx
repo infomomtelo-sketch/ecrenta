@@ -1,5 +1,6 @@
+import { useState, useEffect } from "react";
 import { useListings } from "@/contexts/ListingsContext";
-import { mockConversations } from "@/data/mockListings";
+import { supabase } from "@/integrations/supabase/client";
 import { Link } from "react-router-dom";
 import {
   Building2,
