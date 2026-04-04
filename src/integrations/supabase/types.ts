@@ -14,7 +14,175 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      applications: {
+        Row: {
+          conversation_id: string | null
+          created_at: string
+          id: string
+          listing_id: string
+          notes: string | null
+          status: Database["public"]["Enums"]["application_status"]
+          tenant_name: string
+          updated_at: string
+        }
+        Insert: {
+          conversation_id?: string | null
+          created_at?: string
+          id?: string
+          listing_id: string
+          notes?: string | null
+          status?: Database["public"]["Enums"]["application_status"]
+          tenant_name: string
+          updated_at?: string
+        }
+        Update: {
+          conversation_id?: string | null
+          created_at?: string
+          id?: string
+          listing_id?: string
+          notes?: string | null
+          status?: Database["public"]["Enums"]["application_status"]
+          tenant_name?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "applications_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "conversations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "applications_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "listings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      conversations: {
+        Row: {
+          created_at: string
+          id: string
+          listing_id: string
+          status: Database["public"]["Enums"]["conversation_status"]
+          tenant_name: string
+          unread: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          listing_id: string
+          status?: Database["public"]["Enums"]["conversation_status"]
+          tenant_name: string
+          unread?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          listing_id?: string
+          status?: Database["public"]["Enums"]["conversation_status"]
+          tenant_name?: string
+          unread?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "conversations_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "listings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      listings: {
+        Row: {
+          address: string
+          available: boolean
+          bathrooms: number
+          bedrooms: number
+          created_at: string
+          description: string
+          id: string
+          images: string[]
+          landlord_name: string
+          price: number
+          sqft: number
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          address: string
+          available?: boolean
+          bathrooms?: number
+          bedrooms?: number
+          created_at?: string
+          description?: string
+          id?: string
+          images?: string[]
+          landlord_name?: string
+          price: number
+          sqft?: number
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          address?: string
+          available?: boolean
+          bathrooms?: number
+          bedrooms?: number
+          created_at?: string
+          description?: string
+          id?: string
+          images?: string[]
+          landlord_name?: string
+          price?: number
+          sqft?: number
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      messages: {
+        Row: {
+          conversation_id: string
+          created_at: string
+          id: string
+          sender_id: string
+          text: string
+          type: string
+        }
+        Insert: {
+          conversation_id: string
+          created_at?: string
+          id?: string
+          sender_id: string
+          text: string
+          type?: string
+        }
+        Update: {
+          conversation_id?: string
+          created_at?: string
+          id?: string
+          sender_id?: string
+          text?: string
+          type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "messages_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "conversations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -23,7 +191,12 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      application_status: "pending" | "approved" | "declined"
+      conversation_status:
+        | "inquiry"
+        | "showing_scheduled"
+        | "approved"
+        | "declined"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +323,14 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      application_status: ["pending", "approved", "declined"],
+      conversation_status: [
+        "inquiry",
+        "showing_scheduled",
+        "approved",
+        "declined",
+      ],
+    },
   },
 } as const

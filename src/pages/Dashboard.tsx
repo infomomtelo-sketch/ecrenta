@@ -1,5 +1,6 @@
+import { useState, useEffect } from "react";
 import { useListings } from "@/contexts/ListingsContext";
-import { mockConversations } from "@/data/mockListings";
+import { supabase } from "@/integrations/supabase/client";
 import { Link } from "react-router-dom";
 import {
   Building2,
@@ -14,7 +15,13 @@ import {
 
 export default function Dashboard() {
   const { listings } = useListings();
-  const conversations = mockConversations;
+  const [conversations, setConversations] = useState<any[]>([]);
+
+  useEffect(() => {
+    supabase.from("conversations").select("*").then(({ data }) => {
+      if (data) setConversations(data);
+    });
+  }, []);
 
   const totalUnits = listings.length;
   const occupiedUnits = listings.filter((l) => !l.available).length;
