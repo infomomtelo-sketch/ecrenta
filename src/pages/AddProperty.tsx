@@ -32,6 +32,8 @@ export default function AddProperty() {
   const [imageInput, setImageInput] = useState("");
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitting, setSubmitting] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const validate = () => {
     const e: Record<string, string> = {};
