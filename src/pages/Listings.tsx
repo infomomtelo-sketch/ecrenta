@@ -187,7 +187,7 @@ export default function Listings() {
         </Link>
         <Link to="/add-property" className="flex flex-col items-center gap-0.5 text-muted-foreground">
           <svg className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg>
-          <span className="text-[10px]">Sell</span>
+          <span className="text-[10px]">List</span>
         </Link>
       </nav>
     </div>
