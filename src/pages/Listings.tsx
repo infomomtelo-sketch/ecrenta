@@ -22,13 +22,22 @@ export default function Listings() {
           <h1 className="text-xl font-bold text-foreground" style={{ fontFamily: "var(--font-heading)" }}>
             runp8
           </h1>
-          <Link
-            to="/inbox"
-            className="flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
-          >
-            <MessageCircle className="h-4 w-4" />
-            Inbox
-          </Link>
+          <div className="flex items-center gap-2">
+            <Link
+              to="/add-property"
+              className="flex items-center gap-2 rounded-lg border bg-card px-4 py-2 text-sm font-semibold text-foreground transition-colors hover:bg-secondary"
+            >
+              <Plus className="h-4 w-4" />
+              Add
+            </Link>
+            <Link
+              to="/inbox"
+              className="flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
+            >
+              <MessageCircle className="h-4 w-4" />
+              Inbox
+            </Link>
+          </div>
         </div>
       </header>
 
