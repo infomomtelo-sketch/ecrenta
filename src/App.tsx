@@ -17,6 +17,7 @@ import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import NotFound from "./pages/NotFound";
 import ImportListing from "./pages/ImportListing";
+import SocialLinks from "./pages/SocialLinks";
 
 const queryClient = new QueryClient();
 
