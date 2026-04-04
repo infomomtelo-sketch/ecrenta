@@ -1,9 +1,21 @@
 import { useListings } from "@/contexts/ListingsContext";
 import { ListingCard } from "@/components/ListingCard";
 import { UserMenu } from "@/components/UserMenu";
-import { Search, SlidersHorizontal, Bookmark, Plus, Globe, X } from "lucide-react";
+import { Search, SlidersHorizontal, Bookmark, Plus, Globe, X, MapPin } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useState, useMemo } from "react";
+
+const AREAS = [
+  { label: "All Areas", value: "" },
+  { label: "Fresno", value: "fresno" },
+  { label: "Clovis", value: "clovis" },
+  { label: "Visalia", value: "visalia" },
+  { label: "Madera", value: "madera" },
+  { label: "Hanford", value: "hanford" },
+  { label: "Merced", value: "merced" },
+  { label: "Bakersfield", value: "bakersfield" },
+  { label: "Selma", value: "selma" },
+];
 
 const PRICE_RANGES = [
   { label: "Any Price", min: 0, max: Infinity },
@@ -26,6 +38,7 @@ export default function Listings() {
   const [showFilters, setShowFilters] = useState(false);
   const [priceRange, setPriceRange] = useState(0);
   const [minBeds, setMinBeds] = useState(0);
+  const [selectedArea, setSelectedArea] = useState("");
   const [sortBy, setSortBy] = useState<"newest" | "price-asc" | "price-desc">("newest");
 
   const filtered = useMemo(() => {
@@ -36,7 +49,8 @@ export default function Listings() {
         l.address.toLowerCase().includes(search.toLowerCase());
       const matchesPrice = l.price >= range.min && l.price <= range.max;
       const matchesBeds = l.bedrooms >= BED_OPTIONS[minBeds].value;
-      return matchesSearch && matchesPrice && matchesBeds;
+      const matchesArea = !selectedArea || l.address.toLowerCase().includes(selectedArea.toLowerCase());
+      return matchesSearch && matchesPrice && matchesBeds && matchesArea;
     });
 
     if (sortBy === "price-asc") results.sort((a, b) => a.price - b.price);
@@ -44,9 +58,9 @@ export default function Listings() {
     else results.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
 
     return results;
-  }, [listings, search, priceRange, minBeds, sortBy]);
+  }, [listings, search, priceRange, minBeds, selectedArea, sortBy]);
 
-  const activeFilterCount = (priceRange > 0 ? 1 : 0) + (minBeds > 0 ? 1 : 0);
+  const activeFilterCount = (priceRange > 0 ? 1 : 0) + (minBeds > 0 ? 1 : 0) + (selectedArea ? 1 : 0);
 
   return (
     <div className="min-h-screen bg-background">
@@ -77,7 +91,7 @@ export default function Listings() {
           </Link>
           <UserMenu />
         </div>
-        <div className="flex items-center gap-2 overflow-x-auto px-3 pb-2">
+        <div className="flex items-center gap-2 overflow-x-auto px-3 pb-1">
           <button
             onClick={() => setShowFilters(!showFilters)}
             className={`flex h-9 items-center gap-1.5 rounded-full px-4 text-sm font-medium ${
@@ -89,12 +103,30 @@ export default function Listings() {
             <SlidersHorizontal className="h-4 w-4" />
             {activeFilterCount > 0 && <span>{activeFilterCount}</span>}
           </button>
+          {AREAS.map((area) =>
+            area.value === "" ? null : (
+              <button
+                key={area.value}
+                onClick={() => setSelectedArea(selectedArea === area.value ? "" : area.value)}
+                className={`flex h-9 shrink-0 items-center gap-1 rounded-full px-4 text-sm font-medium ${
+                  selectedArea === area.value
+                    ? "bg-primary text-primary-foreground"
+                    : "bg-secondary text-foreground"
+                }`}
+              >
+                <MapPin className="h-3 w-3" />
+                {area.label}
+              </button>
+            )
+          )}
+        </div>
+        <div className="flex items-center gap-2 overflow-x-auto px-3 pb-2">
           {PRICE_RANGES.map((range, i) =>
             i === 0 ? null : (
               <button
                 key={range.label}
                 onClick={() => setPriceRange(priceRange === i ? 0 : i)}
-                className={`flex h-9 shrink-0 items-center rounded-full px-4 text-sm font-medium ${
+                className={`flex h-8 shrink-0 items-center rounded-full px-3 text-xs font-medium ${
                   priceRange === i
                     ? "bg-primary text-primary-foreground"
                     : "bg-secondary text-foreground"
@@ -147,9 +179,9 @@ export default function Listings() {
                 )}
               </div>
             </div>
-            {(priceRange > 0 || minBeds > 0) && (
+            {(priceRange > 0 || minBeds > 0 || selectedArea) && (
               <button
-                onClick={() => { setPriceRange(0); setMinBeds(0); setSortBy("newest"); }}
+                onClick={() => { setPriceRange(0); setMinBeds(0); setSelectedArea(""); setSortBy("newest"); }}
                 className="flex items-center gap-1 text-xs text-destructive hover:underline"
               >
                 <X className="h-3 w-3" /> Clear all filters
