@@ -84,7 +84,7 @@ export default function AddProperty() {
 
     toast({ title: "Property listed!", description: "Your new listing is now live." });
     setSubmitting(false);
-    navigate("/");
+    navigate("/listings");
   };
 
   return (
