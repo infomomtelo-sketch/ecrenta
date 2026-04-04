@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
-import { ArrowLeft, Upload, Plus, X, ImagePlus } from "lucide-react";
+import { useNavigate, Link } from "react-router-dom";
+import { ArrowLeft, Upload, Plus, X, ImagePlus, CreditCard } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -13,7 +13,7 @@ import { supabase } from "@/integrations/supabase/client";
 export default function AddProperty() {
   const navigate = useNavigate();
   const { addListing } = useListings();
-  const { profile } = useAuth();
+  const { profile, role, subscribed } = useAuth();
   const { toast } = useToast();
 
   const [title, setTitle] = useState("");
