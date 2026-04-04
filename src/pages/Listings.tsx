@@ -5,17 +5,9 @@ import { Search, SlidersHorizontal, Bookmark, Plus, Globe, X, MapPin } from "luc
 import { Link } from "react-router-dom";
 import { useState, useMemo } from "react";
 
-const AREAS = [
-  { label: "All Areas", value: "" },
-  { label: "Fresno", value: "fresno" },
-  { label: "Clovis", value: "clovis" },
-  { label: "Visalia", value: "visalia" },
-  { label: "Madera", value: "madera" },
-  { label: "Hanford", value: "hanford" },
-  { label: "Merced", value: "merced" },
-  { label: "Bakersfield", value: "bakersfield" },
-  { label: "Selma", value: "selma" },
-];
+import { getMarketAreas } from "@/data/markets";
+
+const AREAS = getMarketAreas();
 
 const PRICE_RANGES = [
   { label: "Any Price", min: 0, max: Infinity },
