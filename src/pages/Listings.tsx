@@ -30,6 +30,13 @@ export default function Listings() {
             />
           </div>
           <Link
+            to="/import-listing"
+            className="flex h-10 w-10 items-center justify-center rounded-full bg-secondary text-foreground"
+            title="Import from marketplace"
+          >
+            <Globe className="h-5 w-5" />
+          </Link>
+          <Link
             to="/add-property"
             className="flex h-10 w-10 items-center justify-center rounded-full bg-secondary text-foreground"
           >
