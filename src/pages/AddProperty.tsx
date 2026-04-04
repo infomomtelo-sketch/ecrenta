@@ -12,6 +12,7 @@ import { useToast } from "@/hooks/use-toast";
 export default function AddProperty() {
   const navigate = useNavigate();
   const { addListing } = useListings();
+  const { profile } = useAuth();
   const { toast } = useToast();
 
   const [title, setTitle] = useState("");
