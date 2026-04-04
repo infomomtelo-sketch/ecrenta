@@ -65,9 +65,10 @@ export default function SocialLinks() {
             className="group flex items-center gap-4 rounded-xl border border-border bg-card p-4 transition-all hover:scale-[1.02] hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5"
           >
             <div
-              className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br ${link.color}`}
+              className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br ${link.color} text-lg`}
             >
-              <link.icon className="h-5 w-5 text-white" />
+              {link.icon}
+            </div>
             </div>
             <span className="font-body text-sm font-medium text-foreground">
               {link.name}
