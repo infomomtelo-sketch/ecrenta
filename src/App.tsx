@@ -22,6 +22,7 @@ const App = () => (
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Listings />} />
+            <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/listing/:id" element={<ListingDetail />} />
             <Route path="/inbox" element={<Inbox />} />
             <Route path="/add-property" element={<AddProperty />} />
