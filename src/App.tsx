@@ -16,6 +16,7 @@ import SelectRole from "./pages/SelectRole";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import NotFound from "./pages/NotFound";
+import ImportListing from "./pages/ImportListing";
 
 const queryClient = new QueryClient();
 
