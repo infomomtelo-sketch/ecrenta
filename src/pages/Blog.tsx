@@ -34,7 +34,7 @@ export default function Blog() {
     },
   });
 
-  const canWrite = user && (role === "landlord" || role === "admin");
+  const canWrite = !!user;
 
   return (
     <div className="min-h-screen bg-background">
