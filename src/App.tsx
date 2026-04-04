@@ -18,6 +18,12 @@ import ResetPassword from "./pages/ResetPassword";
 import NotFound from "./pages/NotFound";
 import ImportListing from "./pages/ImportListing";
 import SocialLinks from "./pages/SocialLinks";
+import Pricing from "./pages/Pricing";
+import Privacy from "./pages/Privacy";
+import Terms from "./pages/Terms";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
+import HowItWorks from "./pages/HowItWorks";
 
 const queryClient = new QueryClient();
 
@@ -64,6 +70,12 @@ const App = () => (
               <Route path="/socials" element={<SocialLinks />} />
               <Route path="/forgot-password" element={<ForgotPassword />} />
               <Route path="/reset-password" element={<ResetPassword />} />
+              <Route path="/pricing" element={<Pricing />} />
+              <Route path="/privacy" element={<Privacy />} />
+              <Route path="/terms" element={<Terms />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/how-it-works" element={<HowItWorks />} />
 
               {/* Protected routes */}
               <Route path="/select-role" element={<ProtectedRoute><SelectRole /></ProtectedRoute>} />
