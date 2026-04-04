@@ -1,4 +1,4 @@
-import { Instagram, Twitter, Facebook, Youtube, ExternalLink, ArrowLeft } from "lucide-react";
+import { ExternalLink, ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const socialLinks = [
