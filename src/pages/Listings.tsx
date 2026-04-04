@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 
 export default function Listings() {
-  const { listings } = useListings();
+  const { listings, loading } = useListings();
   const [search, setSearch] = useState("");
 
   const filtered = listings.filter(
@@ -16,7 +16,6 @@ export default function Listings() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Search bar */}
       <header className="sticky top-0 z-50 bg-card border-b border-border">
         <div className="flex items-center gap-2 px-3 py-2">
           <div className="relative flex-1">
@@ -36,8 +35,6 @@ export default function Listings() {
             <Plus className="h-5 w-5" />
           </Link>
         </div>
-
-        {/* Filter chips */}
         <div className="flex items-center gap-2 overflow-x-auto px-3 pb-2">
           <button className="flex h-9 items-center gap-1.5 rounded-full bg-secondary px-4 text-sm font-medium text-foreground">
             <Bookmark className="h-4 w-4" />
@@ -54,20 +51,23 @@ export default function Listings() {
         </div>
       </header>
 
-      {/* Grid — 2 columns like FB Marketplace */}
       <main className="px-2 py-2">
-        <div className="grid grid-cols-2 gap-2">
-          {filtered.map((listing) => (
-            <ListingCard key={listing.id} listing={listing} />
-          ))}
-        </div>
-
-        {filtered.length === 0 && (
+        {loading ? (
+          <div className="flex justify-center py-20">
+            <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 gap-2">
+            {filtered.map((listing) => (
+              <ListingCard key={listing.id} listing={listing} />
+            ))}
+          </div>
+        )}
+        {!loading && filtered.length === 0 && (
           <p className="mt-12 text-center text-muted-foreground">No listings found.</p>
         )}
       </main>
 
-      {/* Bottom tab bar */}
       <nav className="fixed bottom-0 left-0 right-0 z-50 flex items-center justify-around border-t border-border bg-card py-2">
         <Link to="/" className="flex flex-col items-center gap-0.5 text-foreground">
           <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>

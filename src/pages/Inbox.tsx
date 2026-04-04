@@ -1,8 +1,40 @@
 import { useState, useEffect, useRef } from "react";
 import { useSearchParams, useNavigate, Link } from "react-router-dom";
 import { useListings } from "@/contexts/ListingsContext";
-import { mockConversations, statusLabels, statusColors, type Conversation, type Message } from "@/data/mockListings";
+import { supabase } from "@/integrations/supabase/client";
 import { ArrowLeft, Send, Calendar, CheckCircle, StickyNote } from "lucide-react";
+
+interface Message {
+  id: string;
+  conversation_id: string;
+  sender_id: string;
+  text: string;
+  type: string;
+  created_at: string;
+}
+
+interface Conversation {
+  id: string;
+  listing_id: string;
+  tenant_name: string;
+  status: "inquiry" | "showing_scheduled" | "approved" | "declined";
+  unread: number;
+  created_at: string;
+}
+
+const statusLabels: Record<string, string> = {
+  inquiry: "Inquiry",
+  showing_scheduled: "Showing Scheduled",
+  approved: "Approved",
+  declined: "Declined",
+};
+
+const statusColors: Record<string, string> = {
+  inquiry: "bg-accent text-accent-foreground",
+  showing_scheduled: "bg-primary text-primary-foreground",
+  approved: "bg-primary text-primary-foreground",
+  declined: "bg-destructive text-destructive-foreground",
+};
 
 export default function Inbox() {
   const [searchParams] = useSearchParams();
@@ -11,69 +43,104 @@ export default function Inbox() {
   const propertyId = searchParams.get("property");
   const prefillMsg = searchParams.get("msg");
 
-  const [conversations, setConversations] = useState<Conversation[]>(mockConversations);
+  const [conversations, setConversations] = useState<Conversation[]>([]);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [activeConvId, setActiveConvId] = useState<string | null>(null);
   const [newMessage, setNewMessage] = useState("");
+  const [loading, setLoading] = useState(true);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
+  // Fetch all conversations
+  const fetchConversations = async () => {
+    const { data } = await supabase
+      .from("conversations")
+      .select("*")
+      .order("updated_at", { ascending: false });
+    if (data) setConversations(data);
+    setLoading(false);
+  };
+
+  // Fetch messages for active conversation
+  const fetchMessages = async (convId: string) => {
+    const { data } = await supabase
+      .from("messages")
+      .select("*")
+      .eq("conversation_id", convId)
+      .order("created_at", { ascending: true });
+    if (data) setMessages(data);
+  };
+
   useEffect(() => {
-    if (propertyId) {
-      const existing = conversations.find((c) => c.listingId === propertyId);
+    fetchConversations();
+  }, []);
+
+  // Handle incoming from listing detail
+  useEffect(() => {
+    if (!propertyId || loading) return;
+
+    const initConversation = async () => {
+      const existing = conversations.find((c) => c.listing_id === propertyId);
       if (existing) {
         setActiveConvId(existing.id);
-      } else {
-        const listing = listings.find((l) => l.id === propertyId);
-        if (listing) {
-          const text = prefillMsg || `Hi! I'm interested in "${listing.title}". Is it still available?`;
-          const newConv: Conversation = {
-            id: `conv-new-${propertyId}`,
-            listingId: propertyId,
-            tenantName: "You",
-            lastMessage: text,
-            lastMessageTime: "Just now",
-            unread: 0,
-            status: "inquiry",
-            messages: [
-              { id: "auto-1", senderId: "tenant", text, timestamp: "Just now", type: "text" },
-            ],
-          };
-          setConversations((prev) => [newConv, ...prev]);
-          setActiveConvId(newConv.id);
-        }
+        await fetchMessages(existing.id);
+        return;
       }
-    }
-  }, [propertyId]);
+
+      const listing = listings.find((l) => l.id === propertyId);
+      if (!listing) return;
+
+      const text = prefillMsg || `Hi! I'm interested in "${listing.title}". Is it still available?`;
+
+      const { data: newConv } = await supabase
+        .from("conversations")
+        .insert({ listing_id: propertyId, tenant_name: "You", status: "inquiry" as const })
+        .select()
+        .single();
+
+      if (newConv) {
+        await supabase.from("messages").insert({
+          conversation_id: newConv.id,
+          sender_id: "tenant",
+          text,
+          type: "text",
+        });
+        await fetchConversations();
+        setActiveConvId(newConv.id);
+        await fetchMessages(newConv.id);
+      }
+    };
+
+    initConversation();
+  }, [propertyId, loading]);
+
+  useEffect(() => {
+    if (activeConvId) fetchMessages(activeConvId);
+  }, [activeConvId]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [conversations, activeConvId]);
+  }, [messages]);
 
   const activeConv = conversations.find((c) => c.id === activeConvId);
-  const activeListing = activeConv ? listings.find((l) => l.id === activeConv.listingId) : null;
+  const activeListing = activeConv ? listings.find((l) => l.id === activeConv.listing_id) : null;
 
-  const handleSend = () => {
+  const handleSend = async () => {
     if (!newMessage.trim() || !activeConvId) return;
-    const msg: Message = {
-      id: `msg-${Date.now()}`,
-      senderId: "landlord",
+    await supabase.from("messages").insert({
+      conversation_id: activeConvId,
+      sender_id: "landlord",
       text: newMessage,
-      timestamp: "Just now",
       type: "text",
-    };
-    setConversations((prev) =>
-      prev.map((c) =>
-        c.id === activeConvId
-          ? { ...c, messages: [...c.messages, msg], lastMessage: newMessage, lastMessageTime: "Just now" }
-          : c
-      )
-    );
+    });
     setNewMessage("");
+    await fetchMessages(activeConvId);
+    await fetchConversations();
   };
 
-  const updateStatus = (status: Conversation["status"]) => {
-    setConversations((prev) =>
-      prev.map((c) => (c.id === activeConvId ? { ...c, status } : c))
-    );
+  const updateStatus = async (status: Conversation["status"]) => {
+    if (!activeConvId) return;
+    await supabase.from("conversations").update({ status }).eq("id", activeConvId);
+    await fetchConversations();
   };
 
   // Conversation list
@@ -87,7 +154,11 @@ export default function Inbox() {
           <h1 className="text-lg font-bold text-foreground">Chats</h1>
         </header>
 
-        {conversations.length === 0 ? (
+        {loading ? (
+          <div className="flex justify-center py-20">
+            <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+          </div>
+        ) : conversations.length === 0 ? (
           <div className="flex flex-col items-center px-4 py-20 text-center">
             <p className="text-base font-semibold text-foreground">No messages yet</p>
             <p className="mt-1 text-sm text-muted-foreground">Browse listings to start a conversation.</p>
@@ -98,7 +169,7 @@ export default function Inbox() {
         ) : (
           <ul>
             {conversations.map((conv) => {
-              const listing = listings.find((l) => l.id === conv.listingId);
+              const listing = listings.find((l) => l.id === conv.listing_id);
               return (
                 <li
                   key={conv.id}
@@ -110,10 +181,9 @@ export default function Inbox() {
                   )}
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center justify-between">
-                      <span className="truncate text-[15px] font-semibold text-foreground">{conv.tenantName}</span>
-                      <span className="shrink-0 text-xs text-muted-foreground">{conv.lastMessageTime}</span>
+                      <span className="truncate text-[15px] font-semibold text-foreground">{conv.tenant_name}</span>
                     </div>
-                    <p className="truncate text-sm text-muted-foreground">{conv.lastMessage}</p>
+                    <p className="truncate text-sm text-muted-foreground">{listing?.title}</p>
                   </div>
                   {conv.unread > 0 && (
                     <span className="flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[11px] font-bold text-primary-foreground">
@@ -132,7 +202,6 @@ export default function Inbox() {
   // Chat view
   return (
     <div className="flex h-screen flex-col bg-background">
-      {/* Header */}
       <header className="shrink-0 border-b border-border bg-card">
         <div className="flex items-center gap-3 px-3 py-2">
           <button onClick={() => { setActiveConvId(null); navigate("/inbox"); }} className="rounded-full p-1.5 text-primary hover:bg-secondary">
@@ -143,13 +212,12 @@ export default function Inbox() {
           )}
           <div className="min-w-0 flex-1">
             <p className="truncate text-[15px] font-semibold text-foreground">
-              {activeConv.tenantName} · {activeListing?.title}
+              {activeConv.tenant_name} · {activeListing?.title}
             </p>
           </div>
         </div>
       </header>
 
-      {/* Property context card — like FB Messenger */}
       {activeListing && (
         <div className="border-b border-border bg-card px-4 py-3">
           <div className="rounded-xl bg-secondary p-3">
@@ -169,7 +237,6 @@ export default function Inbox() {
               </button>
             </div>
           </div>
-          {/* Status + actions */}
           <div className="mt-2 flex items-center gap-2 overflow-x-auto">
             <span className={`shrink-0 rounded-full px-3 py-1 text-xs font-semibold ${statusColors[activeConv.status]}`}>
               {statusLabels[activeConv.status]}
@@ -187,11 +254,10 @@ export default function Inbox() {
         </div>
       )}
 
-      {/* Messages */}
       <div className="flex-1 overflow-y-auto px-4 py-4">
         <div className="mx-auto max-w-2xl space-y-2">
-          {activeConv.messages.map((msg) => {
-            const isLandlord = msg.senderId === "landlord";
+          {messages.map((msg) => {
+            const isLandlord = msg.sender_id === "landlord";
             return (
               <div key={msg.id} className={`flex ${isLandlord ? "justify-end" : "justify-start"}`}>
                 <div
@@ -203,7 +269,7 @@ export default function Inbox() {
                 >
                   <p>{msg.text}</p>
                   <p className={`mt-1 text-[10px] ${isLandlord ? "text-primary-foreground/60" : "text-muted-foreground"}`}>
-                    {msg.timestamp}
+                    {new Date(msg.created_at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
                   </p>
                 </div>
               </div>
@@ -213,7 +279,6 @@ export default function Inbox() {
         </div>
       </div>
 
-      {/* Input */}
       <div className="shrink-0 border-t border-border bg-card px-3 py-2">
         <div className="flex items-center gap-2">
           <input

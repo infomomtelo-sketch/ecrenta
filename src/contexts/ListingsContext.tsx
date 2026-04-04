@@ -1,27 +1,54 @@
-import { createContext, useContext, useState, type ReactNode } from "react";
-import { mockListings, type Listing } from "@/data/mockListings";
+import { createContext, useContext, useState, useEffect, type ReactNode } from "react";
+import { supabase } from "@/integrations/supabase/client";
+
+export interface Listing {
+  id: string;
+  title: string;
+  price: number;
+  address: string;
+  bedrooms: number;
+  bathrooms: number;
+  sqft: number;
+  description: string;
+  images: string[];
+  landlord_name: string;
+  available: boolean;
+  created_at: string;
+}
 
 interface ListingsContextType {
   listings: Listing[];
-  addListing: (listing: Omit<Listing, "id" | "listed">) => void;
+  loading: boolean;
+  addListing: (listing: Omit<Listing, "id" | "created_at">) => Promise<void>;
+  refreshListings: () => Promise<void>;
 }
 
 const ListingsContext = createContext<ListingsContextType | undefined>(undefined);
 
 export function ListingsProvider({ children }: { children: ReactNode }) {
-  const [listings, setListings] = useState<Listing[]>(mockListings);
+  const [listings, setListings] = useState<Listing[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const addListing = (data: Omit<Listing, "id" | "listed">) => {
-    const newListing: Listing = {
-      ...data,
-      id: `listing-${Date.now()}`,
-      listed: "Just listed",
-    };
-    setListings((prev) => [newListing, ...prev]);
+  const fetchListings = async () => {
+    const { data, error } = await supabase
+      .from("listings")
+      .select("*")
+      .order("created_at", { ascending: false });
+    if (!error && data) setListings(data);
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    fetchListings();
+  }, []);
+
+  const addListing = async (data: Omit<Listing, "id" | "created_at">) => {
+    const { error } = await supabase.from("listings").insert(data);
+    if (!error) await fetchListings();
   };
 
   return (
-    <ListingsContext.Provider value={{ listings, addListing }}>
+    <ListingsContext.Provider value={{ listings, loading, addListing, refreshListings: fetchListings }}>
       {children}
     </ListingsContext.Provider>
   );

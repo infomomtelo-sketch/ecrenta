@@ -1,4 +1,4 @@
-import { Listing } from "@/data/mockListings";
+import { useListings, type Listing } from "@/contexts/ListingsContext";
 import { useNavigate } from "react-router-dom";
 
 interface Props {
@@ -23,7 +23,7 @@ export function ListingCard({ listing }: Props) {
           className="h-full w-full object-cover"
           loading="lazy"
         />
-        {listing.listed === "Just listed" && (
+        {listing.created_at && isRecent(listing.created_at) && (
           <span className="absolute bottom-2 left-2 rounded bg-card/90 px-2 py-0.5 text-xs font-semibold text-foreground">
             Just listed
           </span>
@@ -38,4 +38,9 @@ export function ListingCard({ listing }: Props) {
       </div>
     </div>
   );
+}
+
+function isRecent(dateStr: string): boolean {
+  const diff = Date.now() - new Date(dateStr).getTime();
+  return diff < 7 * 24 * 60 * 60 * 1000; // 7 days
 }
