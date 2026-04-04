@@ -72,6 +72,22 @@ export default function Inbox() {
 
   useEffect(() => {
     fetchConversations();
+
+    // Realtime: listen for new/updated conversations
+    const convChannel = supabase
+      .channel("conversations-realtime")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "conversations" },
+        () => {
+          fetchConversations();
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(convChannel);
+    };
   }, []);
 
   // Handle incoming from listing detail
@@ -114,7 +130,32 @@ export default function Inbox() {
   }, [propertyId, loading]);
 
   useEffect(() => {
-    if (activeConvId) fetchMessages(activeConvId);
+    if (!activeConvId) return;
+    fetchMessages(activeConvId);
+
+    // Realtime: listen for new messages in this conversation
+    const msgChannel = supabase
+      .channel(`messages-${activeConvId}`)
+      .on(
+        "postgres_changes",
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "messages",
+          filter: `conversation_id=eq.${activeConvId}`,
+        },
+        (payload) => {
+          setMessages((prev) => {
+            if (prev.some((m) => m.id === (payload.new as Message).id)) return prev;
+            return [...prev, payload.new as Message];
+          });
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(msgChannel);
+    };
   }, [activeConvId]);
 
   useEffect(() => {
