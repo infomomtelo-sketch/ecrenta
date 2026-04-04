@@ -1,3 +1,4 @@
+import { HelmetProvider } from "react-helmet-async";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
@@ -26,6 +27,9 @@ import Contact from "./pages/Contact";
 import HowItWorks from "./pages/HowItWorks";
 import ForLandlords from "./pages/ForLandlords";
 import Resources from "./pages/Resources";
+import Blog from "./pages/Blog";
+import BlogPost from "./pages/BlogPost";
+import BlogEditor from "./pages/BlogEditor";
 
 const queryClient = new QueryClient();
 
@@ -56,6 +60,7 @@ function RoleGate({ children }: { children: React.ReactNode }) {
 }
 
 const App = () => (
+  <HelmetProvider>
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <AuthProvider>
@@ -80,6 +85,8 @@ const App = () => (
               <Route path="/how-it-works" element={<HowItWorks />} />
               <Route path="/for-landlords" element={<ForLandlords />} />
               <Route path="/resources" element={<Resources />} />
+              <Route path="/blog" element={<Blog />} />
+              <Route path="/blog/:slug" element={<BlogPost />} />
 
               {/* Protected routes */}
               <Route path="/select-role" element={<ProtectedRoute><SelectRole /></ProtectedRoute>} />
@@ -87,6 +94,7 @@ const App = () => (
               <Route path="/add-property" element={<ProtectedRoute><RoleGate><AddProperty /></RoleGate></ProtectedRoute>} />
               <Route path="/import-listing" element={<ProtectedRoute><RoleGate><ImportListing /></RoleGate></ProtectedRoute>} />
               <Route path="/dashboard" element={<ProtectedRoute><RoleGate><Dashboard /></RoleGate></ProtectedRoute>} />
+              <Route path="/blog/new" element={<ProtectedRoute><BlogEditor /></ProtectedRoute>} />
 
               <Route path="*" element={<NotFound />} />
             </Routes>
@@ -95,6 +103,7 @@ const App = () => (
       </AuthProvider>
     </TooltipProvider>
   </QueryClientProvider>
+  </HelmetProvider>
 );
 
 export default App;
