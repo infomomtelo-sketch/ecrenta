@@ -15,6 +15,10 @@ import {
   MapPin,
   Building,
   ChevronRight,
+  DoorOpen,
+  Home,
+  Banknote,
+  Lock,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -133,6 +137,18 @@ const faqs = [
   {
     q: "What does 'free tenant screening' mean?",
     a: "We run background and credit checks on tenants at no cost to them or you. You see results before you even respond to an inquiry.",
+  },
+  {
+    q: "Can I list just a spare room, not a full property?",
+    a: "Absolutely. Many of our listings are private rooms with separate entrances — guest houses, casitas, converted garages, or ADUs. If it's furnished with its own access, traveling nurses love it.",
+  },
+  {
+    q: "How much can I earn from a spare room?",
+    a: "Private furnished rooms in Fresno County typically rent for $800–$1,500/mo depending on size and amenities. After your $9.99/mo subscription, that's nearly all profit with zero commissions.",
+  },
+  {
+    q: "What if I've never been a landlord before?",
+    a: "No experience needed. We pre-screen every tenant for you (free), provide direct messaging so you can ask questions before committing, and the 30-day minimum means you're getting stable, employed professionals — not short-term party guests.",
   },
 ];
 
@@ -317,6 +333,79 @@ export default function ForLandlords() {
         <p className="mt-4 text-center text-xs text-muted-foreground">
           Competitor pricing based on FurnishedFinder's published rates as of 2024.
         </p>
+      </section>
+
+      {/* Spare Room / Private Entrance Section */}
+      <section id="spare-room" className="border-y border-border bg-primary/5 scroll-mt-20">
+        <div className="mx-auto max-w-6xl px-4 py-20">
+          <div className="flex flex-col gap-12 lg:flex-row lg:items-center">
+            <div className="flex-1">
+              <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary mb-5">
+                <DoorOpen className="h-4 w-4" />
+                Private Room Rentals
+              </div>
+              <h2 className="font-[var(--font-heading)] text-3xl font-bold sm:text-4xl leading-tight">
+                Have a Spare Room with a
+                <span className="text-primary"> Private Entrance?</span>
+              </h2>
+              <p className="mt-4 text-muted-foreground leading-relaxed max-w-lg">
+                Traveling nurses and healthcare professionals are actively searching for private, 
+                furnished rooms in Fresno County right now. If you have a guest house, casita, 
+                converted garage, or a room with its own entrance — you're sitting on 
+                <strong className="text-foreground"> $800–$1,500/mo in extra income</strong>.
+              </p>
+              <div className="mt-6 space-y-3">
+                {[
+                  { icon: Banknote, text: "Earn $800–$1,500/mo from your unused space" },
+                  { icon: Lock, text: "Private entrance = privacy for both you and your tenant" },
+                  { icon: Shield, text: "Every tenant is pre-screened — background & credit checks included free" },
+                  { icon: Clock, text: "30+ day stays mean stable, reliable income — not revolving-door guests" },
+                  { icon: Home, text: "No full property needed — just a furnished room with its own access" },
+                ].map((item) => (
+                  <div key={item.text} className="flex items-start gap-3">
+                    <div className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                      <item.icon className="h-4 w-4" />
+                    </div>
+                    <p className="text-sm text-foreground leading-relaxed">{item.text}</p>
+                  </div>
+                ))}
+              </div>
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                <Button size="lg" asChild className="gap-2 text-base px-8 py-6 rounded-xl">
+                  <Link to="/pricing">
+                    List Your Room — $9.99/mo
+                    <ArrowRight className="h-4 w-4" />
+                  </Link>
+                </Button>
+              </div>
+            </div>
+            <div className="flex-1 max-w-md mx-auto lg:mx-0">
+              <div className="rounded-2xl border border-border bg-card p-8">
+                <h3 className="font-[var(--font-heading)] text-lg font-bold mb-5">Quick Math: Your Spare Room</h3>
+                <div className="space-y-4">
+                  {[
+                    { label: "Avg. monthly rent for private room", value: "$1,100" },
+                    { label: "Your runp8 subscription", value: "−$9.99/mo" },
+                    { label: "Commission fees", value: "$0" },
+                    { label: "Tenant screening cost", value: "$0" },
+                  ].map((row) => (
+                    <div key={row.label} className="flex items-center justify-between text-sm">
+                      <span className="text-muted-foreground">{row.label}</span>
+                      <span className="font-medium text-foreground">{row.value}</span>
+                    </div>
+                  ))}
+                  <div className="border-t border-border pt-4 flex items-center justify-between">
+                    <span className="font-[var(--font-heading)] font-semibold">You keep per month</span>
+                    <span className="font-[var(--font-heading)] text-2xl font-bold text-primary">$1,090</span>
+                  </div>
+                </div>
+                <p className="mt-4 text-xs text-muted-foreground text-center">
+                  That's <strong className="text-foreground">$13,080/yr</strong> from one spare room.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* Testimonials */}
