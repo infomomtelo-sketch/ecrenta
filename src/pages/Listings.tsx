@@ -1,5 +1,6 @@
 import { useListings } from "@/contexts/ListingsContext";
 import { ListingCard } from "@/components/ListingCard";
+import { UserMenu } from "@/components/UserMenu";
 import { Search, SlidersHorizontal, Bookmark, Plus } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
