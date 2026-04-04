@@ -1,9 +1,21 @@
 import { useListings } from "@/contexts/ListingsContext";
 import { ListingCard } from "@/components/ListingCard";
 import { UserMenu } from "@/components/UserMenu";
-import { Search, SlidersHorizontal, Bookmark, Plus, Globe, X } from "lucide-react";
+import { Search, SlidersHorizontal, Bookmark, Plus, Globe, X, MapPin } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useState, useMemo } from "react";
+
+const AREAS = [
+  { label: "All Areas", value: "" },
+  { label: "Fresno", value: "fresno" },
+  { label: "Clovis", value: "clovis" },
+  { label: "Visalia", value: "visalia" },
+  { label: "Madera", value: "madera" },
+  { label: "Hanford", value: "hanford" },
+  { label: "Merced", value: "merced" },
+  { label: "Bakersfield", value: "bakersfield" },
+  { label: "Selma", value: "selma" },
+];
 
 const PRICE_RANGES = [
   { label: "Any Price", min: 0, max: Infinity },
@@ -26,6 +38,7 @@ export default function Listings() {
   const [showFilters, setShowFilters] = useState(false);
   const [priceRange, setPriceRange] = useState(0);
   const [minBeds, setMinBeds] = useState(0);
+  const [selectedArea, setSelectedArea] = useState("");
   const [sortBy, setSortBy] = useState<"newest" | "price-asc" | "price-desc">("newest");
 
   const filtered = useMemo(() => {
