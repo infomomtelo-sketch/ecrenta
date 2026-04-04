@@ -49,7 +49,8 @@ export default function Listings() {
         l.address.toLowerCase().includes(search.toLowerCase());
       const matchesPrice = l.price >= range.min && l.price <= range.max;
       const matchesBeds = l.bedrooms >= BED_OPTIONS[minBeds].value;
-      return matchesSearch && matchesPrice && matchesBeds;
+      const matchesArea = !selectedArea || l.address.toLowerCase().includes(selectedArea.toLowerCase());
+      return matchesSearch && matchesPrice && matchesBeds && matchesArea;
     });
 
     if (sortBy === "price-asc") results.sort((a, b) => a.price - b.price);
@@ -57,9 +58,9 @@ export default function Listings() {
     else results.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
 
     return results;
-  }, [listings, search, priceRange, minBeds, sortBy]);
+  }, [listings, search, priceRange, minBeds, selectedArea, sortBy]);
 
-  const activeFilterCount = (priceRange > 0 ? 1 : 0) + (minBeds > 0 ? 1 : 0);
+  const activeFilterCount = (priceRange > 0 ? 1 : 0) + (minBeds > 0 ? 1 : 0) + (selectedArea ? 1 : 0);
 
   return (
     <div className="min-h-screen bg-background">
