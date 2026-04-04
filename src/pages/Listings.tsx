@@ -5,9 +5,10 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 
 export default function Listings() {
+  const { listings } = useListings();
   const [search, setSearch] = useState("");
 
-  const filtered = mockListings.filter(
+  const filtered = listings.filter(
     (l) =>
       l.title.toLowerCase().includes(search.toLowerCase()) ||
       l.address.toLowerCase().includes(search.toLowerCase())
