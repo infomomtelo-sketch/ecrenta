@@ -1,6 +1,6 @@
-import { mockListings } from "@/data/mockListings";
+import { useListings } from "@/contexts/ListingsContext";
 import { ListingCard } from "@/components/ListingCard";
-import { Search, SlidersHorizontal, MessageCircle } from "lucide-react";
+import { Search, SlidersHorizontal, MessageCircle, Plus } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 
