@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, Upload, Plus, X } from "lucide-react";
+import { ArrowLeft, Upload, Plus, X, ImagePlus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { useListings } from "@/contexts/ListingsContext";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 export default function AddProperty() {
   const navigate = useNavigate();
@@ -31,6 +32,8 @@ export default function AddProperty() {
   const [imageInput, setImageInput] = useState("");
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitting, setSubmitting] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const validate = () => {
     const e: Record<string, string> = {};
@@ -62,6 +65,39 @@ export default function AddProperty() {
 
   const removeImage = (index: number) => {
     setImageUrls((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) {
+      toast({ title: "Please sign in", description: "You must be signed in to upload images.", variant: "destructive" });
+      return;
+    }
+
+    setUploading(true);
+    const newUrls: string[] = [];
+
+    for (const file of Array.from(files)) {
+      const ext = file.name.split(".").pop();
+      const path = `${user.id}/${crypto.randomUUID()}.${ext}`;
+      const { error } = await supabase.storage.from("listing-images").upload(path, file);
+      if (error) {
+        toast({ title: "Upload failed", description: error.message, variant: "destructive" });
+        continue;
+      }
+      const { data: { publicUrl } } = supabase.storage.from("listing-images").getPublicUrl(path);
+      newUrls.push(publicUrl);
+    }
+
+    if (newUrls.length > 0) {
+      setImageUrls((prev) => [...prev, ...newUrls]);
+      setErrors((prev) => ({ ...prev, images: "" }));
+    }
+    setUploading(false);
+    if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -150,8 +186,15 @@ export default function AddProperty() {
 
         <div className="space-y-1.5">
           <Label>Property Images</Label>
+          <input ref={fileInputRef} type="file" accept="image/*" multiple onChange={handleFileUpload} className="hidden" />
           <div className="flex gap-2">
-            <Input placeholder="Paste image URL..." value={imageInput} onChange={(e) => setImageInput(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addImage(); } }} />
+            <Button type="button" variant="outline" onClick={() => fileInputRef.current?.click()} disabled={uploading} className="gap-2">
+              <ImagePlus className="h-4 w-4" />
+              {uploading ? "Uploading..." : "Upload Photos"}
+            </Button>
+          </div>
+          <div className="flex gap-2 mt-2">
+            <Input placeholder="Or paste image URL..." value={imageInput} onChange={(e) => setImageInput(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addImage(); } }} />
             <Button type="button" variant="outline" size="icon" onClick={addImage} className="shrink-0"><Plus className="h-4 w-4" /></Button>
           </div>
           {errors.images && <p className="text-xs text-destructive">{errors.images}</p>}
