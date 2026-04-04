@@ -5,31 +5,31 @@ const socialLinks = [
   {
     name: "Instagram",
     url: "https://instagram.com/runp8",
-    icon: Instagram,
+    icon: "📸",
     color: "from-pink-500 to-purple-500",
   },
   {
     name: "Twitter / X",
     url: "https://x.com/runp8",
-    icon: Twitter,
+    icon: "𝕏",
     color: "from-sky-400 to-blue-500",
   },
   {
     name: "Facebook",
     url: "https://facebook.com/runp8",
-    icon: Facebook,
+    icon: "📘",
     color: "from-blue-500 to-blue-700",
   },
   {
     name: "YouTube",
     url: "https://youtube.com/@runp8",
-    icon: Youtube,
+    icon: "▶️",
     color: "from-red-500 to-red-700",
   },
   {
     name: "TikTok",
     url: "https://tiktok.com/@runp8",
-    icon: ExternalLink,
+    icon: "🎵",
     color: "from-gray-700 to-gray-900",
   },
 ];
