@@ -14,12 +14,13 @@ export interface Listing {
   landlord_name: string;
   available: boolean;
   created_at: string;
+  user_id: string | null;
 }
 
 interface ListingsContextType {
   listings: Listing[];
   loading: boolean;
-  addListing: (listing: Omit<Listing, "id" | "created_at">) => Promise<void>;
+  addListing: (listing: Omit<Listing, "id" | "created_at" | "user_id">) => Promise<void>;
   refreshListings: () => Promise<void>;
 }
 
@@ -33,6 +34,7 @@ export function ListingsProvider({ children }: { children: ReactNode }) {
     const { data, error } = await supabase
       .from("listings")
       .select("*")
+      .eq("available", true)
       .order("created_at", { ascending: false });
     if (!error && data) setListings(data);
     setLoading(false);
@@ -42,8 +44,10 @@ export function ListingsProvider({ children }: { children: ReactNode }) {
     fetchListings();
   }, []);
 
-  const addListing = async (data: Omit<Listing, "id" | "created_at">) => {
-    const { error } = await supabase.from("listings").insert(data);
+  const addListing = async (data: Omit<Listing, "id" | "created_at" | "user_id">) => {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return;
+    const { error } = await supabase.from("listings").insert({ ...data, user_id: user.id });
     if (!error) await fetchListings();
   };
 

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, Upload, Plus, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -6,11 +6,13 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { useListings } from "@/contexts/ListingsContext";
+import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 
 export default function AddProperty() {
   const navigate = useNavigate();
   const { addListing } = useListings();
+  const { profile } = useAuth();
   const { toast } = useToast();
 
   const [title, setTitle] = useState("");
@@ -21,6 +23,10 @@ export default function AddProperty() {
   const [sqft, setSqft] = useState("");
   const [description, setDescription] = useState("");
   const [landlordName, setLandlordName] = useState("");
+
+  useEffect(() => {
+    if (profile?.display_name) setLandlordName(profile.display_name);
+  }, [profile]);
   const [imageUrls, setImageUrls] = useState<string[]>([]);
   const [imageInput, setImageInput] = useState("");
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -78,7 +84,7 @@ export default function AddProperty() {
 
     toast({ title: "Property listed!", description: "Your new listing is now live." });
     setSubmitting(false);
-    navigate("/");
+    navigate("/listings");
   };
 
   return (
