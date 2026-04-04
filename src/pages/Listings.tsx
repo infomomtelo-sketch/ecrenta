@@ -91,7 +91,7 @@ export default function Listings() {
           </Link>
           <UserMenu />
         </div>
-        <div className="flex items-center gap-2 overflow-x-auto px-3 pb-2">
+        <div className="flex items-center gap-2 overflow-x-auto px-3 pb-1">
           <button
             onClick={() => setShowFilters(!showFilters)}
             className={`flex h-9 items-center gap-1.5 rounded-full px-4 text-sm font-medium ${
@@ -103,12 +103,30 @@ export default function Listings() {
             <SlidersHorizontal className="h-4 w-4" />
             {activeFilterCount > 0 && <span>{activeFilterCount}</span>}
           </button>
+          {AREAS.map((area) =>
+            area.value === "" ? null : (
+              <button
+                key={area.value}
+                onClick={() => setSelectedArea(selectedArea === area.value ? "" : area.value)}
+                className={`flex h-9 shrink-0 items-center gap-1 rounded-full px-4 text-sm font-medium ${
+                  selectedArea === area.value
+                    ? "bg-primary text-primary-foreground"
+                    : "bg-secondary text-foreground"
+                }`}
+              >
+                <MapPin className="h-3 w-3" />
+                {area.label}
+              </button>
+            )
+          )}
+        </div>
+        <div className="flex items-center gap-2 overflow-x-auto px-3 pb-2">
           {PRICE_RANGES.map((range, i) =>
             i === 0 ? null : (
               <button
                 key={range.label}
                 onClick={() => setPriceRange(priceRange === i ? 0 : i)}
-                className={`flex h-9 shrink-0 items-center rounded-full px-4 text-sm font-medium ${
+                className={`flex h-8 shrink-0 items-center rounded-full px-3 text-xs font-medium ${
                   priceRange === i
                     ? "bg-primary text-primary-foreground"
                     : "bg-secondary text-foreground"
