@@ -1,19 +1,52 @@
 import { useListings } from "@/contexts/ListingsContext";
 import { ListingCard } from "@/components/ListingCard";
 import { UserMenu } from "@/components/UserMenu";
-import { Search, SlidersHorizontal, Bookmark, Plus, Globe } from "lucide-react";
+import { Search, SlidersHorizontal, Bookmark, Plus, Globe, X } from "lucide-react";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useMemo } from "react";
+
+const PRICE_RANGES = [
+  { label: "Any Price", min: 0, max: Infinity },
+  { label: "Under $1,000", min: 0, max: 999 },
+  { label: "$1,000–$2,000", min: 1000, max: 2000 },
+  { label: "$2,000–$3,000", min: 2000, max: 3000 },
+  { label: "$3,000+", min: 3000, max: Infinity },
+];
+
+const BED_OPTIONS = [
+  { label: "Any Beds", value: 0 },
+  { label: "1+", value: 1 },
+  { label: "2+", value: 2 },
+  { label: "3+", value: 3 },
+];
 
 export default function Listings() {
   const { listings, loading } = useListings();
   const [search, setSearch] = useState("");
+  const [showFilters, setShowFilters] = useState(false);
+  const [priceRange, setPriceRange] = useState(0);
+  const [minBeds, setMinBeds] = useState(0);
+  const [sortBy, setSortBy] = useState<"newest" | "price-asc" | "price-desc">("newest");
 
-  const filtered = listings.filter(
-    (l) =>
-      l.title.toLowerCase().includes(search.toLowerCase()) ||
-      l.address.toLowerCase().includes(search.toLowerCase())
-  );
+  const filtered = useMemo(() => {
+    const range = PRICE_RANGES[priceRange];
+    let results = listings.filter((l) => {
+      const matchesSearch =
+        l.title.toLowerCase().includes(search.toLowerCase()) ||
+        l.address.toLowerCase().includes(search.toLowerCase());
+      const matchesPrice = l.price >= range.min && l.price <= range.max;
+      const matchesBeds = l.bedrooms >= BED_OPTIONS[minBeds].value;
+      return matchesSearch && matchesPrice && matchesBeds;
+    });
+
+    if (sortBy === "price-asc") results.sort((a, b) => a.price - b.price);
+    else if (sortBy === "price-desc") results.sort((a, b) => b.price - a.price);
+    else results.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+
+    return results;
+  }, [listings, search, priceRange, minBeds, sortBy]);
+
+  const activeFilterCount = (priceRange > 0 ? 1 : 0) + (minBeds > 0 ? 1 : 0);
 
   return (
     <div className="min-h-screen bg-background">
@@ -45,19 +78,85 @@ export default function Listings() {
           <UserMenu />
         </div>
         <div className="flex items-center gap-2 overflow-x-auto px-3 pb-2">
-          <button className="flex h-9 items-center gap-1.5 rounded-full bg-secondary px-4 text-sm font-medium text-foreground">
-            <Bookmark className="h-4 w-4" />
-          </button>
-          <button className="flex h-9 items-center gap-1.5 rounded-full bg-secondary px-4 text-sm font-medium text-foreground">
+          <button
+            onClick={() => setShowFilters(!showFilters)}
+            className={`flex h-9 items-center gap-1.5 rounded-full px-4 text-sm font-medium ${
+              activeFilterCount > 0
+                ? "bg-primary text-primary-foreground"
+                : "bg-secondary text-foreground"
+            }`}
+          >
             <SlidersHorizontal className="h-4 w-4" />
+            {activeFilterCount > 0 && <span>{activeFilterCount}</span>}
           </button>
-          <button className="flex h-9 shrink-0 items-center gap-1 rounded-full bg-secondary px-4 text-sm font-medium text-foreground">
-            Distance ▾
-          </button>
-          <button className="flex h-9 shrink-0 items-center gap-1 rounded-full bg-secondary px-4 text-sm font-medium text-foreground">
-            Sort by ▾
-          </button>
+          {PRICE_RANGES.map((range, i) =>
+            i === 0 ? null : (
+              <button
+                key={range.label}
+                onClick={() => setPriceRange(priceRange === i ? 0 : i)}
+                className={`flex h-9 shrink-0 items-center rounded-full px-4 text-sm font-medium ${
+                  priceRange === i
+                    ? "bg-primary text-primary-foreground"
+                    : "bg-secondary text-foreground"
+                }`}
+              >
+                {range.label}
+              </button>
+            )
+          )}
         </div>
+
+        {/* Expanded filter panel */}
+        {showFilters && (
+          <div className="border-t border-border px-3 py-3 space-y-3">
+            <div>
+              <p className="text-xs text-muted-foreground mb-1.5">Bedrooms</p>
+              <div className="flex gap-2">
+                {BED_OPTIONS.map((opt, i) => (
+                  <button
+                    key={opt.label}
+                    onClick={() => setMinBeds(i)}
+                    className={`rounded-full px-3 py-1 text-xs font-medium ${
+                      minBeds === i
+                        ? "bg-primary text-primary-foreground"
+                        : "bg-secondary text-foreground"
+                    }`}
+                  >
+                    {opt.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div>
+              <p className="text-xs text-muted-foreground mb-1.5">Sort by</p>
+              <div className="flex gap-2">
+                {([["newest", "Newest"], ["price-asc", "Price ↑"], ["price-desc", "Price ↓"]] as const).map(
+                  ([val, label]) => (
+                    <button
+                      key={val}
+                      onClick={() => setSortBy(val)}
+                      className={`rounded-full px-3 py-1 text-xs font-medium ${
+                        sortBy === val
+                          ? "bg-primary text-primary-foreground"
+                          : "bg-secondary text-foreground"
+                      }`}
+                    >
+                      {label}
+                    </button>
+                  )
+                )}
+              </div>
+            </div>
+            {(priceRange > 0 || minBeds > 0) && (
+              <button
+                onClick={() => { setPriceRange(0); setMinBeds(0); setSortBy("newest"); }}
+                className="flex items-center gap-1 text-xs text-destructive hover:underline"
+              >
+                <X className="h-3 w-3" /> Clear all filters
+              </button>
+            )}
+          </div>
+        )}
       </header>
 
       <main className="px-2 py-2">
