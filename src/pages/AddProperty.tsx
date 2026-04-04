@@ -123,6 +123,32 @@ export default function AddProperty() {
     navigate("/listings");
   };
 
+  // Gate: landlords must have an active subscription
+  if (role === "landlord" && !subscribed) {
+    return (
+      <div className="min-h-screen bg-background">
+        <header className="sticky top-0 z-50 border-b border-border bg-card">
+          <div className="flex items-center gap-3 px-4 py-3">
+            <button onClick={() => navigate(-1)} className="rounded-full p-2 hover:bg-secondary">
+              <ArrowLeft className="h-5 w-5 text-foreground" />
+            </button>
+            <h1 className="text-lg font-bold text-foreground">Add New Property</h1>
+          </div>
+        </header>
+        <div className="flex flex-col items-center justify-center px-4 py-20 text-center">
+          <CreditCard className="h-16 w-16 text-muted-foreground/40 mb-4" />
+          <h2 className="text-xl font-bold text-foreground">Subscription Required</h2>
+          <p className="mt-2 max-w-sm text-sm text-muted-foreground">
+            You need an active landlord subscription to list properties. Plans start at just $9.99/month.
+          </p>
+          <Button asChild size="lg" className="mt-6 rounded-xl px-8 py-6">
+            <Link to="/pricing">View Plans</Link>
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-background">
       <header className="sticky top-0 z-50 border-b border-border bg-card">
