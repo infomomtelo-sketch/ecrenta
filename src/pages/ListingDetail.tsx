@@ -1,12 +1,14 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { mockListings } from "@/data/mockListings";
-import { ArrowLeft, Bed, Bath, Maximize, MessageCircle, Calendar, MapPin } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { useListings } from "@/contexts/ListingsContext";
+import { ArrowLeft, Search, MoreHorizontal, ThumbsUp, Bookmark, Share2, Send } from "lucide-react";
+import { useState } from "react";
 
 export default function ListingDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const listing = mockListings.find((l) => l.id === id);
+  const { listings } = useListings();
+  const listing = listings.find((l) => l.id === id);
+  const [messageText, setMessageText] = useState("Hi, is this available?");
 
   if (!listing) {
     return (
@@ -16,93 +18,110 @@ export default function ListingDetail() {
     );
   }
 
-  const handleMessageLandlord = () => {
-    navigate(`/inbox?property=${listing.id}`);
+  const bedsLabel = listing.bedrooms === 0 ? "Studio" : `${listing.bedrooms} Bed`;
+  const label = `${bedsLabel} ${listing.bathrooms} Bath House`;
+
+  const handleSendMessage = () => {
+    if (!messageText.trim()) return;
+    navigate(`/inbox?property=${listing.id}&msg=${encodeURIComponent(messageText)}`);
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background pb-20">
       {/* Top bar */}
-      <header className="sticky top-0 z-50 border-b bg-card/80 backdrop-blur-lg">
-        <div className="mx-auto flex max-w-4xl items-center gap-3 px-4 py-3">
-          <button onClick={() => navigate(-1)} className="rounded-lg p-2 transition-colors hover:bg-secondary">
-            <ArrowLeft className="h-5 w-5 text-foreground" />
+      <header className="sticky top-0 z-50 flex items-center justify-between bg-card/95 px-2 py-2 backdrop-blur-lg">
+        <button onClick={() => navigate(-1)} className="rounded-full p-2 text-foreground hover:bg-secondary">
+          <ArrowLeft className="h-5 w-5" />
+        </button>
+        <div className="flex gap-1">
+          <button className="rounded-full p-2 text-foreground hover:bg-secondary">
+            <Search className="h-5 w-5" />
           </button>
-          <h1 className="truncate text-lg font-semibold text-foreground" style={{ fontFamily: "var(--font-heading)" }}>
-            {listing.title}
-          </h1>
+          <button className="rounded-full p-2 text-foreground hover:bg-secondary">
+            <MoreHorizontal className="h-5 w-5" />
+          </button>
         </div>
       </header>
 
-      <main className="mx-auto max-w-4xl px-4 py-6">
-        {/* Hero image */}
-        <div className="overflow-hidden rounded-2xl">
-          <img
-            src={listing.images[0]}
-            alt={listing.title}
-            className="h-64 w-full object-cover sm:h-96"
-            width={800}
-            height={600}
-          />
+      {/* Hero image — full width */}
+      <div className="w-full">
+        <img
+          src={listing.images[0]}
+          alt={listing.title}
+          className="w-full object-cover"
+          style={{ maxHeight: "50vh" }}
+        />
+        {listing.images.length > 1 && (
+          <div className="flex justify-center gap-1.5 py-2">
+            {listing.images.map((_, i) => (
+              <div key={i} className={`h-2 w-2 rounded-full ${i === 0 ? "bg-foreground" : "bg-muted-foreground/40"}`} />
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Details */}
+      <div className="px-4 pt-4">
+        <h1 className="text-xl font-bold text-foreground">{label}</h1>
+        <p className="mt-1 text-lg text-muted-foreground">
+          ${listing.price.toLocaleString()} / Month
+        </p>
+
+        {/* Social row */}
+        <div className="mt-3 flex items-center gap-1 text-sm text-muted-foreground">
+          <ThumbsUp className="h-4 w-4 text-primary" />
+          <span>10</span>
         </div>
 
-        {/* Price & details */}
-        <div className="mt-6 flex flex-wrap items-start justify-between gap-4">
-          <div>
-            <h2 className="text-3xl font-bold text-foreground" style={{ fontFamily: "var(--font-heading)" }}>
-              ${listing.price.toLocaleString()}<span className="text-lg font-normal text-muted-foreground">/mo</span>
-            </h2>
-            <p className="mt-1 flex items-center gap-1 text-muted-foreground">
-              <MapPin className="h-4 w-4" />
-              {listing.address}
-            </p>
-          </div>
-          <div className="flex items-center gap-4 rounded-xl bg-secondary px-5 py-3 text-sm font-medium text-foreground">
-            <span className="flex items-center gap-1.5">
-              <Bed className="h-4 w-4 text-muted-foreground" />
-              {listing.bedrooms === 0 ? "Studio" : `${listing.bedrooms} Bed`}
-            </span>
-            <span className="flex items-center gap-1.5">
-              <Bath className="h-4 w-4 text-muted-foreground" />
-              {listing.bathrooms} Bath
-            </span>
-            <span className="flex items-center gap-1.5">
-              <Maximize className="h-4 w-4 text-muted-foreground" />
-              {listing.sqft.toLocaleString()} sqft
-            </span>
+        <div className="mt-3 flex items-center border-y border-border py-2">
+          <button className="flex flex-1 items-center justify-center gap-2 py-2 text-sm text-muted-foreground hover:text-foreground">
+            <ThumbsUp className="h-5 w-5" /> Like
+          </button>
+          <button className="flex flex-1 items-center justify-center gap-2 py-2 text-sm text-muted-foreground hover:text-foreground">
+            <Bookmark className="h-5 w-5" /> Save
+          </button>
+          <button className="flex flex-1 items-center justify-center gap-2 py-2 text-sm text-muted-foreground hover:text-foreground">
+            <Share2 className="h-5 w-5" /> Share
+          </button>
+        </div>
+
+        {/* Message seller box */}
+        <div className="mt-4 rounded-xl bg-card border border-border p-4">
+          <p className="mb-3 text-sm font-semibold text-foreground">
+            💬 Message seller
+          </p>
+          <div className="flex items-center gap-2">
+            <input
+              type="text"
+              value={messageText}
+              onChange={(e) => setMessageText(e.target.value)}
+              className="flex-1 rounded-full bg-secondary px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+            />
+            <button
+              onClick={handleSendMessage}
+              className="rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-primary/90"
+            >
+              Send
+            </button>
           </div>
         </div>
 
         {/* Description */}
         <div className="mt-6">
-          <h3 className="mb-2 text-lg font-semibold text-foreground" style={{ fontFamily: "var(--font-heading)" }}>
-            About this property
-          </h3>
-          <p className="leading-relaxed text-muted-foreground">{listing.description}</p>
+          <h2 className="text-base font-bold text-foreground">Description</h2>
+          <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+            {listing.description}
+          </p>
         </div>
 
-        {/* Info bar */}
-        <div className="mt-6 flex flex-wrap gap-4 rounded-xl border bg-card p-4 text-sm text-muted-foreground">
-          <span className="flex items-center gap-1.5">
-            <Calendar className="h-4 w-4" />
-            Listed {listing.listed}
-          </span>
-          <span>•</span>
-          <span>By {listing.landlordName}</span>
+        {/* Property details */}
+        <div className="mt-4 space-y-2 text-sm text-muted-foreground">
+          <p>📍 {listing.address}</p>
+          <p>🏠 {listing.sqft.toLocaleString()} sqft</p>
+          <p>📅 Listed {listing.listed}</p>
+          <p>👤 By {listing.landlordName}</p>
         </div>
-
-        {/* CTA */}
-        <div className="sticky bottom-0 mt-8 border-t bg-background py-4">
-          <Button
-            onClick={handleMessageLandlord}
-            className="w-full gap-2 rounded-xl bg-primary py-6 text-base font-semibold text-primary-foreground hover:bg-primary/90"
-            size="lg"
-          >
-            <MessageCircle className="h-5 w-5" />
-            Message Landlord
-          </Button>
-        </div>
-      </main>
+      </div>
     </div>
   );
 }
