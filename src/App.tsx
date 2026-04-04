@@ -25,6 +25,7 @@ import About from "./pages/About";
 import Contact from "./pages/Contact";
 import HowItWorks from "./pages/HowItWorks";
 import ForLandlords from "./pages/ForLandlords";
+import Resources from "./pages/Resources";
 
 const queryClient = new QueryClient();
 
