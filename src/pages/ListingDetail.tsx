@@ -1,7 +1,8 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useListings } from "@/contexts/ListingsContext";
-import { ArrowLeft, Search, MoreHorizontal, ThumbsUp, Bookmark, Share2 } from "lucide-react";
-import { useState } from "react";
+import { ArrowLeft, Search, MoreHorizontal, ThumbsUp, Bookmark, Share2, Flag, Link2, Copy } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
+import { toast } from "sonner";
 
 export default function ListingDetail() {
   const { id } = useParams();
@@ -9,6 +10,19 @@ export default function ListingDetail() {
   const { listings, loading } = useListings();
   const listing = listings.find((l) => l.id === id);
   const [messageText, setMessageText] = useState("Hi, is this available?");
+  const [liked, setLiked] = useState(false);
+  const [likeCount, setLikeCount] = useState(10);
+  const [saved, setSaved] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) setMenuOpen(false);
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
 
   if (loading) {
     return (
@@ -28,10 +42,46 @@ export default function ListingDetail() {
 
   const bedsLabel = listing.bedrooms === 0 ? "Studio" : `${listing.bedrooms} Bed`;
   const label = `${bedsLabel} ${listing.bathrooms} Bath House`;
+  const listingUrl = `${window.location.origin}/listing/${listing.id}`;
 
   const handleSendMessage = () => {
     if (!messageText.trim()) return;
     navigate(`/inbox?property=${listing.id}&msg=${encodeURIComponent(messageText)}`);
+  };
+
+  const handleLike = () => {
+    setLiked((prev) => !prev);
+    setLikeCount((prev) => (liked ? prev - 1 : prev + 1));
+    toast(liked ? "Removed like" : "Liked!");
+  };
+
+  const handleSave = () => {
+    setSaved((prev) => !prev);
+    toast(saved ? "Removed from saved" : "Saved to your list");
+  };
+
+  const handleShare = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({ title: listing.title, text: label, url: listingUrl });
+      } catch {
+        // user cancelled
+      }
+    } else {
+      await navigator.clipboard.writeText(listingUrl);
+      toast("Link copied to clipboard");
+    }
+  };
+
+  const handleCopyLink = async () => {
+    await navigator.clipboard.writeText(listingUrl);
+    toast("Link copied to clipboard");
+    setMenuOpen(false);
+  };
+
+  const handleReport = () => {
+    toast("Thanks for reporting. We'll review this listing.");
+    setMenuOpen(false);
   };
 
   return (
@@ -41,12 +91,30 @@ export default function ListingDetail() {
           <ArrowLeft className="h-5 w-5" />
         </button>
         <div className="flex gap-1">
-          <button className="rounded-full p-2 text-foreground hover:bg-secondary">
+          <button onClick={() => navigate("/listings")} className="rounded-full p-2 text-foreground hover:bg-secondary">
             <Search className="h-5 w-5" />
           </button>
-          <button className="rounded-full p-2 text-foreground hover:bg-secondary">
-            <MoreHorizontal className="h-5 w-5" />
-          </button>
+          <div ref={menuRef} className="relative">
+            <button onClick={() => setMenuOpen(!menuOpen)} className="rounded-full p-2 text-foreground hover:bg-secondary">
+              <MoreHorizontal className="h-5 w-5" />
+            </button>
+            {menuOpen && (
+              <div className="absolute right-0 top-full z-50 mt-1 w-48 rounded-xl border border-border bg-card p-1 shadow-lg">
+                <button
+                  onClick={handleCopyLink}
+                  className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-foreground hover:bg-secondary"
+                >
+                  <Copy className="h-4 w-4 text-muted-foreground" /> Copy link
+                </button>
+                <button
+                  onClick={handleReport}
+                  className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-destructive hover:bg-destructive/10"
+                >
+                  <Flag className="h-4 w-4" /> Report listing
+                </button>
+              </div>
+            )}
+          </div>
         </div>
       </header>
 
@@ -66,18 +134,27 @@ export default function ListingDetail() {
         </p>
 
         <div className="mt-3 flex items-center gap-1 text-sm text-muted-foreground">
-          <ThumbsUp className="h-4 w-4 text-primary" />
-          <span>10</span>
+          <ThumbsUp className={`h-4 w-4 ${liked ? "text-primary fill-primary" : "text-primary"}`} />
+          <span>{likeCount}</span>
         </div>
 
         <div className="mt-3 flex items-center border-y border-border py-2">
-          <button className="flex flex-1 items-center justify-center gap-2 py-2 text-sm text-muted-foreground hover:text-foreground">
-            <ThumbsUp className="h-5 w-5" /> Like
+          <button
+            onClick={handleLike}
+            className={`flex flex-1 items-center justify-center gap-2 py-2 text-sm transition-colors ${liked ? "text-primary font-semibold" : "text-muted-foreground hover:text-foreground"}`}
+          >
+            <ThumbsUp className={`h-5 w-5 ${liked ? "fill-primary" : ""}`} /> Like
           </button>
-          <button className="flex flex-1 items-center justify-center gap-2 py-2 text-sm text-muted-foreground hover:text-foreground">
-            <Bookmark className="h-5 w-5" /> Save
+          <button
+            onClick={handleSave}
+            className={`flex flex-1 items-center justify-center gap-2 py-2 text-sm transition-colors ${saved ? "text-primary font-semibold" : "text-muted-foreground hover:text-foreground"}`}
+          >
+            <Bookmark className={`h-5 w-5 ${saved ? "fill-primary" : ""}`} /> {saved ? "Saved" : "Save"}
           </button>
-          <button className="flex flex-1 items-center justify-center gap-2 py-2 text-sm text-muted-foreground hover:text-foreground">
+          <button
+            onClick={handleShare}
+            className="flex flex-1 items-center justify-center gap-2 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+          >
             <Share2 className="h-5 w-5" /> Share
           </button>
         </div>
