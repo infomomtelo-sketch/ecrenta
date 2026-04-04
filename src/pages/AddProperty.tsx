@@ -67,6 +67,39 @@ export default function AddProperty() {
     setImageUrls((prev) => prev.filter((_, i) => i !== index));
   };
 
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) {
+      toast({ title: "Please sign in", description: "You must be signed in to upload images.", variant: "destructive" });
+      return;
+    }
+
+    setUploading(true);
+    const newUrls: string[] = [];
+
+    for (const file of Array.from(files)) {
+      const ext = file.name.split(".").pop();
+      const path = `${user.id}/${crypto.randomUUID()}.${ext}`;
+      const { error } = await supabase.storage.from("listing-images").upload(path, file);
+      if (error) {
+        toast({ title: "Upload failed", description: error.message, variant: "destructive" });
+        continue;
+      }
+      const { data: { publicUrl } } = supabase.storage.from("listing-images").getPublicUrl(path);
+      newUrls.push(publicUrl);
+    }
+
+    if (newUrls.length > 0) {
+      setImageUrls((prev) => [...prev, ...newUrls]);
+      setErrors((prev) => ({ ...prev, images: "" }));
+    }
+    setUploading(false);
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) return;
