@@ -1,5 +1,6 @@
 import { useListings } from "@/contexts/ListingsContext";
 import { ListingCard } from "@/components/ListingCard";
+import { UserMenu } from "@/components/UserMenu";
 import { Search, SlidersHorizontal, Bookmark, Plus } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
@@ -34,6 +35,7 @@ export default function Listings() {
           >
             <Plus className="h-5 w-5" />
           </Link>
+          <UserMenu />
         </div>
         <div className="flex items-center gap-2 overflow-x-auto px-3 pb-2">
           <button className="flex h-9 items-center gap-1.5 rounded-full bg-secondary px-4 text-sm font-medium text-foreground">
