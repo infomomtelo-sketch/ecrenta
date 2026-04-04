@@ -23,6 +23,10 @@ export default function AddProperty() {
   const [sqft, setSqft] = useState("");
   const [description, setDescription] = useState("");
   const [landlordName, setLandlordName] = useState("");
+
+  useEffect(() => {
+    if (profile?.display_name) setLandlordName(profile.display_name);
+  }, [profile]);
   const [imageUrls, setImageUrls] = useState<string[]>([]);
   const [imageInput, setImageInput] = useState("");
   const [errors, setErrors] = useState<Record<string, string>>({});
