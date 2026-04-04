@@ -108,10 +108,13 @@ export type Database = {
           bedrooms: number
           created_at: string
           description: string
+          external_id: string | null
           id: string
           images: string[]
           landlord_name: string
           price: number
+          source: string | null
+          source_url: string | null
           sqft: number
           title: string
           updated_at: string
@@ -124,10 +127,13 @@ export type Database = {
           bedrooms?: number
           created_at?: string
           description?: string
+          external_id?: string | null
           id?: string
           images?: string[]
           landlord_name?: string
           price: number
+          source?: string | null
+          source_url?: string | null
           sqft?: number
           title: string
           updated_at?: string
@@ -140,10 +146,13 @@ export type Database = {
           bedrooms?: number
           created_at?: string
           description?: string
+          external_id?: string | null
           id?: string
           images?: string[]
           landlord_name?: string
           price?: number
+          source?: string | null
+          source_url?: string | null
           sqft?: number
           title?: string
           updated_at?: string
