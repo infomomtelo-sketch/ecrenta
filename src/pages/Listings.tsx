@@ -1,6 +1,6 @@
 import { useListings } from "@/contexts/ListingsContext";
 import { ListingCard } from "@/components/ListingCard";
-import { Search, SlidersHorizontal, MessageCircle, Plus } from "lucide-react";
+import { Search, SlidersHorizontal, Bookmark, Plus } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 
@@ -16,57 +16,47 @@ export default function Listings() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="sticky top-0 z-50 border-b bg-card/80 backdrop-blur-lg">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
-          <h1 className="text-xl font-bold text-foreground" style={{ fontFamily: "var(--font-heading)" }}>
-            runp8
-          </h1>
-          <div className="flex items-center gap-2">
-            <Link
-              to="/add-property"
-              className="flex items-center gap-2 rounded-lg border bg-card px-4 py-2 text-sm font-semibold text-foreground transition-colors hover:bg-secondary"
-            >
-              <Plus className="h-4 w-4" />
-              Add
-            </Link>
-            <Link
-              to="/inbox"
-              className="flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
-            >
-              <MessageCircle className="h-4 w-4" />
-              Inbox
-            </Link>
-          </div>
-        </div>
-      </header>
-
-      <main className="mx-auto max-w-6xl px-4 py-6">
-        {/* Search */}
-        <div className="mb-6 flex items-center gap-3">
+      {/* Search bar */}
+      <header className="sticky top-0 z-50 bg-card border-b border-border">
+        <div className="flex items-center gap-2 px-3 py-2">
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <input
               type="text"
-              placeholder="Search by location or property name..."
+              placeholder="Search Marketplace"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full rounded-xl border bg-card py-3 pl-10 pr-4 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+              className="w-full rounded-full bg-secondary py-2.5 pl-10 pr-4 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
             />
           </div>
-          <button className="flex items-center gap-2 rounded-xl border bg-card px-4 py-3 text-sm text-foreground transition-colors hover:bg-secondary">
-            <SlidersHorizontal className="h-4 w-4" />
-            Filters
-          </button>
+          <Link
+            to="/add-property"
+            className="flex h-10 w-10 items-center justify-center rounded-full bg-secondary text-foreground"
+          >
+            <Plus className="h-5 w-5" />
+          </Link>
         </div>
 
-        {/* Title */}
-        <h2 className="mb-4 text-2xl font-bold text-foreground" style={{ fontFamily: "var(--font-heading)" }}>
-          Today's Picks
-        </h2>
+        {/* Filter chips */}
+        <div className="flex items-center gap-2 overflow-x-auto px-3 pb-2">
+          <button className="flex h-9 items-center gap-1.5 rounded-full bg-secondary px-4 text-sm font-medium text-foreground">
+            <Bookmark className="h-4 w-4" />
+          </button>
+          <button className="flex h-9 items-center gap-1.5 rounded-full bg-secondary px-4 text-sm font-medium text-foreground">
+            <SlidersHorizontal className="h-4 w-4" />
+          </button>
+          <button className="flex h-9 shrink-0 items-center gap-1 rounded-full bg-secondary px-4 text-sm font-medium text-foreground">
+            Distance ▾
+          </button>
+          <button className="flex h-9 shrink-0 items-center gap-1 rounded-full bg-secondary px-4 text-sm font-medium text-foreground">
+            Sort by ▾
+          </button>
+        </div>
+      </header>
 
-        {/* Grid */}
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {/* Grid — 2 columns like FB Marketplace */}
+      <main className="px-2 py-2">
+        <div className="grid grid-cols-2 gap-2">
           {filtered.map((listing) => (
             <ListingCard key={listing.id} listing={listing} />
           ))}
@@ -76,6 +66,22 @@ export default function Listings() {
           <p className="mt-12 text-center text-muted-foreground">No listings found.</p>
         )}
       </main>
+
+      {/* Bottom tab bar */}
+      <nav className="fixed bottom-0 left-0 right-0 z-50 flex items-center justify-around border-t border-border bg-card py-2">
+        <Link to="/" className="flex flex-col items-center gap-0.5 text-foreground">
+          <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          <span className="text-[10px]">Home</span>
+        </Link>
+        <Link to="/inbox" className="flex flex-col items-center gap-0.5 text-muted-foreground">
+          <svg className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+          <span className="text-[10px]">Inbox</span>
+        </Link>
+        <Link to="/add-property" className="flex flex-col items-center gap-0.5 text-muted-foreground">
+          <svg className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg>
+          <span className="text-[10px]">Sell</span>
+        </Link>
+      </nav>
     </div>
   );
 }

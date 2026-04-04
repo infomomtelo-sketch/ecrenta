@@ -1,43 +1,40 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useSearchParams, useNavigate, Link } from "react-router-dom";
-import { mockConversations, mockListings, statusLabels, statusColors, type Conversation, type Message } from "@/data/mockListings";
-import { ArrowLeft, Send, Home, Calendar, CheckCircle, StickyNote, MoreVertical } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { useListings } from "@/contexts/ListingsContext";
+import { mockConversations, statusLabels, statusColors, type Conversation, type Message } from "@/data/mockListings";
+import { ArrowLeft, Send, Calendar, CheckCircle, StickyNote } from "lucide-react";
 
 export default function Inbox() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const { listings } = useListings();
   const propertyId = searchParams.get("property");
+  const prefillMsg = searchParams.get("msg");
 
   const [conversations, setConversations] = useState<Conversation[]>(mockConversations);
   const [activeConvId, setActiveConvId] = useState<string | null>(null);
   const [newMessage, setNewMessage] = useState("");
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  // If coming from a listing, auto-create/open conversation
   useEffect(() => {
     if (propertyId) {
       const existing = conversations.find((c) => c.listingId === propertyId);
       if (existing) {
         setActiveConvId(existing.id);
       } else {
-        const listing = mockListings.find((l) => l.id === propertyId);
+        const listing = listings.find((l) => l.id === propertyId);
         if (listing) {
+          const text = prefillMsg || `Hi! I'm interested in "${listing.title}". Is it still available?`;
           const newConv: Conversation = {
             id: `conv-new-${propertyId}`,
             listingId: propertyId,
             tenantName: "You",
-            lastMessage: "Started a conversation",
+            lastMessage: text,
             lastMessageTime: "Just now",
             unread: 0,
             status: "inquiry",
             messages: [
-              {
-                id: "auto-1",
-                senderId: "tenant",
-                text: `Hi! I'm interested in "${listing.title}" at ${listing.address}. Is it still available?`,
-                timestamp: "Just now",
-                type: "text",
-              },
+              { id: "auto-1", senderId: "tenant", text, timestamp: "Just now", type: "text" },
             ],
           };
           setConversations((prev) => [newConv, ...prev]);
@@ -47,8 +44,12 @@ export default function Inbox() {
     }
   }, [propertyId]);
 
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [conversations, activeConvId]);
+
   const activeConv = conversations.find((c) => c.id === activeConvId);
-  const activeListing = activeConv ? mockListings.find((l) => l.id === activeConv.listingId) : null;
+  const activeListing = activeConv ? listings.find((l) => l.id === activeConv.listingId) : null;
 
   const handleSend = () => {
     if (!newMessage.trim() || !activeConvId) return;
@@ -75,69 +76,55 @@ export default function Inbox() {
     );
   };
 
-  // Conversation list view
+  // Conversation list
   if (!activeConv) {
     return (
       <div className="min-h-screen bg-background">
-        <header className="sticky top-0 z-50 border-b bg-card/80 backdrop-blur-lg">
-          <div className="mx-auto flex max-w-2xl items-center gap-3 px-4 py-3">
-            <Link to="/" className="rounded-lg p-2 transition-colors hover:bg-secondary">
-              <ArrowLeft className="h-5 w-5 text-foreground" />
-            </Link>
-            <h1 className="text-xl font-bold text-foreground" style={{ fontFamily: "var(--font-heading)" }}>
-              Messages
-            </h1>
-          </div>
+        <header className="sticky top-0 z-50 flex items-center gap-3 border-b border-border bg-card px-3 py-3">
+          <Link to="/" className="rounded-full p-2 hover:bg-secondary">
+            <ArrowLeft className="h-5 w-5 text-foreground" />
+          </Link>
+          <h1 className="text-lg font-bold text-foreground">Chats</h1>
         </header>
 
-        <div className="mx-auto max-w-2xl">
-          {conversations.length === 0 ? (
-            <div className="flex flex-col items-center justify-center px-4 py-20 text-center">
-              <p className="text-lg font-semibold text-foreground">No conversations yet</p>
-              <p className="mt-1 text-sm text-muted-foreground">
-                Browse listings and message a landlord to get started.
-              </p>
-              <Link to="/" className="mt-4 rounded-xl bg-primary px-6 py-2.5 text-sm font-semibold text-primary-foreground">
-                Browse Listings
-              </Link>
-            </div>
-          ) : (
-            <ul className="divide-y">
-              {conversations.map((conv) => {
-                const listing = mockListings.find((l) => l.id === conv.listingId);
-                return (
-                  <li
-                    key={conv.id}
-                    onClick={() => setActiveConvId(conv.id)}
-                    className="flex cursor-pointer items-center gap-3 px-4 py-4 transition-colors hover:bg-secondary/50"
-                  >
-                    {listing && (
-                      <img
-                        src={listing.images[0]}
-                        alt=""
-                        className="h-14 w-14 shrink-0 rounded-xl object-cover"
-                        loading="lazy"
-                      />
-                    )}
-                    <div className="min-w-0 flex-1">
-                      <div className="flex items-center justify-between">
-                        <span className="truncate font-semibold text-foreground">{conv.tenantName}</span>
-                        <span className="shrink-0 text-xs text-muted-foreground">{conv.lastMessageTime}</span>
-                      </div>
-                      <p className="truncate text-sm text-muted-foreground">{listing?.title}</p>
-                      <p className="truncate text-sm text-muted-foreground">{conv.lastMessage}</p>
+        {conversations.length === 0 ? (
+          <div className="flex flex-col items-center px-4 py-20 text-center">
+            <p className="text-base font-semibold text-foreground">No messages yet</p>
+            <p className="mt-1 text-sm text-muted-foreground">Browse listings to start a conversation.</p>
+            <Link to="/" className="mt-4 rounded-full bg-primary px-6 py-2.5 text-sm font-semibold text-primary-foreground">
+              Browse Listings
+            </Link>
+          </div>
+        ) : (
+          <ul>
+            {conversations.map((conv) => {
+              const listing = listings.find((l) => l.id === conv.listingId);
+              return (
+                <li
+                  key={conv.id}
+                  onClick={() => setActiveConvId(conv.id)}
+                  className="flex cursor-pointer items-center gap-3 px-4 py-3 transition-colors hover:bg-secondary/50"
+                >
+                  {listing && (
+                    <img src={listing.images[0]} alt="" className="h-14 w-14 shrink-0 rounded-full object-cover" />
+                  )}
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center justify-between">
+                      <span className="truncate text-[15px] font-semibold text-foreground">{conv.tenantName}</span>
+                      <span className="shrink-0 text-xs text-muted-foreground">{conv.lastMessageTime}</span>
                     </div>
-                    {conv.unread > 0 && (
-                      <span className="flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">
-                        {conv.unread}
-                      </span>
-                    )}
-                  </li>
-                );
-              })}
-            </ul>
-          )}
-        </div>
+                    <p className="truncate text-sm text-muted-foreground">{conv.lastMessage}</p>
+                  </div>
+                  {conv.unread > 0 && (
+                    <span className="flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[11px] font-bold text-primary-foreground">
+                      {conv.unread}
+                    </span>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+        )}
       </div>
     );
   }
@@ -145,80 +132,105 @@ export default function Inbox() {
   // Chat view
   return (
     <div className="flex h-screen flex-col bg-background">
-      {/* Chat header with rental context */}
-      <header className="shrink-0 border-b bg-card">
-        <div className="mx-auto flex max-w-2xl items-center gap-3 px-4 py-3">
-          <button onClick={() => setActiveConvId(null)} className="rounded-lg p-2 transition-colors hover:bg-secondary">
-            <ArrowLeft className="h-5 w-5 text-foreground" />
+      {/* Header */}
+      <header className="shrink-0 border-b border-border bg-card">
+        <div className="flex items-center gap-3 px-3 py-2">
+          <button onClick={() => { setActiveConvId(null); navigate("/inbox"); }} className="rounded-full p-1.5 text-primary hover:bg-secondary">
+            <ArrowLeft className="h-5 w-5" />
           </button>
           {activeListing && (
-            <img src={activeListing.images[0]} alt="" className="h-10 w-10 rounded-lg object-cover" />
+            <img src={activeListing.images[0]} alt="" className="h-9 w-9 rounded-full object-cover" />
           )}
           <div className="min-w-0 flex-1">
-            <p className="truncate font-semibold text-foreground">{activeConv.tenantName}</p>
-            <p className="truncate text-xs text-muted-foreground">{activeListing?.title} • ${activeListing?.price}/mo</p>
+            <p className="truncate text-[15px] font-semibold text-foreground">
+              {activeConv.tenantName} · {activeListing?.title}
+            </p>
           </div>
-          <span className={`rounded-full px-3 py-1 text-xs font-semibold ${statusColors[activeConv.status]}`}>
-            {statusLabels[activeConv.status]}
-          </span>
-        </div>
-        {/* Action bar */}
-        <div className="mx-auto flex max-w-2xl gap-2 overflow-x-auto px-4 pb-3">
-          <button onClick={() => updateStatus("showing_scheduled")} className="flex shrink-0 items-center gap-1.5 rounded-lg border bg-card px-3 py-1.5 text-xs font-medium text-foreground transition-colors hover:bg-secondary">
-            <Calendar className="h-3.5 w-3.5" /> Schedule Showing
-          </button>
-          <button onClick={() => updateStatus("approved")} className="flex shrink-0 items-center gap-1.5 rounded-lg border bg-card px-3 py-1.5 text-xs font-medium text-foreground transition-colors hover:bg-secondary">
-            <CheckCircle className="h-3.5 w-3.5" /> Mark Approved
-          </button>
-          <button className="flex shrink-0 items-center gap-1.5 rounded-lg border bg-card px-3 py-1.5 text-xs font-medium text-foreground transition-colors hover:bg-secondary">
-            <StickyNote className="h-3.5 w-3.5" /> Add Note
-          </button>
         </div>
       </header>
 
+      {/* Property context card — like FB Messenger */}
+      {activeListing && (
+        <div className="border-b border-border bg-card px-4 py-3">
+          <div className="rounded-xl bg-secondary p-3">
+            <p className="text-xs text-muted-foreground">Marketplace listing</p>
+            <p className="text-sm font-semibold text-foreground">
+              ${activeListing.price.toLocaleString()} - {activeListing.bedrooms === 0 ? "Studio" : `${activeListing.bedrooms} Bed`} {activeListing.bathrooms} Bath
+            </p>
+            <div className="mt-2 flex gap-2">
+              <button
+                onClick={() => navigate(`/listing/${activeListing.id}`)}
+                className="flex-1 rounded-lg bg-accent py-2 text-center text-sm font-semibold text-accent-foreground"
+              >
+                See details
+              </button>
+              <button className="flex-1 rounded-lg bg-accent py-2 text-center text-sm font-semibold text-accent-foreground">
+                More options
+              </button>
+            </div>
+          </div>
+          {/* Status + actions */}
+          <div className="mt-2 flex items-center gap-2 overflow-x-auto">
+            <span className={`shrink-0 rounded-full px-3 py-1 text-xs font-semibold ${statusColors[activeConv.status]}`}>
+              {statusLabels[activeConv.status]}
+            </span>
+            <button onClick={() => updateStatus("showing_scheduled")} className="flex shrink-0 items-center gap-1 rounded-full bg-secondary px-3 py-1 text-xs font-medium text-foreground">
+              <Calendar className="h-3 w-3" /> Showing
+            </button>
+            <button onClick={() => updateStatus("approved")} className="flex shrink-0 items-center gap-1 rounded-full bg-secondary px-3 py-1 text-xs font-medium text-foreground">
+              <CheckCircle className="h-3 w-3" /> Approve
+            </button>
+            <button className="flex shrink-0 items-center gap-1 rounded-full bg-secondary px-3 py-1 text-xs font-medium text-foreground">
+              <StickyNote className="h-3 w-3" /> Note
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Messages */}
       <div className="flex-1 overflow-y-auto px-4 py-4">
-        <div className="mx-auto max-w-2xl space-y-3">
+        <div className="mx-auto max-w-2xl space-y-2">
           {activeConv.messages.map((msg) => {
             const isLandlord = msg.senderId === "landlord";
             return (
               <div key={msg.id} className={`flex ${isLandlord ? "justify-end" : "justify-start"}`}>
                 <div
-                  className={`max-w-[75%] rounded-2xl px-4 py-2.5 text-sm ${
+                  className={`max-w-[80%] rounded-2xl px-4 py-2.5 text-sm ${
                     isLandlord
                       ? "bg-primary text-primary-foreground rounded-br-md"
                       : "bg-secondary text-foreground rounded-bl-md"
                   }`}
                 >
                   <p>{msg.text}</p>
-                  <p className={`mt-1 text-[10px] ${isLandlord ? "text-primary-foreground/70" : "text-muted-foreground"}`}>
+                  <p className={`mt-1 text-[10px] ${isLandlord ? "text-primary-foreground/60" : "text-muted-foreground"}`}>
                     {msg.timestamp}
                   </p>
                 </div>
               </div>
             );
           })}
+          <div ref={messagesEndRef} />
         </div>
       </div>
 
       {/* Input */}
-      <div className="shrink-0 border-t bg-card px-4 py-3">
-        <div className="mx-auto flex max-w-2xl items-center gap-2">
+      <div className="shrink-0 border-t border-border bg-card px-3 py-2">
+        <div className="flex items-center gap-2">
           <input
             type="text"
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleSend()}
-            placeholder="Type a message..."
-            className="flex-1 rounded-xl border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+            placeholder="Aa"
+            className="flex-1 rounded-full bg-secondary px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
           />
-          <Button
+          <button
             onClick={handleSend}
             disabled={!newMessage.trim()}
-            className="rounded-xl bg-primary px-4 py-3 text-primary-foreground hover:bg-primary/90"
+            className="flex h-10 w-10 items-center justify-center rounded-full text-primary disabled:text-muted-foreground"
           >
-            <Send className="h-4 w-4" />
-          </Button>
+            <Send className="h-5 w-5" />
+          </button>
         </div>
       </div>
     </div>

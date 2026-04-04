@@ -1,5 +1,4 @@
 import { Listing } from "@/data/mockListings";
-import { Bed, Bath, Maximize } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 interface Props {
@@ -9,47 +8,33 @@ interface Props {
 export function ListingCard({ listing }: Props) {
   const navigate = useNavigate();
 
+  const bedsLabel = listing.bedrooms === 0 ? "Studio" : `${listing.bedrooms} Bed`;
+  const label = `${bedsLabel} ${listing.bathrooms} Bath House`;
+
   return (
-    <div className="listing-card" onClick={() => navigate(`/listing/${listing.id}`)}>
-      <div className="relative aspect-[4/3] overflow-hidden">
+    <div
+      className="cursor-pointer overflow-hidden"
+      onClick={() => navigate(`/listing/${listing.id}`)}
+    >
+      <div className="relative aspect-square overflow-hidden rounded-lg">
         <img
           src={listing.images[0]}
           alt={listing.title}
-          className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
+          className="h-full w-full object-cover"
           loading="lazy"
-          width={800}
-          height={600}
         />
-        {listing.available && (
-          <span className="absolute top-3 left-3 rounded-full bg-primary px-3 py-1 text-xs font-semibold text-primary-foreground">
-            Available
+        {listing.listed === "Just listed" && (
+          <span className="absolute bottom-2 left-2 rounded bg-card/90 px-2 py-0.5 text-xs font-semibold text-foreground">
+            Just listed
           </span>
         )}
       </div>
-      <div className="p-4">
-        <div className="flex items-start justify-between gap-2">
-          <h3 className="font-heading text-lg font-semibold leading-tight text-foreground">
-            {listing.title}
-          </h3>
-          <span className="shrink-0 text-lg font-bold text-primary">
-            ${listing.price.toLocaleString()}<span className="text-sm font-normal text-muted-foreground">/mo</span>
-          </span>
-        </div>
-        <p className="mt-1 text-sm text-muted-foreground">{listing.address}</p>
-        <div className="mt-3 flex items-center gap-4 text-sm text-muted-foreground">
-          <span className="flex items-center gap-1">
-            <Bed className="h-4 w-4" />
-            {listing.bedrooms === 0 ? "Studio" : `${listing.bedrooms} bd`}
-          </span>
-          <span className="flex items-center gap-1">
-            <Bath className="h-4 w-4" />
-            {listing.bathrooms} ba
-          </span>
-          <span className="flex items-center gap-1">
-            <Maximize className="h-4 w-4" />
-            {listing.sqft.toLocaleString()} sqft
-          </span>
-        </div>
+      <div className="mt-2 space-y-0.5">
+        <p className="text-[15px] font-bold text-foreground">
+          ${listing.price.toLocaleString()}
+        </p>
+        <p className="text-[13px] text-muted-foreground leading-tight">{label}</p>
+        <p className="text-[13px] text-muted-foreground">{listing.address}</p>
       </div>
     </div>
   );
