@@ -1,19 +1,52 @@
 import { useListings } from "@/contexts/ListingsContext";
 import { ListingCard } from "@/components/ListingCard";
 import { UserMenu } from "@/components/UserMenu";
-import { Search, SlidersHorizontal, Bookmark, Plus, Globe } from "lucide-react";
+import { Search, SlidersHorizontal, Bookmark, Plus, Globe, X } from "lucide-react";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useMemo } from "react";
+
+const PRICE_RANGES = [
+  { label: "Any Price", min: 0, max: Infinity },
+  { label: "Under $1,000", min: 0, max: 999 },
+  { label: "$1,000–$2,000", min: 1000, max: 2000 },
+  { label: "$2,000–$3,000", min: 2000, max: 3000 },
+  { label: "$3,000+", min: 3000, max: Infinity },
+];
+
+const BED_OPTIONS = [
+  { label: "Any Beds", value: 0 },
+  { label: "1+", value: 1 },
+  { label: "2+", value: 2 },
+  { label: "3+", value: 3 },
+];
 
 export default function Listings() {
   const { listings, loading } = useListings();
   const [search, setSearch] = useState("");
+  const [showFilters, setShowFilters] = useState(false);
+  const [priceRange, setPriceRange] = useState(0);
+  const [minBeds, setMinBeds] = useState(0);
+  const [sortBy, setSortBy] = useState<"newest" | "price-asc" | "price-desc">("newest");
 
-  const filtered = listings.filter(
-    (l) =>
-      l.title.toLowerCase().includes(search.toLowerCase()) ||
-      l.address.toLowerCase().includes(search.toLowerCase())
-  );
+  const filtered = useMemo(() => {
+    const range = PRICE_RANGES[priceRange];
+    let results = listings.filter((l) => {
+      const matchesSearch =
+        l.title.toLowerCase().includes(search.toLowerCase()) ||
+        l.address.toLowerCase().includes(search.toLowerCase());
+      const matchesPrice = l.price >= range.min && l.price <= range.max;
+      const matchesBeds = l.bedrooms >= BED_OPTIONS[minBeds].value;
+      return matchesSearch && matchesPrice && matchesBeds;
+    });
+
+    if (sortBy === "price-asc") results.sort((a, b) => a.price - b.price);
+    else if (sortBy === "price-desc") results.sort((a, b) => b.price - a.price);
+    else results.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+
+    return results;
+  }, [listings, search, priceRange, minBeds, sortBy]);
+
+  const activeFilterCount = (priceRange > 0 ? 1 : 0) + (minBeds > 0 ? 1 : 0);
 
   return (
     <div className="min-h-screen bg-background">
