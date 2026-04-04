@@ -138,6 +138,18 @@ const faqs = [
     q: "What does 'free tenant screening' mean?",
     a: "We run background and credit checks on tenants at no cost to them or you. You see results before you even respond to an inquiry.",
   },
+  {
+    q: "Can I list just a spare room, not a full property?",
+    a: "Absolutely. Many of our listings are private rooms with separate entrances — guest houses, casitas, converted garages, or ADUs. If it's furnished with its own access, traveling nurses love it.",
+  },
+  {
+    q: "How much can I earn from a spare room?",
+    a: "Private furnished rooms in Fresno County typically rent for $800–$1,500/mo depending on size and amenities. After your $9.99/mo subscription, that's nearly all profit with zero commissions.",
+  },
+  {
+    q: "What if I've never been a landlord before?",
+    a: "No experience needed. We pre-screen every tenant for you (free), provide direct messaging so you can ask questions before committing, and the 30-day minimum means you're getting stable, employed professionals — not short-term party guests.",
+  },
 ];
 
 export default function ForLandlords() {
