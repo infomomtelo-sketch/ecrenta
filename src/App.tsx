@@ -27,6 +27,9 @@ import Contact from "./pages/Contact";
 import HowItWorks from "./pages/HowItWorks";
 import ForLandlords from "./pages/ForLandlords";
 import Resources from "./pages/Resources";
+import Blog from "./pages/Blog";
+import BlogPost from "./pages/BlogPost";
+import BlogEditor from "./pages/BlogEditor";
 
 const queryClient = new QueryClient();
 
