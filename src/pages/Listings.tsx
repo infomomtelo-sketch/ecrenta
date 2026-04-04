@@ -1,7 +1,7 @@
 import { useListings } from "@/contexts/ListingsContext";
 import { ListingCard } from "@/components/ListingCard";
 import { UserMenu } from "@/components/UserMenu";
-import { Search, SlidersHorizontal, Bookmark, Plus } from "lucide-react";
+import { Search, SlidersHorizontal, Bookmark, Plus, Globe } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 
@@ -29,6 +29,13 @@ export default function Listings() {
               className="w-full rounded-full bg-secondary py-2.5 pl-10 pr-4 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
             />
           </div>
+          <Link
+            to="/import-listing"
+            className="flex h-10 w-10 items-center justify-center rounded-full bg-secondary text-foreground"
+            title="Import from marketplace"
+          >
+            <Globe className="h-5 w-5" />
+          </Link>
           <Link
             to="/add-property"
             className="flex h-10 w-10 items-center justify-center rounded-full bg-secondary text-foreground"

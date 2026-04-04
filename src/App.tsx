@@ -16,6 +16,7 @@ import SelectRole from "./pages/SelectRole";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import NotFound from "./pages/NotFound";
+import ImportListing from "./pages/ImportListing";
 
 const queryClient = new QueryClient();
 
@@ -66,6 +67,7 @@ const App = () => (
               <Route path="/select-role" element={<ProtectedRoute><SelectRole /></ProtectedRoute>} />
               <Route path="/inbox" element={<ProtectedRoute><RoleGate><Inbox /></RoleGate></ProtectedRoute>} />
               <Route path="/add-property" element={<ProtectedRoute><RoleGate><AddProperty /></RoleGate></ProtectedRoute>} />
+              <Route path="/import-listing" element={<ProtectedRoute><RoleGate><ImportListing /></RoleGate></ProtectedRoute>} />
               <Route path="/dashboard" element={<ProtectedRoute><RoleGate><Dashboard /></RoleGate></ProtectedRoute>} />
 
               <Route path="*" element={<NotFound />} />
