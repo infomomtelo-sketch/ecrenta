@@ -186,8 +186,15 @@ export default function AddProperty() {
 
         <div className="space-y-1.5">
           <Label>Property Images</Label>
+          <input ref={fileInputRef} type="file" accept="image/*" multiple onChange={handleFileUpload} className="hidden" />
           <div className="flex gap-2">
-            <Input placeholder="Paste image URL..." value={imageInput} onChange={(e) => setImageInput(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addImage(); } }} />
+            <Button type="button" variant="outline" onClick={() => fileInputRef.current?.click()} disabled={uploading} className="gap-2">
+              <ImagePlus className="h-4 w-4" />
+              {uploading ? "Uploading..." : "Upload Photos"}
+            </Button>
+          </div>
+          <div className="flex gap-2 mt-2">
+            <Input placeholder="Or paste image URL..." value={imageInput} onChange={(e) => setImageInput(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addImage(); } }} />
             <Button type="button" variant="outline" size="icon" onClick={addImage} className="shrink-0"><Plus className="h-4 w-4" /></Button>
           </div>
           {errors.images && <p className="text-xs text-destructive">{errors.images}</p>}
