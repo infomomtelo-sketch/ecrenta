@@ -72,6 +72,22 @@ export default function Inbox() {
 
   useEffect(() => {
     fetchConversations();
+
+    // Realtime: listen for new/updated conversations
+    const convChannel = supabase
+      .channel("conversations-realtime")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "conversations" },
+        () => {
+          fetchConversations();
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(convChannel);
+    };
   }, []);
 
   // Handle incoming from listing detail
