@@ -15,6 +15,10 @@ import {
   MapPin,
   Building,
   ChevronRight,
+  DoorOpen,
+  Home,
+  Banknote,
+  Lock,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
