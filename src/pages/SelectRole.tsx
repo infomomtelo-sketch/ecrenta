@@ -12,7 +12,7 @@ export default function SelectRole() {
   const [loading, setLoading] = useState(false);
 
   const getRoleDestination = (role: "landlord" | "tenant") =>
-    role === "landlord" ? "/dashboard" : "/";
+    role === "landlord" ? "/dashboard" : "/listings";
 
   useEffect(() => {
     if (!currentRole) return;
