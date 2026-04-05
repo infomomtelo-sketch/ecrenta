@@ -15,6 +15,7 @@ import {
   CreditCard,
   Crown,
   Loader2,
+  ClipboardCheck,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
