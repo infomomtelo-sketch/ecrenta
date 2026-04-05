@@ -12,7 +12,9 @@ import { Wrench, Plus, Clock, AlertTriangle, CheckCircle2, Bot, ArrowLeft, Loade
 const STATUS_CONFIG: Record<string, { label: string; color: string; icon: any }> = {
   submitted: { label: "Submitted", color: "bg-blue-100 text-blue-800", icon: Clock },
   triaging: { label: "P8 Analyzing", color: "bg-yellow-100 text-yellow-800", icon: Bot },
-  ai_handled: { label: "AI Handled", color: "bg-primary/10 text-primary", icon: CheckCircle2 },
+  pending_review: { label: "Pending Review", color: "bg-accent/20 text-accent-foreground", icon: Clock },
+  approved: { label: "Approved", color: "bg-primary/10 text-primary", icon: CheckCircle2 },
+  rejected: { label: "Rejected", color: "bg-destructive/10 text-destructive", icon: AlertTriangle },
   needs_dispatch: { label: "Needs Dispatch", color: "bg-accent/20 text-accent-foreground", icon: Wrench },
   emergency: { label: "Emergency", color: "bg-destructive/10 text-destructive", icon: AlertTriangle },
   in_progress: { label: "In Progress", color: "bg-blue-100 text-blue-800", icon: Wrench },
@@ -100,9 +102,10 @@ export default function MaintenanceDashboard() {
             <SelectContent>
               <SelectItem value="all">All Requests</SelectItem>
               <SelectItem value="emergency">🚨 Emergency</SelectItem>
-              <SelectItem value="submitted">📋 Submitted</SelectItem>
+              <SelectItem value="pending_review">⏳ Pending Review</SelectItem>
+              <SelectItem value="approved">✅ Approved</SelectItem>
+              <SelectItem value="rejected">❌ Rejected</SelectItem>
               <SelectItem value="needs_dispatch">🔧 Needs Dispatch</SelectItem>
-              <SelectItem value="ai_handled">🤖 AI Handled</SelectItem>
               <SelectItem value="in_progress">🔨 In Progress</SelectItem>
               <SelectItem value="resolved">✅ Resolved</SelectItem>
             </SelectContent>
