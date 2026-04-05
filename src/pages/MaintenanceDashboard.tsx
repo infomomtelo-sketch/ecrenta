@@ -12,7 +12,9 @@ import { Wrench, Plus, Clock, AlertTriangle, CheckCircle2, Bot, ArrowLeft, Loade
 const STATUS_CONFIG: Record<string, { label: string; color: string; icon: any }> = {
   submitted: { label: "Submitted", color: "bg-blue-100 text-blue-800", icon: Clock },
   triaging: { label: "P8 Analyzing", color: "bg-yellow-100 text-yellow-800", icon: Bot },
-  ai_handled: { label: "AI Handled", color: "bg-primary/10 text-primary", icon: CheckCircle2 },
+  pending_review: { label: "Pending Review", color: "bg-accent/20 text-accent-foreground", icon: Clock },
+  approved: { label: "Approved", color: "bg-primary/10 text-primary", icon: CheckCircle2 },
+  rejected: { label: "Rejected", color: "bg-destructive/10 text-destructive", icon: AlertTriangle },
   needs_dispatch: { label: "Needs Dispatch", color: "bg-accent/20 text-accent-foreground", icon: Wrench },
   emergency: { label: "Emergency", color: "bg-destructive/10 text-destructive", icon: AlertTriangle },
   in_progress: { label: "In Progress", color: "bg-blue-100 text-blue-800", icon: Wrench },
