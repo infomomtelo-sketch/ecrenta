@@ -161,16 +161,24 @@ export default function MaintenanceDetail() {
           </CardContent>
         </Card>
 
-        {/* P8 AI Analysis */}
+        {/* P8 AI Analysis — RECOMMENDATION ONLY */}
         {(triage || request.ai_response) && (
           <Card className="border-primary/30">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2" style={{ fontFamily: "var(--font-heading)" }}>
-                <div className="h-7 w-7 rounded-full bg-primary flex items-center justify-center">
-                  <span className="text-primary-foreground text-xs font-bold">P8</span>
-                </div>
-                P8 AI Analysis
-              </CardTitle>
+              <div className="flex items-center justify-between">
+                <CardTitle className="flex items-center gap-2" style={{ fontFamily: "var(--font-heading)" }}>
+                  <div className="h-7 w-7 rounded-full bg-primary flex items-center justify-center">
+                    <span className="text-primary-foreground text-xs font-bold">P8</span>
+                  </div>
+                  P8 AI Recommendation
+                </CardTitle>
+                <Badge variant="secondary" className="text-xs flex items-center gap-1">
+                  <Bot className="h-3 w-3" /> AI Suggestion
+                </Badge>
+              </div>
+              <p className="text-xs text-muted-foreground mt-1">
+                This is P8's automated analysis. The landlord, owner, or inspector makes the final decision.
+              </p>
             </CardHeader>
             <CardContent className="space-y-4">
               {request.ai_response && (
@@ -185,7 +193,7 @@ export default function MaintenanceDetail() {
                     {triage.estimated_cost_min != null && (
                       <div className="bg-muted rounded-lg p-3">
                         <div className="flex items-center gap-1 text-muted-foreground text-xs mb-1">
-                          <DollarSign className="h-3 w-3" /> Est. Cost
+                          <DollarSign className="h-3 w-3" /> Est. Cost (AI)
                         </div>
                         <p className="font-semibold text-foreground text-sm">
                           ${triage.estimated_cost_min} - ${triage.estimated_cost_max}
@@ -195,7 +203,7 @@ export default function MaintenanceDetail() {
                     {triage.estimated_response_time && (
                       <div className="bg-muted rounded-lg p-3">
                         <div className="flex items-center gap-1 text-muted-foreground text-xs mb-1">
-                          <Clock className="h-3 w-3" /> Response Time
+                          <Clock className="h-3 w-3" /> Suggested Timeline
                         </div>
                         <p className="font-semibold text-foreground text-sm capitalize">{triage.estimated_response_time}</p>
                       </div>
@@ -203,7 +211,7 @@ export default function MaintenanceDetail() {
                     {triage.priority_score && (
                       <div className="bg-muted rounded-lg p-3">
                         <div className="flex items-center gap-1 text-muted-foreground text-xs mb-1">
-                          <AlertTriangle className="h-3 w-3" /> Priority
+                          <AlertTriangle className="h-3 w-3" /> AI Priority
                         </div>
                         <p className="font-semibold text-foreground text-sm">{triage.priority_score}/10</p>
                       </div>
@@ -213,7 +221,7 @@ export default function MaintenanceDetail() {
                   {triage.troubleshooting_steps?.length > 0 && (
                     <div>
                       <h4 className="font-semibold text-foreground text-sm mb-2 flex items-center gap-1">
-                        <Wrench className="h-4 w-4" /> Troubleshooting Steps
+                        <Wrench className="h-4 w-4" /> Suggested Troubleshooting
                       </h4>
                       <ol className="list-decimal list-inside space-y-1">
                         {triage.troubleshooting_steps.map((step: string, i: number) => (
@@ -227,8 +235,8 @@ export default function MaintenanceDetail() {
                     <div className="bg-accent/10 border border-accent/30 rounded-lg p-3 flex items-center gap-2">
                       <Wrench className="h-4 w-4 text-accent shrink-0" />
                       <p className="text-sm text-foreground">
-                        <strong>Professional help recommended.</strong>
-                        {triage.recommended_vendors?.length > 0 && ` Need: ${triage.recommended_vendors.join(", ")}`}
+                        <strong>P8 recommends professional help.</strong>
+                        {triage.recommended_vendors?.length > 0 && ` Suggested: ${triage.recommended_vendors.join(", ")}`}
                       </p>
                     </div>
                   )}
@@ -238,34 +246,103 @@ export default function MaintenanceDetail() {
           </Card>
         )}
 
-        {/* Management Actions */}
-        <Card>
+        {/* Human Decision Panel */}
+        <Card className="border-2 border-foreground/20">
           <CardHeader>
-            <CardTitle style={{ fontFamily: "var(--font-heading)" }}>Manage Request</CardTitle>
+            <CardTitle className="flex items-center gap-2" style={{ fontFamily: "var(--font-heading)" }}>
+              <Shield className="h-5 w-5 text-foreground" />
+              Your Decision
+            </CardTitle>
+            <p className="text-xs text-muted-foreground">
+              Review P8's recommendation above, then approve, modify, or reject it. Your decision is final.
+            </p>
           </CardHeader>
           <CardContent className="space-y-4">
+            {/* Quick decision buttons */}
+            {request.status === "pending_review" && (
+              <div className="grid grid-cols-3 gap-2">
+                <Button
+                  variant="default"
+                  className="flex flex-col items-center gap-1 h-auto py-3"
+                  onClick={async () => {
+                    setUpdating(true);
+                    await supabase.from("maintenance_requests").update({
+                      status: "approved",
+                      resolution_notes: `Approved P8's recommendation. ${notes}`.trim(),
+                    } as any).eq("id", id);
+                    toast({ title: "Approved", description: "P8's recommendation has been approved." });
+                    setUpdating(false);
+                  }}
+                  disabled={updating}
+                >
+                  <ThumbsUp className="h-5 w-5" />
+                  <span className="text-xs">Approve AI</span>
+                </Button>
+                <Button
+                  variant="outline"
+                  className="flex flex-col items-center gap-1 h-auto py-3"
+                  onClick={() => setStatus("in_progress")}
+                  disabled={updating}
+                >
+                  <PenLine className="h-5 w-5" />
+                  <span className="text-xs">Override</span>
+                </Button>
+                <Button
+                  variant="destructive"
+                  className="flex flex-col items-center gap-1 h-auto py-3"
+                  onClick={async () => {
+                    setUpdating(true);
+                    await supabase.from("maintenance_requests").update({
+                      status: "rejected",
+                      resolution_notes: `Rejected P8's recommendation. ${notes}`.trim(),
+                    } as any).eq("id", id);
+                    toast({ title: "Rejected", description: "P8's recommendation has been rejected." });
+                    setUpdating(false);
+                  }}
+                  disabled={updating}
+                >
+                  <ThumbsDown className="h-5 w-5" />
+                  <span className="text-xs">Reject</span>
+                </Button>
+              </div>
+            )}
+
             <div className="space-y-2">
               <label className="text-sm font-medium text-foreground">Status</label>
               <Select value={status} onValueChange={setStatus}>
                 <SelectTrigger><SelectValue /></SelectTrigger>
                 <SelectContent>
                   <SelectItem value="submitted">Submitted</SelectItem>
-                  <SelectItem value="triaging">P8 Analyzing</SelectItem>
-                  <SelectItem value="ai_handled">AI Handled</SelectItem>
-                  <SelectItem value="needs_dispatch">Needs Dispatch</SelectItem>
+                  <SelectItem value="pending_review">Pending Review</SelectItem>
+                  <SelectItem value="approved">Approved</SelectItem>
+                  <SelectItem value="rejected">Rejected</SelectItem>
+                  <SelectItem value="needs_dispatch">Dispatch Vendor</SelectItem>
                   <SelectItem value="emergency">Emergency</SelectItem>
                   <SelectItem value="in_progress">In Progress</SelectItem>
                   <SelectItem value="resolved">Resolved</SelectItem>
                 </SelectContent>
               </Select>
             </div>
+
             <div className="space-y-2">
-              <label className="text-sm font-medium text-foreground">Resolution Notes</label>
-              <Textarea value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Notes on resolution, vendor dispatched, etc." rows={3} />
+              <label className="text-sm font-medium text-foreground">Your Notes / Override Details</label>
+              <Textarea value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Your decision notes — override AI cost estimate, assign a specific vendor, adjust priority, etc." rows={3} />
             </div>
-            <Button onClick={handleUpdate} disabled={updating}>
+
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-foreground">Assign To</label>
+              <Input
+                value={request.assigned_to || ""}
+                onChange={async (e) => {
+                  await supabase.from("maintenance_requests").update({ assigned_to: e.target.value } as any).eq("id", id);
+                }}
+                placeholder="Vendor name, handyman, or team member"
+              />
+            </div>
+
+            <Button onClick={handleUpdate} disabled={updating} className="w-full">
               {updating ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : <CheckCircle2 className="h-4 w-4 mr-2" />}
-              Update Request
+              Save Decision
             </Button>
           </CardContent>
         </Card>
