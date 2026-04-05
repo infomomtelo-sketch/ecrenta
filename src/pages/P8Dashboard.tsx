@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { Helmet } from "react-helmet-async";
 import { useAuth } from "@/contexts/AuthContext";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -16,7 +16,17 @@ export default function P8Dashboard() {
   const { user, role } = useAuth();
   const [mode, setMode] = useState<P8Mode>("va");
   const [showPanel, setShowPanel] = useState(false);
+  const [externalQuery, setExternalQuery] = useState<string | null>(null);
   const isMobile = useIsMobile();
+
+  const handleSearchQuery = useCallback((query: string) => {
+    if (!showPanel) setShowPanel(true);
+    // Use a unique key to re-trigger even for the same query
+    setExternalQuery(query + "##" + Date.now());
+  }, [showPanel]);
+
+  // Strip the timestamp suffix before passing to panel
+  const cleanQuery = externalQuery ? externalQuery.replace(/##\d+$/, "") : null;
 
   return (
     <>
@@ -60,20 +70,20 @@ export default function P8Dashboard() {
             {showPanel && !isMobile ? (
               <ResizablePanelGroup direction="horizontal" className="min-h-[calc(100vh-16rem)]">
                 <ResizablePanel defaultSize={60} minSize={40}>
-                  <ChatCard mode={mode} />
+                  <ChatCard mode={mode} onSearchQuery={handleSearchQuery} />
                 </ResizablePanel>
                 <ResizableHandle withHandle />
                 <ResizablePanel defaultSize={40} minSize={25}>
-                  <QuickLaunchPanel onClose={() => setShowPanel(false)} />
+                  <QuickLaunchPanel onClose={() => setShowPanel(false)} externalQuery={cleanQuery} />
                 </ResizablePanel>
               </ResizablePanelGroup>
             ) : showPanel && isMobile ? (
               <div className="space-y-4">
-                <QuickLaunchPanel onClose={() => setShowPanel(false)} />
-                <ChatCard mode={mode} />
+                <QuickLaunchPanel onClose={() => setShowPanel(false)} externalQuery={cleanQuery} />
+                <ChatCard mode={mode} onSearchQuery={handleSearchQuery} />
               </div>
             ) : (
-              <ChatCard mode={mode} />
+              <ChatCard mode={mode} onSearchQuery={handleSearchQuery} />
             )}
           </Tabs>
         </div>
@@ -82,7 +92,7 @@ export default function P8Dashboard() {
   );
 }
 
-function ChatCard({ mode }: { mode: P8Mode }) {
+function ChatCard({ mode, onSearchQuery }: { mode: P8Mode; onSearchQuery: (q: string) => void }) {
   return (
     <Card className="border-border/50 shadow-lg h-full">
       {mode === "va" && (
@@ -94,7 +104,7 @@ function ChatCard({ mode }: { mode: P8Mode }) {
             <CardDescription>Draft notices, manage tenants, translate, answer anything</CardDescription>
           </CardHeader>
           <CardContent className="p-0">
-            <P8Chat mode="va" />
+            <P8Chat mode="va" onSearchQuery={onSearchQuery} />
           </CardContent>
         </>
       )}
@@ -107,7 +117,7 @@ function ChatCard({ mode }: { mode: P8Mode }) {
             <CardDescription>Plan inspections, assess damage, estimate repairs</CardDescription>
           </CardHeader>
           <CardContent className="p-0">
-            <P8Chat mode="inspector" />
+            <P8Chat mode="inspector" onSearchQuery={onSearchQuery} />
           </CardContent>
         </>
       )}
@@ -120,7 +130,7 @@ function ChatCard({ mode }: { mode: P8Mode }) {
             <CardDescription>Listing ads, social media, vacancy marketing, growth strategy</CardDescription>
           </CardHeader>
           <CardContent className="p-0">
-            <P8Chat mode="growth" />
+            <P8Chat mode="growth" onSearchQuery={onSearchQuery} />
           </CardContent>
         </>
       )}

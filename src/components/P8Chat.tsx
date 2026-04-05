@@ -4,18 +4,20 @@ import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Send, Bot, User, Loader2 } from "lucide-react";
+import { Send, Bot, User, Loader2, ExternalLink } from "lucide-react";
 import ReactMarkdown from "react-markdown";
+import type { Components } from "react-markdown";
 
 type Msg = { role: "user" | "assistant"; content: string };
 
 interface P8ChatProps {
   mode: "va" | "inspector" | "growth";
+  onSearchQuery?: (query: string) => void;
 }
 
 const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/p8-chat`;
 
-export default function P8Chat({ mode }: P8ChatProps) {
+export default function P8Chat({ mode, onSearchQuery }: P8ChatProps) {
   const { session } = useAuth();
   const [messages, setMessages] = useState<Msg[]>([]);
   const [input, setInput] = useState("");
@@ -29,7 +31,6 @@ export default function P8Chat({ mode }: P8ChatProps) {
     }
   }, [messages]);
 
-  // Reset messages when mode changes
   useEffect(() => {
     setMessages([]);
   }, [mode]);
@@ -118,6 +119,29 @@ export default function P8Chat({ mode }: P8ChatProps) {
     }
   };
 
+  // Custom markdown link renderer: intercept search: links
+  const markdownComponents: Components = {
+    a: ({ href, children, ...props }) => {
+      if (href?.startsWith("search:")) {
+        const query = href.slice(7);
+        return (
+          <button
+            onClick={() => onSearchQuery?.(query)}
+            className="inline-flex items-center gap-1 text-primary underline underline-offset-2 decoration-primary/40 hover:decoration-primary font-medium cursor-pointer bg-primary/5 hover:bg-primary/10 px-1.5 py-0.5 rounded-md transition-colors"
+          >
+            {children}
+            <ExternalLink className="w-3 h-3 inline flex-shrink-0" />
+          </button>
+        );
+      }
+      return (
+        <a href={href} target="_blank" rel="noopener noreferrer" className="text-primary underline" {...props}>
+          {children}
+        </a>
+      );
+    },
+  };
+
   const placeholders: Record<string, string> = {
     va: "Ask P8 anything... e.g. 'Draft a 3-day notice for 123 Main St' or 'Translate this to Spanish'",
     inspector: "Ask about inspections... e.g. 'What should I check in a move-out inspection?'",
@@ -136,7 +160,7 @@ export default function P8Chat({ mode }: P8ChatProps) {
               {mode === "va" ? "P8 Virtual Assistant" : mode === "inspector" ? "P8 Inspector" : "P8 Growth & Marketing"}
             </h3>
             <p className="text-sm text-muted-foreground max-w-md">
-              {mode === "va" && "I help manage your properties — draft notices, handle tenant comms, translate, and answer anything."}
+              {mode === "va" && "I help manage your properties — draft notices, handle tenant comms, translate, and answer anything. Click highlighted links in my responses to search instantly."}
               {mode === "inspector" && "I help plan inspections, assess damage vs. wear & tear, and estimate repair costs."}
               {mode === "growth" && "I create listing ads, social media posts, and growth strategies to fill vacancies faster."}
             </p>
@@ -158,7 +182,7 @@ export default function P8Chat({ mode }: P8ChatProps) {
               }`}>
                 {msg.role === "assistant" ? (
                   <div className="prose prose-sm dark:prose-invert max-w-none [&>*:first-child]:mt-0 [&>*:last-child]:mb-0">
-                    <ReactMarkdown>{msg.content}</ReactMarkdown>
+                    <ReactMarkdown components={markdownComponents}>{msg.content}</ReactMarkdown>
                   </div>
                 ) : (
                   <p className="text-sm whitespace-pre-wrap">{msg.content}</p>
