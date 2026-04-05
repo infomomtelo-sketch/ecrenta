@@ -264,6 +264,83 @@ export type Database = {
         }
         Relationships: []
       }
+      maintenance_requests: {
+        Row: {
+          ai_response: string | null
+          ai_triage: Json | null
+          assigned_to: string | null
+          category: string
+          created_at: string
+          description: string
+          id: string
+          listing_id: string | null
+          photos: string[]
+          property_address: string
+          reporter_email: string | null
+          reporter_name: string
+          reporter_phone: string | null
+          reporter_role: string
+          resolution_notes: string | null
+          status: string
+          title: string
+          updated_at: string
+          urgency: string
+          user_id: string | null
+        }
+        Insert: {
+          ai_response?: string | null
+          ai_triage?: Json | null
+          assigned_to?: string | null
+          category?: string
+          created_at?: string
+          description: string
+          id?: string
+          listing_id?: string | null
+          photos?: string[]
+          property_address: string
+          reporter_email?: string | null
+          reporter_name: string
+          reporter_phone?: string | null
+          reporter_role?: string
+          resolution_notes?: string | null
+          status?: string
+          title: string
+          updated_at?: string
+          urgency?: string
+          user_id?: string | null
+        }
+        Update: {
+          ai_response?: string | null
+          ai_triage?: Json | null
+          assigned_to?: string | null
+          category?: string
+          created_at?: string
+          description?: string
+          id?: string
+          listing_id?: string | null
+          photos?: string[]
+          property_address?: string
+          reporter_email?: string | null
+          reporter_name?: string
+          reporter_phone?: string | null
+          reporter_role?: string
+          resolution_notes?: string | null
+          status?: string
+          title?: string
+          updated_at?: string
+          urgency?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "maintenance_requests_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "listings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       messages: {
         Row: {
           conversation_id: string

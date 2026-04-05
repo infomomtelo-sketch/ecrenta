@@ -16,6 +16,7 @@ import {
   Crown,
   Loader2,
   ClipboardCheck,
+  Wrench,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
@@ -168,6 +169,7 @@ export default function Dashboard() {
               <QuickAction to="/add-property" icon={<Plus className="h-5 w-5" />} label="Add New Property" />
             )}
             <QuickAction to="/inbox" icon={<MessageCircle className="h-5 w-5" />} label="View Messages" badge={pendingMessages > 0 ? pendingMessages : undefined} />
+            <QuickAction to="/maintenance" icon={<Wrench className="h-5 w-5" />} label="Maintenance Requests" />
             <QuickAction to="/inspections" icon={<ClipboardCheck className="h-5 w-5" />} label="AI Property Inspections" />
             <QuickAction to="/listings" icon={<Home className="h-5 w-5" />} label="Browse Listings" />
           </div>

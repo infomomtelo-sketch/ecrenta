@@ -33,6 +33,9 @@ import BlogEditor from "./pages/BlogEditor";
 import Inspections from "./pages/Inspections";
 import NewInspection from "./pages/NewInspection";
 import InspectionReport from "./pages/InspectionReport";
+import RepairRequest from "./pages/RepairRequest";
+import MaintenanceDashboard from "./pages/MaintenanceDashboard";
+import MaintenanceDetail from "./pages/MaintenanceDetail";
 
 const queryClient = new QueryClient();
 
@@ -101,6 +104,13 @@ const App = () => (
               <Route path="/inspections" element={<ProtectedRoute><RoleGate><Inspections /></RoleGate></ProtectedRoute>} />
               <Route path="/inspections/new" element={<ProtectedRoute><RoleGate><NewInspection /></RoleGate></ProtectedRoute>} />
               <Route path="/inspections/:id" element={<ProtectedRoute><RoleGate><InspectionReport /></RoleGate></ProtectedRoute>} />
+
+              {/* Public repair request - no auth required */}
+              <Route path="/repair" element={<RepairRequest />} />
+              <Route path="/maintenance/:id" element={<MaintenanceDetail />} />
+
+              {/* Protected maintenance dashboard */}
+              <Route path="/maintenance" element={<ProtectedRoute><RoleGate><MaintenanceDashboard /></RoleGate></ProtectedRoute>} />
 
               <Route path="*" element={<NotFound />} />
             </Routes>
