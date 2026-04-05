@@ -100,22 +100,25 @@ export default function QuickLaunchPanel({ onClose, externalQuery }: QuickLaunch
         </div>
       </form>
 
+      {/* Hidden anchor for reliable new-tab opening */}
+      <a ref={searchRef} target="_blank" rel="noopener noreferrer" className="hidden" aria-hidden="true" />
+
       {/* Recent searches */}
       {recentSearches.length > 0 && (
         <div className="px-4 pb-2">
           <p className="text-[11px] text-muted-foreground mb-1.5">Recent from P8 →</p>
           <div className="flex flex-wrap gap-1.5">
             {recentSearches.map((q, i) => (
-              <button
+              <a
                 key={i}
-                onClick={() => {
-                  setSearchQuery(q);
-                  window.open(`https://www.google.com/search?q=${encodeURIComponent(q)}`, "_blank", "noopener");
-                }}
+                href={`https://www.google.com/search?q=${encodeURIComponent(q)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setSearchQuery(q)}
                 className="text-[11px] px-2.5 py-1 rounded-full bg-primary/10 text-primary hover:bg-primary/20 transition-colors truncate max-w-[180px]"
               >
                 {q}
-              </button>
+              </a>
             ))}
           </div>
         </div>
@@ -130,15 +133,17 @@ export default function QuickLaunchPanel({ onClose, externalQuery }: QuickLaunch
       <ScrollArea className="flex-1 px-4 pb-4">
         <div className="grid grid-cols-2 gap-2">
           {QUICK_LINKS.map((link) => (
-            <button
+            <a
               key={link.name}
-              onClick={() => openLink(link.url)}
-              className={`flex items-center gap-2.5 px-3 py-2.5 rounded-lg border border-border/30 bg-muted/30 transition-all ${link.color} hover:border-border group text-left`}
+              href={link.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`flex items-center gap-2.5 px-3 py-2.5 rounded-lg border border-border/30 bg-muted/30 transition-all ${link.color} hover:border-border group text-left no-underline`}
             >
               <span className="text-lg flex-shrink-0">{link.icon}</span>
               <span className="text-xs font-medium text-foreground truncate">{link.name}</span>
               <ExternalLink className="w-3 h-3 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity ml-auto flex-shrink-0" />
-            </button>
+            </a>
           ))}
         </div>
       </ScrollArea>
