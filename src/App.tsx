@@ -110,6 +110,7 @@ const App = () => (
               {/* Public repair request - no auth required */}
               <Route path="/repair" element={<RepairRequest />} />
               <Route path="/maintenance/:id" element={<MaintenanceDetail />} />
+              <Route path="/install" element={<Install />} />
 
               {/* Protected maintenance dashboard */}
               <Route path="/maintenance" element={<ProtectedRoute><RoleGate><MaintenanceDashboard /></RoleGate></ProtectedRoute>} />
