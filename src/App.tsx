@@ -33,6 +33,9 @@ import BlogEditor from "./pages/BlogEditor";
 import Inspections from "./pages/Inspections";
 import NewInspection from "./pages/NewInspection";
 import InspectionReport from "./pages/InspectionReport";
+import RepairRequest from "./pages/RepairRequest";
+import MaintenanceDashboard from "./pages/MaintenanceDashboard";
+import MaintenanceDetail from "./pages/MaintenanceDetail";
 
 const queryClient = new QueryClient();
 
