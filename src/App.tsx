@@ -1,11 +1,12 @@
 import { HelmetProvider } from "react-helmet-async";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate, Outlet } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ListingsProvider } from "@/contexts/ListingsContext";
 import { AuthProvider, useAuth } from "@/contexts/AuthContext";
+import DashboardLayout from "@/components/DashboardLayout";
 import Index from "./pages/Index";
 import Listings from "./pages/Listings";
 import ListingDetail from "./pages/ListingDetail";
@@ -67,6 +68,20 @@ function RoleGate({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
 }
 
+function ProtectedDashboard() {
+  const { user, role, loading } = useAuth();
+  if (loading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-background">
+        <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+      </div>
+    );
+  }
+  if (!user) return <Navigate to="/auth" replace />;
+  if (!role) return <Navigate to="/select-role" replace />;
+  return <DashboardLayout />;
+}
+
 const App = () => (
   <HelmetProvider>
   <QueryClientProvider client={queryClient}>
@@ -95,28 +110,26 @@ const App = () => (
               <Route path="/resources" element={<Resources />} />
               <Route path="/blog" element={<Blog />} />
               <Route path="/blog/:slug" element={<BlogPost />} />
-
-              {/* Protected routes */}
               <Route path="/select-role" element={<ProtectedRoute><SelectRole /></ProtectedRoute>} />
-              <Route path="/inbox" element={<ProtectedRoute><RoleGate><Inbox /></RoleGate></ProtectedRoute>} />
-              <Route path="/add-property" element={<ProtectedRoute><RoleGate><AddProperty /></RoleGate></ProtectedRoute>} />
-              <Route path="/import-listing" element={<ProtectedRoute><RoleGate><ImportListing /></RoleGate></ProtectedRoute>} />
-              <Route path="/dashboard" element={<ProtectedRoute><RoleGate><Dashboard /></RoleGate></ProtectedRoute>} />
-              <Route path="/blog/new" element={<ProtectedRoute><BlogEditor /></ProtectedRoute>} />
-              <Route path="/inspections" element={<ProtectedRoute><RoleGate><Inspections /></RoleGate></ProtectedRoute>} />
-              <Route path="/inspections/new" element={<ProtectedRoute><RoleGate><NewInspection /></RoleGate></ProtectedRoute>} />
-              <Route path="/inspections/:id" element={<ProtectedRoute><RoleGate><InspectionReport /></RoleGate></ProtectedRoute>} />
 
-              {/* Public repair request - no auth required */}
+              {/* Public repair request */}
               <Route path="/repair" element={<RepairRequest />} />
               <Route path="/maintenance/:id" element={<MaintenanceDetail />} />
               <Route path="/install" element={<Install />} />
 
-              {/* Protected maintenance dashboard */}
-              <Route path="/maintenance" element={<ProtectedRoute><RoleGate><MaintenanceDashboard /></RoleGate></ProtectedRoute>} />
-
-              {/* P8 AI Assistant */}
-              <Route path="/p8" element={<ProtectedRoute><RoleGate><P8Dashboard /></RoleGate></ProtectedRoute>} />
+              {/* Authenticated dashboard routes with sidebar */}
+              <Route element={<ProtectedDashboard />}>
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/p8" element={<P8Dashboard />} />
+                <Route path="/inbox" element={<Inbox />} />
+                <Route path="/inspections" element={<Inspections />} />
+                <Route path="/inspections/new" element={<NewInspection />} />
+                <Route path="/inspections/:id" element={<InspectionReport />} />
+                <Route path="/maintenance" element={<MaintenanceDashboard />} />
+                <Route path="/add-property" element={<AddProperty />} />
+                <Route path="/import-listing" element={<ImportListing />} />
+                <Route path="/blog/new" element={<BlogEditor />} />
+              </Route>
 
               <Route path="*" element={<NotFound />} />
             </Routes>
