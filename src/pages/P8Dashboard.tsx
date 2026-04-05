@@ -11,7 +11,6 @@ type P8Mode = "va" | "strategist" | "creative";
 export default function P8Dashboard() {
   const { user, role } = useAuth();
   const [mode, setMode] = useState<P8Mode>("va");
-  const [mode, setMode] = useState<P8Mode>("va");
 
   return (
     <>
