@@ -36,6 +36,7 @@ import InspectionReport from "./pages/InspectionReport";
 import RepairRequest from "./pages/RepairRequest";
 import MaintenanceDashboard from "./pages/MaintenanceDashboard";
 import MaintenanceDetail from "./pages/MaintenanceDetail";
+import P8Dashboard from "./pages/P8Dashboard";
 
 const queryClient = new QueryClient();
 
@@ -111,6 +112,9 @@ const App = () => (
 
               {/* Protected maintenance dashboard */}
               <Route path="/maintenance" element={<ProtectedRoute><RoleGate><MaintenanceDashboard /></RoleGate></ProtectedRoute>} />
+
+              {/* P8 AI Assistant */}
+              <Route path="/p8" element={<ProtectedRoute><RoleGate><P8Dashboard /></RoleGate></ProtectedRoute>} />
 
               <Route path="*" element={<NotFound />} />
             </Routes>
