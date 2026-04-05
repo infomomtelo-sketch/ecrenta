@@ -98,6 +98,9 @@ const App = () => (
               <Route path="/import-listing" element={<ProtectedRoute><RoleGate><ImportListing /></RoleGate></ProtectedRoute>} />
               <Route path="/dashboard" element={<ProtectedRoute><RoleGate><Dashboard /></RoleGate></ProtectedRoute>} />
               <Route path="/blog/new" element={<ProtectedRoute><BlogEditor /></ProtectedRoute>} />
+              <Route path="/inspections" element={<ProtectedRoute><RoleGate><Inspections /></RoleGate></ProtectedRoute>} />
+              <Route path="/inspections/new" element={<ProtectedRoute><RoleGate><NewInspection /></RoleGate></ProtectedRoute>} />
+              <Route path="/inspections/:id" element={<ProtectedRoute><RoleGate><InspectionReport /></RoleGate></ProtectedRoute>} />
 
               <Route path="*" element={<NotFound />} />
             </Routes>
