@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -26,15 +26,32 @@ const QUICK_LINKS: QuickLink[] = [
 
 interface QuickLaunchPanelProps {
   onClose: () => void;
+  externalQuery?: string | null;
 }
 
-export default function QuickLaunchPanel({ onClose }: QuickLaunchPanelProps) {
+export default function QuickLaunchPanel({ onClose, externalQuery }: QuickLaunchPanelProps) {
   const [searchQuery, setSearchQuery] = useState("");
+  const [recentSearches, setRecentSearches] = useState<string[]>([]);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  // When an external query comes in (from P8 chat clickable link), auto-fill and search
+  useEffect(() => {
+    if (externalQuery) {
+      setSearchQuery(externalQuery);
+      window.open(`https://www.google.com/search?q=${encodeURIComponent(externalQuery)}`, "_blank", "noopener");
+      setRecentSearches(prev => {
+        const updated = [externalQuery, ...prev.filter(s => s !== externalQuery)].slice(0, 5);
+        return updated;
+      });
+    }
+  }, [externalQuery]);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      window.open(`https://www.google.com/search?q=${encodeURIComponent(searchQuery.trim())}`, "_blank", "noopener");
+      const q = searchQuery.trim();
+      window.open(`https://www.google.com/search?q=${encodeURIComponent(q)}`, "_blank", "noopener");
+      setRecentSearches(prev => [q, ...prev.filter(s => s !== q)].slice(0, 5));
     }
   };
 
@@ -60,6 +77,7 @@ export default function QuickLaunchPanel({ onClose }: QuickLaunchPanelProps) {
         <div className="relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
           <Input
+            ref={inputRef}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search Google..."
@@ -77,9 +95,30 @@ export default function QuickLaunchPanel({ onClose }: QuickLaunchPanelProps) {
         </div>
       </form>
 
+      {/* Recent searches */}
+      {recentSearches.length > 0 && (
+        <div className="px-4 pb-2">
+          <p className="text-[11px] text-muted-foreground mb-1.5">Recent from P8 →</p>
+          <div className="flex flex-wrap gap-1.5">
+            {recentSearches.map((q, i) => (
+              <button
+                key={i}
+                onClick={() => {
+                  setSearchQuery(q);
+                  window.open(`https://www.google.com/search?q=${encodeURIComponent(q)}`, "_blank", "noopener");
+                }}
+                className="text-[11px] px-2.5 py-1 rounded-full bg-primary/10 text-primary hover:bg-primary/20 transition-colors truncate max-w-[180px]"
+              >
+                {q}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* Hint */}
       <p className="px-4 pb-2 text-[11px] text-muted-foreground">
-        Follow P8's steps — open any site below ↓
+        Click highlighted links in P8's responses to auto-search ↓
       </p>
 
       {/* Quick links grid */}
