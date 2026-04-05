@@ -1,16 +1,17 @@
 ---
-name: Product vision - general business AI
-description: P8 is a general-purpose AI business assistant, NOT rental-specific. Three modes: VA, Strategist, Creative.
+name: Product vision - property management SaaS
+description: P8 is an AI property management SaaS. Three modes: VA (property mgmt + general), Inspector, Growth & Marketing.
 type: feature
 ---
-P8 has pivoted from rental-only to "Run P8 for your business" — a general-purpose AI business assistant.
+P8 is an AI-powered property management SaaS at runp8.com.
 
-## Modes
-- **VA (Business Assistant)**: General-purpose — documents, translations, operations, Q&A, anything
-- **Strategist**: Growth planning, market analysis, financial strategy, scaling
-- **Creative**: Social media content, ad copy, content calendars, brand messaging
+## P8 Modes
+- **VA (Virtual Assistant)**: Property management specialist + general capabilities (translations, document drafting, tenant comms, legal notices per CA law)
+- **Inspector**: Property inspection planning, damage assessment, repair cost estimates, security deposit calculations per CA law
+- **Growth & Marketing**: Listing ads, social media posts, vacancy marketing, tenant acquisition, rental market strategy
 
 ## Key decisions
-- Rental focus removed entirely
-- P8 should help with ANY business type
-- Social media and business growth are first-class capabilities
+- Property management is the core vertical
+- VA mode also handles general tasks (translations, proofreading, etc.)
+- Growth mode focuses on filling vacancies and marketing properties
+- All modes have access to user's real property data for context
