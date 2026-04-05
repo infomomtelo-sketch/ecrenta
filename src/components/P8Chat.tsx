@@ -10,7 +10,7 @@ import ReactMarkdown from "react-markdown";
 type Msg = { role: "user" | "assistant"; content: string };
 
 interface P8ChatProps {
-  mode: "va" | "strategist" | "creative";
+  mode: "va" | "inspector" | "growth";
 }
 
 const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/p8-chat`;
