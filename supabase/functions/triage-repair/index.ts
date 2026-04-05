@@ -124,9 +124,8 @@ Please analyze this request and provide your triage assessment.`;
       triage = { category: "general", severity: "normal", ai_response: rawContent, raw: true };
     }
 
-    // Determine new status based on severity
-    const newStatus = triage.severity === "emergency" ? "emergency" : 
-                      triage.needs_professional ? "needs_dispatch" : "ai_handled";
+    // Status is always "pending_review" — human makes the final call
+    const newStatus = triage.severity === "emergency" ? "emergency" : "pending_review";
 
     const { error: updateErr } = await supabase
       .from("maintenance_requests")
