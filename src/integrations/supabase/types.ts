@@ -154,6 +154,56 @@ export type Database = {
           },
         ]
       }
+      inspections: {
+        Row: {
+          ai_report: Json | null
+          created_at: string
+          id: string
+          inspection_type: string
+          listing_id: string | null
+          notes: string | null
+          photos: string[]
+          property_address: string
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          ai_report?: Json | null
+          created_at?: string
+          id?: string
+          inspection_type?: string
+          listing_id?: string | null
+          notes?: string | null
+          photos?: string[]
+          property_address: string
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          ai_report?: Json | null
+          created_at?: string
+          id?: string
+          inspection_type?: string
+          listing_id?: string | null
+          notes?: string | null
+          photos?: string[]
+          property_address?: string
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "inspections_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "listings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       listings: {
         Row: {
           address: string
