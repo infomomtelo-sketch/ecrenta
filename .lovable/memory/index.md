@@ -1,11 +1,11 @@
 # Project Memory
 
 ## Core
-runp8.com — Fresno County furnished mid-term rental marketplace for traveling nurses/healthcare professionals. FurnishedFinder model but cheaper.
-Landlord plans: $9.99/mo or $99/yr. Tenants free + free screening. No commissions. 30+ day stays.
-Green #16A34A primary, warm cream bg, orange accent. Outfit headings, Plus Jakarta Sans body.
+runp8.com — "Run P8 for your business." General-purpose AI business assistant, NOT rental-specific.
+Three P8 modes: VA (anything), Strategist (growth/finance), Creative (content/social).
+Green #16A34A primary, warm cream bg. Space Grotesk headings, DM Sans body.
 
 ## Memories
-- [Design tokens](mem://design/tokens) — Warm light theme, green primary, orange accent, cream background
-- [App architecture](mem://features/architecture) — Listings grid → Detail → Message Landlord → Chat inbox with status management
-- [Business model](mem://features/business-model) — FurnishedFinder clone: landlord subscription, free tenants, free screening, Fresno County focus
+- [Design tokens](mem://design/tokens) — Warm marketplace palette, card shadows, green CTA
+- [Product vision](mem://features/product-vision) — P8 is general business AI with VA, Strategist, Creative modes. Rental focus removed.
+- [Business model](mem://features/business-model) — Subscription tiers and pricing
