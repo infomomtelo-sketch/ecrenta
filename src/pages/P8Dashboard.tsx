@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Bot, ClipboardCheck, BarChart3, ArrowLeft, Sparkles } from "lucide-react";
+import { Bot, Lightbulb, Palette, ArrowLeft, Sparkles } from "lucide-react";
 import P8Chat from "@/components/P8Chat";
 
-type P8Mode = "va" | "inspector" | "manager";
+type P8Mode = "va" | "strategist" | "creative";
 
 export default function P8Dashboard() {
   const { user, role } = useAuth();
@@ -18,8 +18,8 @@ export default function P8Dashboard() {
   return (
     <>
       <Helmet>
-        <title>P8 AI Assistant | runp8</title>
-        <meta name="description" content="P8 — your AI property inspector, virtual assistant, and property manager." />
+        <title>P8 AI Assistant | Run P8 for Your Business</title>
+        <meta name="description" content="P8 — your AI business assistant for growth, strategy, content, and daily operations." />
       </Helmet>
 
       <div className="min-h-screen bg-background">
@@ -35,7 +35,7 @@ export default function P8Dashboard() {
               </div>
               <div>
                 <h1 className="text-lg font-bold font-heading leading-tight">P8</h1>
-                <p className="text-xs text-muted-foreground">AI Property Assistant</p>
+                <p className="text-xs text-muted-foreground">AI Business Assistant</p>
               </div>
             </div>
           </div>
@@ -46,15 +46,16 @@ export default function P8Dashboard() {
             <TabsList className="grid w-full grid-cols-3 h-12">
               <TabsTrigger value="va" className="gap-2 text-xs sm:text-sm">
                 <Bot className="w-4 h-4" />
-                <span className="hidden sm:inline">Virtual</span> VA
+                <span className="hidden sm:inline">Assistant</span>
+                <span className="sm:hidden">VA</span>
               </TabsTrigger>
-              <TabsTrigger value="inspector" className="gap-2 text-xs sm:text-sm">
-                <ClipboardCheck className="w-4 h-4" />
-                Inspector
+              <TabsTrigger value="strategist" className="gap-2 text-xs sm:text-sm">
+                <Lightbulb className="w-4 h-4" />
+                Strategist
               </TabsTrigger>
-              <TabsTrigger value="manager" className="gap-2 text-xs sm:text-sm">
-                <BarChart3 className="w-4 h-4" />
-                Manager
+              <TabsTrigger value="creative" className="gap-2 text-xs sm:text-sm">
+                <Palette className="w-4 h-4" />
+                Creative
               </TabsTrigger>
             </TabsList>
 
@@ -62,76 +63,39 @@ export default function P8Dashboard() {
               <TabsContent value="va" className="mt-0">
                 <CardHeader className="pb-2">
                   <CardTitle className="text-base flex items-center gap-2">
-                    <Bot className="w-5 h-5 text-primary" /> Virtual Assistant
+                    <Bot className="w-5 h-5 text-primary" /> Business Assistant
                   </CardTitle>
-                  <CardDescription>Draft notices, answer questions, manage tenant communication</CardDescription>
+                  <CardDescription>Draft documents, translate, plan operations, answer anything</CardDescription>
                 </CardHeader>
                 <CardContent className="p-0">
                   <P8Chat mode="va" />
                 </CardContent>
               </TabsContent>
 
-              <TabsContent value="inspector" className="mt-0">
+              <TabsContent value="strategist" className="mt-0">
                 <CardHeader className="pb-2">
                   <CardTitle className="text-base flex items-center gap-2">
-                    <ClipboardCheck className="w-5 h-5 text-primary" /> Inspector
+                    <Lightbulb className="w-5 h-5 text-primary" /> Strategist
                   </CardTitle>
-                  <CardDescription>Plan inspections, analyze reports, estimate repairs</CardDescription>
+                  <CardDescription>Growth planning, market analysis, financial strategy</CardDescription>
                 </CardHeader>
                 <CardContent className="p-0">
-                  <P8Chat mode="inspector" />
+                  <P8Chat mode="strategist" />
                 </CardContent>
               </TabsContent>
 
-              <TabsContent value="manager" className="mt-0">
+              <TabsContent value="creative" className="mt-0">
                 <CardHeader className="pb-2">
                   <CardTitle className="text-base flex items-center gap-2">
-                    <BarChart3 className="w-5 h-5 text-primary" /> Property Manager
+                    <Palette className="w-5 h-5 text-primary" /> Creative Studio
                   </CardTitle>
-                  <CardDescription>Track finances, maintenance priorities, portfolio insights</CardDescription>
+                  <CardDescription>Social media, ad copy, content calendars, brand messaging</CardDescription>
                 </CardHeader>
                 <CardContent className="p-0">
-                  <P8Chat mode="manager" />
+                  <P8Chat mode="creative" />
                 </CardContent>
               </TabsContent>
             </Card>
-
-            {/* Quick action cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <Link to="/inspections/new">
-                <Card className="hover:border-primary/30 transition-colors cursor-pointer h-full">
-                  <CardContent className="p-4 flex items-center gap-3">
-                    <ClipboardCheck className="w-5 h-5 text-primary flex-shrink-0" />
-                    <div>
-                      <p className="text-sm font-medium">New Inspection</p>
-                      <p className="text-xs text-muted-foreground">AI photo analysis</p>
-                    </div>
-                  </CardContent>
-                </Card>
-              </Link>
-              <Link to="/add-property">
-                <Card className="hover:border-primary/30 transition-colors cursor-pointer h-full">
-                  <CardContent className="p-4 flex items-center gap-3">
-                    <Sparkles className="w-5 h-5 text-accent flex-shrink-0" />
-                    <div>
-                      <p className="text-sm font-medium">Add Property</p>
-                      <p className="text-xs text-muted-foreground">List a rental</p>
-                    </div>
-                  </CardContent>
-                </Card>
-              </Link>
-              <Link to="/maintenance">
-                <Card className="hover:border-primary/30 transition-colors cursor-pointer h-full">
-                  <CardContent className="p-4 flex items-center gap-3">
-                    <BarChart3 className="w-5 h-5 text-accent flex-shrink-0" />
-                    <div>
-                      <p className="text-sm font-medium">Maintenance</p>
-                      <p className="text-xs text-muted-foreground">View requests</p>
-                    </div>
-                  </CardContent>
-                </Card>
-              </Link>
-            </div>
           </Tabs>
         </div>
       </div>
