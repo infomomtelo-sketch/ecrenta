@@ -30,6 +30,9 @@ import Resources from "./pages/Resources";
 import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
 import BlogEditor from "./pages/BlogEditor";
+import Inspections from "./pages/Inspections";
+import NewInspection from "./pages/NewInspection";
+import InspectionReport from "./pages/InspectionReport";
 
 const queryClient = new QueryClient();
 
