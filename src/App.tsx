@@ -113,6 +113,9 @@ const App = () => (
               {/* Protected maintenance dashboard */}
               <Route path="/maintenance" element={<ProtectedRoute><RoleGate><MaintenanceDashboard /></RoleGate></ProtectedRoute>} />
 
+              {/* P8 AI Assistant */}
+              <Route path="/p8" element={<ProtectedRoute><RoleGate><P8Dashboard /></RoleGate></ProtectedRoute>} />
+
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>
