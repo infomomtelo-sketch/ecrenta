@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 export default function Contact() {
   const { toast } = useToast();
@@ -14,14 +15,37 @@ export default function Contact() {
   const [message, setMessage] = useState("");
   const [sending, setSending] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSending(true);
-    setTimeout(() => {
+
+    try {
+      // Save to database
+      const { error: dbError } = await supabase
+        .from("contact_messages")
+        .insert({ name, email, message });
+
+      if (dbError) throw dbError;
+
+      // Trigger notification edge function
+      await supabase.functions.invoke("contact-notify", {
+        body: { name, email, message },
+      });
+
       toast({ title: "Message sent!", description: "We'll get back to you within 24 hours." });
-      setName(""); setEmail(""); setMessage("");
+      setName("");
+      setEmail("");
+      setMessage("");
+    } catch (err: any) {
+      console.error("Contact form error:", err);
+      toast({
+        title: "Something went wrong",
+        description: "Please try again or email us directly at support@runp8.com",
+        variant: "destructive",
+      });
+    } finally {
       setSending(false);
-    }, 1000);
+    }
   };
 
   return (

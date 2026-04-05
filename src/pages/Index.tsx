@@ -148,6 +148,11 @@ export default function Index() {
                 <Heart className="h-4 w-4 text-primary" /> 30+ Day Stays
               </div>
             </div>
+
+            {/* Powered by P8 AI badge */}
+            <div className="mt-6 inline-flex items-center gap-1.5 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-xs font-medium text-primary">
+              <Sparkles className="h-3.5 w-3.5" /> Powered by P8 AI
+            </div>
           </div>
         </div>
       </section>
@@ -337,7 +342,12 @@ export default function Index() {
           </div>
           <div className="mt-10 border-t border-border pt-6 flex flex-col items-center justify-between gap-3 sm:flex-row">
             <p className="text-xs text-muted-foreground">© {new Date().getFullYear()} runp8 — EC Rental Property Management LLC</p>
-            <p className="text-xs text-muted-foreground">Fresno County, California</p>
+            <div className="flex items-center gap-3">
+              <span className="inline-flex items-center gap-1 text-xs text-primary font-medium">
+                <Sparkles className="h-3 w-3" /> Powered by P8 AI
+              </span>
+              <span className="text-xs text-muted-foreground">Fresno County, California</span>
+            </div>
           </div>
         </div>
       </footer>
