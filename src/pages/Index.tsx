@@ -58,6 +58,7 @@ export default function Index() {
           <nav className="hidden items-center gap-6 md:flex">
             <Link to="/listings" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">Browse Rentals</Link>
             <Link to="/pricing" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">Pricing</Link>
+            <Link to="/blog" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">Blog</Link>
             <Link to="/how-it-works" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">How It Works</Link>
             <Link to="/about" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">About</Link>
           </nav>
@@ -297,6 +298,7 @@ export default function Index() {
               <h4 className="font-[var(--font-heading)] font-semibold mb-3">Company</h4>
               <ul className="space-y-2 text-sm text-muted-foreground">
                 <li><Link to="/about" className="hover:text-foreground transition-colors">About Us</Link></li>
+                <li><Link to="/blog" className="hover:text-foreground transition-colors">Blog</Link></li>
                 <li><Link to="/privacy" className="hover:text-foreground transition-colors">Privacy Policy</Link></li>
                 <li><Link to="/terms" className="hover:text-foreground transition-colors">Terms of Service</Link></li>
                 <li><Link to="/contact" className="hover:text-foreground transition-colors">Contact</Link></li>
