@@ -38,11 +38,14 @@ export default function QuickLaunchPanel({ onClose, externalQuery }: QuickLaunch
   useEffect(() => {
     if (externalQuery) {
       setSearchQuery(externalQuery);
-      window.open(`https://www.google.com/search?q=${encodeURIComponent(externalQuery)}`, "_blank", "noopener");
       setRecentSearches(prev => {
         const updated = [externalQuery, ...prev.filter(s => s !== externalQuery)].slice(0, 5);
         return updated;
       });
+      if (searchRef.current) {
+        searchRef.current.href = `https://www.google.com/search?q=${encodeURIComponent(externalQuery)}`;
+        searchRef.current.click();
+      }
     }
   }, [externalQuery]);
 
