@@ -1,6 +1,6 @@
 import {
   Bot, LayoutDashboard, Inbox, ClipboardCheck, Wrench,
-  Plus, FileText, Settings, LogOut, Sparkles, Lightbulb, Palette,
+  Plus, FileText, LogOut, Sparkles,
 } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { useLocation } from "react-router-dom";

@@ -3,10 +3,10 @@ import { Helmet } from "react-helmet-async";
 import { useAuth } from "@/contexts/AuthContext";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Bot, Lightbulb, Palette, Sparkles } from "lucide-react";
+import { Bot, ClipboardCheck, TrendingUp, Sparkles } from "lucide-react";
 import P8Chat from "@/components/P8Chat";
 
-type P8Mode = "va" | "strategist" | "creative";
+type P8Mode = "va" | "inspector" | "growth";
 
 export default function P8Dashboard() {
   const { user, role } = useAuth();
@@ -15,8 +15,8 @@ export default function P8Dashboard() {
   return (
     <>
       <Helmet>
-        <title>P8 AI Assistant | Run P8 for Your Business</title>
-        <meta name="description" content="P8 — your AI business assistant for growth, strategy, content, and daily operations." />
+        <title>P8 AI Assistant | runp8</title>
+        <meta name="description" content="P8 — your AI property management assistant for inspections, operations, and growth." />
       </Helmet>
 
       <div className="min-h-full bg-background">
@@ -28,13 +28,13 @@ export default function P8Dashboard() {
                 <span className="hidden sm:inline">Assistant</span>
                 <span className="sm:hidden">VA</span>
               </TabsTrigger>
-              <TabsTrigger value="strategist" className="gap-2 text-xs sm:text-sm">
-                <Lightbulb className="w-4 h-4" />
-                Strategist
+              <TabsTrigger value="inspector" className="gap-2 text-xs sm:text-sm">
+                <ClipboardCheck className="w-4 h-4" />
+                Inspector
               </TabsTrigger>
-              <TabsTrigger value="creative" className="gap-2 text-xs sm:text-sm">
-                <Palette className="w-4 h-4" />
-                Creative
+              <TabsTrigger value="growth" className="gap-2 text-xs sm:text-sm">
+                <TrendingUp className="w-4 h-4" />
+                Growth
               </TabsTrigger>
             </TabsList>
 
@@ -42,36 +42,36 @@ export default function P8Dashboard() {
               <TabsContent value="va" className="mt-0">
                 <CardHeader className="pb-2">
                   <CardTitle className="text-base flex items-center gap-2">
-                    <Bot className="w-5 h-5 text-primary" /> Business Assistant
+                    <Bot className="w-5 h-5 text-primary" /> Virtual Assistant
                   </CardTitle>
-                  <CardDescription>Draft documents, translate, plan operations, answer anything</CardDescription>
+                  <CardDescription>Draft notices, manage tenants, translate, answer anything</CardDescription>
                 </CardHeader>
                 <CardContent className="p-0">
                   <P8Chat mode="va" />
                 </CardContent>
               </TabsContent>
 
-              <TabsContent value="strategist" className="mt-0">
+              <TabsContent value="inspector" className="mt-0">
                 <CardHeader className="pb-2">
                   <CardTitle className="text-base flex items-center gap-2">
-                    <Lightbulb className="w-5 h-5 text-primary" /> Strategist
+                    <ClipboardCheck className="w-5 h-5 text-primary" /> Inspector
                   </CardTitle>
-                  <CardDescription>Growth planning, market analysis, financial strategy</CardDescription>
+                  <CardDescription>Plan inspections, assess damage, estimate repairs</CardDescription>
                 </CardHeader>
                 <CardContent className="p-0">
-                  <P8Chat mode="strategist" />
+                  <P8Chat mode="inspector" />
                 </CardContent>
               </TabsContent>
 
-              <TabsContent value="creative" className="mt-0">
+              <TabsContent value="growth" className="mt-0">
                 <CardHeader className="pb-2">
                   <CardTitle className="text-base flex items-center gap-2">
-                    <Palette className="w-5 h-5 text-primary" /> Creative Studio
+                    <TrendingUp className="w-5 h-5 text-primary" /> Growth & Marketing
                   </CardTitle>
-                  <CardDescription>Social media, ad copy, content calendars, brand messaging</CardDescription>
+                  <CardDescription>Listing ads, social media, vacancy marketing, growth strategy</CardDescription>
                 </CardHeader>
                 <CardContent className="p-0">
-                  <P8Chat mode="creative" />
+                  <P8Chat mode="growth" />
                 </CardContent>
               </TabsContent>
             </Card>

@@ -1,11 +1,12 @@
 # Project Memory
 
 ## Core
-runp8.com — "Run P8 for your business." General-purpose AI business assistant, NOT rental-specific.
-Three P8 modes: VA (anything), Strategist (growth/finance), Creative (content/social).
+runp8.com — AI property management SaaS. "Run P8" for your rental business.
+Three P8 modes: VA (property mgmt + general), Inspector, Growth & Marketing.
 Green #16A34A primary, warm cream bg. Space Grotesk headings, DM Sans body.
+Hybrid nav: top navbar for public pages, collapsible sidebar for dashboard.
 
 ## Memories
 - [Design tokens](mem://design/tokens) — Warm marketplace palette, card shadows, green CTA
-- [Product vision](mem://features/product-vision) — P8 is general business AI with VA, Strategist, Creative modes. Rental focus removed.
+- [Product vision](mem://features/product-vision) — P8 modes: VA, Inspector, Growth. Property management core.
 - [Business model](mem://features/business-model) — Subscription tiers and pricing

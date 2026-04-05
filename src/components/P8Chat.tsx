@@ -10,7 +10,7 @@ import ReactMarkdown from "react-markdown";
 type Msg = { role: "user" | "assistant"; content: string };
 
 interface P8ChatProps {
-  mode: "va" | "strategist" | "creative";
+  mode: "va" | "inspector" | "growth";
 }
 
 const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/p8-chat`;
@@ -119,9 +119,9 @@ export default function P8Chat({ mode }: P8ChatProps) {
   };
 
   const placeholders: Record<string, string> = {
-    va: "Ask P8 anything... e.g. 'Help me write a proposal' or 'Translate this to Spanish'",
-    strategist: "Ask about strategy... e.g. 'How can I grow my customer base by 20%?'",
-    creative: "Ask for content... e.g. 'Write an Instagram post for my new product launch'",
+    va: "Ask P8 anything... e.g. 'Draft a 3-day notice for 123 Main St' or 'Translate this to Spanish'",
+    inspector: "Ask about inspections... e.g. 'What should I check in a move-out inspection?'",
+    growth: "Ask for marketing help... e.g. 'Write a listing ad for my vacant unit'",
   };
 
   return (
@@ -133,12 +133,12 @@ export default function P8Chat({ mode }: P8ChatProps) {
               <Bot className="w-7 h-7 text-primary" />
             </div>
             <h3 className="text-lg font-semibold text-foreground">
-              {mode === "va" ? "P8 Business Assistant" : mode === "strategist" ? "P8 Strategist" : "P8 Creative Studio"}
+              {mode === "va" ? "P8 Virtual Assistant" : mode === "inspector" ? "P8 Inspector" : "P8 Growth & Marketing"}
             </h3>
             <p className="text-sm text-muted-foreground max-w-md">
-              {mode === "va" && "I help you run your business — draft documents, translate, plan, and answer anything."}
-              {mode === "strategist" && "I help with growth strategy, market analysis, financial planning, and scaling."}
-              {mode === "creative" && "I create social media posts, ad copy, content calendars, and brand messaging."}
+              {mode === "va" && "I help manage your properties — draft notices, handle tenant comms, translate, and answer anything."}
+              {mode === "inspector" && "I help plan inspections, assess damage vs. wear & tear, and estimate repair costs."}
+              {mode === "growth" && "I create listing ads, social media posts, and growth strategies to fill vacancies faster."}
             </p>
           </div>
         )}
