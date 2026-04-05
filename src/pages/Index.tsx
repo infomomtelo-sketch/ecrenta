@@ -1,63 +1,48 @@
 import { Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
+import { useListings } from "@/contexts/ListingsContext";
+import { ListingCard } from "@/components/ListingCard";
 import { Helmet } from "react-helmet-async";
 import {
-  Bot, ClipboardCheck, BarChart3, ArrowRight, Check, Sparkles,
-  MessageCircle, Shield, Search, MapPin, Zap, Building, Brain,
+  ArrowRight, Search, MapPin, Shield, Heart, MessageCircle,
+  Sparkles, Building2, DollarSign, CheckCircle2, Star,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { getActiveMarkets } from "@/data/markets";
 
-const p8Modes = [
-  {
-    icon: Bot,
-    title: "Virtual Assistant",
-    tag: "VA",
-    description:
-      "Draft legal notices, answer tenant questions, and manage communications — all powered by AI that knows your properties.",
-    examples: ["'Draft a 3-day notice for unit 5'", "'What's my vacancy rate?'", "'Write a lease renewal offer'"],
-  },
-  {
-    icon: ClipboardCheck,
-    title: "Inspector",
-    tag: "Inspector",
-    description:
-      "Upload move-out photos and get instant AI-powered condition reports with damage assessments, repair costs, and deposit deduction recommendations.",
-    examples: ["AI photo analysis", "Damage vs. wear & tear", "Cost estimates"],
-  },
-  {
-    icon: BarChart3,
-    title: "Property Manager",
-    tag: "Manager",
-    description:
-      "Track maintenance priorities, analyze portfolio performance, and get data-driven insights to maximize your rental income.",
-    examples: ["Maintenance triage", "Financial summaries", "Market rent analysis"],
-  },
+const howItWorks = [
+  { step: "1", icon: Search, title: "Search", description: "Browse furnished rentals by city, budget, and move-in date." },
+  { step: "2", icon: MessageCircle, title: "Connect", description: "Message landlords directly — no brokers, no commissions." },
+  { step: "3", icon: CheckCircle2, title: "Move In", description: "Free screening, easy applications. Move in within days." },
 ];
 
-const benefits = [
-  { icon: Zap, title: "Instant Responses", description: "No waiting for callbacks. P8 answers in seconds, 24/7." },
-  { icon: Shield, title: "California Law Compliant", description: "Notices and documents follow CA landlord-tenant law." },
-  { icon: Brain, title: "Knows Your Properties", description: "P8 uses your real listings, tenants, and maintenance data." },
-  { icon: Building, title: "Built for Small Landlords", description: "Replace expensive PMs. Manage 1–50 units with AI." },
-];
-
-const comparison = [
-  ["Property Manager Cost", "From $49/mo", "$150–300/unit/mo"],
-  ["Availability", "24/7 instant", "Business hours"],
-  ["Inspection Reports", "AI in minutes", "Days–weeks"],
-  ["Legal Notices", "Drafted instantly", "Attorney fees"],
-  ["Maintenance Triage", "Auto-prioritized", "Manual tracking"],
-  ["Portfolio Insights", "Real-time AI", "Monthly reports"],
+const tenantPerks = [
+  { icon: DollarSign, title: "No Commissions", description: "Zero fees to tenants. Ever." },
+  { icon: Shield, title: "Free Screening", description: "Background checks at no cost to you." },
+  { icon: Heart, title: "Furnished & Ready", description: "Move-in ready with furniture, WiFi, and utilities." },
+  { icon: MapPin, title: "Central Valley", description: "Fresno, Clovis, Madera & more." },
 ];
 
 export default function Index() {
-  const { user } = useAuth();
+  const { user, role } = useAuth();
+  const { listings } = useListings();
+  const navigate = useNavigate();
+  const [searchQuery, setSearchQuery] = useState("");
+  const activeMarkets = getActiveMarkets();
+  const featuredListings = listings.filter((l) => l.available).slice(0, 6);
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    navigate(`/listings${searchQuery ? `?q=${encodeURIComponent(searchQuery)}` : ""}`);
+  };
 
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Helmet>
-        <title>runp8 — AI Property Management Assistant</title>
-        <meta name="description" content="P8 is your AI property inspector, virtual assistant, and property manager. Manage rentals smarter with AI that knows your properties." />
+        <title>runp8 — Furnished Rentals in Fresno County, CA</title>
+        <meta name="description" content="Find furnished rentals in Fresno, Clovis, and Central Valley. No commissions, free tenant screening. Perfect for traveling nurses and healthcare professionals." />
       </Helmet>
 
       {/* Nav */}
@@ -65,37 +50,37 @@ export default function Index() {
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
           <Link to="/" className="flex items-center gap-2.5">
             <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary">
-              <Sparkles className="h-5 w-5 text-primary-foreground" />
+              <span className="text-sm font-bold text-primary-foreground">r8</span>
             </div>
             <span className="font-[var(--font-heading)] text-xl font-bold tracking-tight">runp8</span>
           </Link>
           <nav className="hidden items-center gap-6 md:flex">
-            <Link to="/p8" className="text-sm font-medium text-primary hover:text-primary/80 transition-colors">P8 Assistant</Link>
-            <Link to="/listings" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">Rentals</Link>
-            <Link to="/pricing" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">Pricing</Link>
+            <Link to="/listings" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">Browse Rentals</Link>
+            <Link to="/how-it-works" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">How It Works</Link>
+            <Link to="/for-landlords" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">List Your Property</Link>
             <Link to="/blog" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">Blog</Link>
-            <Link to="/about" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">About</Link>
           </nav>
           <div className="flex items-center gap-2">
             {user ? (
               <>
                 <Button variant="ghost" size="sm" asChild>
-                  <Link to="/dashboard">Dashboard</Link>
+                  <Link to={role === "landlord" ? "/dashboard" : "/listings"}>
+                    {role === "landlord" ? "Dashboard" : "My Rentals"}
+                  </Link>
                 </Button>
-                <Button size="sm" asChild>
-                  <Link to="/p8">Open P8</Link>
-                </Button>
+                {role === "landlord" && (
+                  <Button size="sm" asChild className="gap-1.5">
+                    <Link to="/p8"><Sparkles className="h-3.5 w-3.5" /> P8 AI</Link>
+                  </Button>
+                )}
               </>
             ) : (
               <>
                 <Button variant="ghost" size="sm" asChild>
                   <Link to="/auth">Sign In</Link>
                 </Button>
-                <Button size="sm" asChild className="gap-1.5">
-                  <Link to="/auth">
-                    <Sparkles className="h-3.5 w-3.5" />
-                    Try P8 Free
-                  </Link>
+                <Button size="sm" asChild>
+                  <Link to="/auth">Get Started</Link>
                 </Button>
               </>
             )}
@@ -103,197 +88,208 @@ export default function Index() {
         </div>
       </header>
 
-      {/* Hero — P8 is the star */}
+      {/* Hero — Search-focused, FF-style */}
       <section className="relative overflow-hidden" style={{ background: "var(--gradient-hero)" }}>
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,hsl(152_55%_38%/0.08),transparent_70%)]" />
-        <div className="relative mx-auto max-w-6xl px-4 pb-20 pt-16 sm:pt-24">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,hsl(152_55%_38%/0.06),transparent_60%)]" />
+        <div className="relative mx-auto max-w-6xl px-4 pb-16 pt-14 sm:pt-20">
           <div className="flex flex-col items-center text-center">
-            <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-sm font-medium text-primary mb-6">
-              <Sparkles className="h-4 w-4" />
-              AI-Powered Property Management
-            </div>
-            <h1 className="font-[var(--font-heading)] text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl lg:text-6xl max-w-4xl">
-              Meet <span className="text-primary">P8</span> — Your AI
-              <br className="hidden sm:block" /> Property Manager
+            <h1 className="font-[var(--font-heading)] text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl lg:text-5xl max-w-3xl">
+              Find Furnished Rentals in{" "}
+              <span className="text-primary">Central Valley</span>
             </h1>
-            <p className="mx-auto mt-5 max-w-2xl text-lg text-muted-foreground">
-              Inspector. Virtual assistant. Property manager. P8 handles inspections, drafts legal notices,
-              triages maintenance, and manages your portfolio — so you don't need a $300/month property manager.
+            <p className="mx-auto mt-4 max-w-xl text-base text-muted-foreground sm:text-lg">
+              30+ day furnished housing for traveling nurses, healthcare professionals &amp; relocators.
+              No commissions. Free screening.
             </p>
-            <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row">
-              <Button size="lg" asChild className="w-full sm:w-auto gap-2 text-base px-8 py-6 rounded-xl">
-                <Link to={user ? "/p8" : "/auth"}>
-                  <Sparkles className="h-4 w-4" />
-                  {user ? "Open P8" : "Try P8 Free"}
+
+            {/* Search bar */}
+            <form
+              onSubmit={handleSearch}
+              className="mt-8 flex w-full max-w-lg items-center gap-2 rounded-xl border border-border bg-card p-2 shadow-lg"
+            >
+              <div className="flex flex-1 items-center gap-2 pl-3">
+                <Search className="h-5 w-5 text-muted-foreground shrink-0" />
+                <input
+                  type="text"
+                  placeholder="City, neighborhood, or zip code..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground/60"
+                />
+              </div>
+              <Button type="submit" className="rounded-lg px-6">
+                Search
+              </Button>
+            </form>
+
+            {/* Quick city links */}
+            <div className="mt-4 flex flex-wrap items-center justify-center gap-2">
+              {activeMarkets.slice(0, 4).map((m) => (
+                <Link
+                  key={m.slug}
+                  to={`/listings?area=${m.slug}`}
+                  className="inline-flex items-center gap-1 rounded-full border border-border bg-card/60 px-3 py-1 text-xs font-medium text-muted-foreground hover:text-foreground hover:border-primary/30 transition-colors"
+                >
+                  <MapPin className="h-3 w-3" />
+                  {m.name}
                 </Link>
-              </Button>
-              <Button size="lg" variant="outline" asChild className="w-full sm:w-auto text-base px-8 py-6 rounded-xl">
-                <Link to="/listings">Browse Rentals</Link>
-              </Button>
+              ))}
             </div>
-            <div className="mt-6 flex flex-wrap items-center gap-4 justify-center">
-              <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
-                <Check className="h-4 w-4 text-primary" /> No credit card required
+
+            {/* Trust badges */}
+            <div className="mt-8 flex flex-wrap items-center gap-6 justify-center text-sm text-muted-foreground">
+              <div className="flex items-center gap-1.5">
+                <Shield className="h-4 w-4 text-primary" /> Free Screening
               </div>
-              <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
-                <Check className="h-4 w-4 text-primary" /> California law compliant
+              <div className="flex items-center gap-1.5">
+                <DollarSign className="h-4 w-4 text-primary" /> No Commissions
               </div>
-              <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
-                <Check className="h-4 w-4 text-primary" /> Uses your real data
+              <div className="flex items-center gap-1.5">
+                <Heart className="h-4 w-4 text-primary" /> 30+ Day Stays
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* P8 Three Modes */}
-      <section className="mx-auto max-w-6xl px-4 py-20">
-        <div className="text-center">
-          <h2 className="font-[var(--font-heading)] text-3xl font-bold sm:text-4xl">
-            Three AI Modes. One Assistant.
+      {/* Featured Listings */}
+      {featuredListings.length > 0 && (
+        <section className="mx-auto max-w-6xl px-4 py-16">
+          <div className="flex items-end justify-between mb-8">
+            <div>
+              <h2 className="font-[var(--font-heading)] text-2xl font-bold sm:text-3xl">
+                Featured Rentals
+              </h2>
+              <p className="mt-1 text-sm text-muted-foreground">Furnished and ready for move-in</p>
+            </div>
+            <Button variant="ghost" asChild className="gap-1 text-sm">
+              <Link to="/listings">
+                View All <ArrowRight className="h-4 w-4" />
+              </Link>
+            </Button>
+          </div>
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {featuredListings.map((listing) => (
+              <ListingCard key={listing.id} listing={listing} />
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* How It Works */}
+      <section className="border-t border-border bg-card">
+        <div className="mx-auto max-w-6xl px-4 py-16">
+          <h2 className="font-[var(--font-heading)] text-center text-2xl font-bold sm:text-3xl">
+            How It Works
           </h2>
-          <p className="mx-auto mt-3 max-w-lg text-muted-foreground">
-            P8 adapts to what you need — from inspections to legal drafts to portfolio analytics.
+          <p className="mx-auto mt-2 max-w-md text-center text-muted-foreground">
+            Find your next furnished home in three simple steps
           </p>
+          <div className="mt-12 grid gap-8 sm:grid-cols-3">
+            {howItWorks.map((item) => (
+              <div key={item.step} className="flex flex-col items-center text-center">
+                <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+                  <item.icon className="h-7 w-7" />
+                </div>
+                <h3 className="font-[var(--font-heading)] text-lg font-semibold">{item.title}</h3>
+                <p className="mt-2 text-sm text-muted-foreground max-w-xs">{item.description}</p>
+              </div>
+            ))}
+          </div>
+          <div className="mt-10 text-center">
+            <Button size="lg" asChild className="gap-2 px-8 py-6 rounded-xl text-base">
+              <Link to="/listings">
+                Browse Rentals <ArrowRight className="h-4 w-4" />
+              </Link>
+            </Button>
+          </div>
         </div>
-        <div className="mt-12 grid gap-6 lg:grid-cols-3">
-          {p8Modes.map((mode) => (
-            <div
-              key={mode.tag}
-              className="group relative rounded-2xl border border-border bg-card p-6 transition-all hover:border-primary/30 hover:shadow-[var(--shadow-elevated)]"
-            >
-              <div className="flex items-center gap-3 mb-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
-                  <mode.icon className="h-6 w-6" />
-                </div>
-                <div>
-                  <span className="text-xs font-semibold text-primary bg-primary/5 px-2 py-0.5 rounded-full">{mode.tag}</span>
-                  <h3 className="font-[var(--font-heading)] text-lg font-semibold mt-0.5">{mode.title}</h3>
-                </div>
+      </section>
+
+      {/* Tenant Perks */}
+      <section className="mx-auto max-w-6xl px-4 py-16">
+        <h2 className="font-[var(--font-heading)] text-center text-2xl font-bold sm:text-3xl">
+          Why Tenants Love runp8
+        </h2>
+        <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {tenantPerks.map((p) => (
+            <div key={p.title} className="rounded-2xl border border-border bg-card p-6 text-center">
+              <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                <p.icon className="h-6 w-6" />
               </div>
-              <p className="text-sm text-muted-foreground leading-relaxed">{mode.description}</p>
-              <div className="mt-4 flex flex-wrap gap-2">
-                {mode.examples.map((ex) => (
-                  <span key={ex} className="text-xs bg-muted px-2.5 py-1 rounded-full text-muted-foreground">{ex}</span>
-                ))}
-              </div>
+              <h3 className="font-[var(--font-heading)] font-semibold">{p.title}</h3>
+              <p className="mt-1.5 text-sm text-muted-foreground">{p.description}</p>
             </div>
           ))}
         </div>
-        <div className="mt-8 text-center">
-          <Button size="lg" asChild className="gap-2 px-8 py-6 rounded-xl text-base">
-            <Link to={user ? "/p8" : "/auth"}>
-              Start Using P8
-              <ArrowRight className="h-4 w-4" />
-            </Link>
-          </Button>
-        </div>
       </section>
 
-      {/* Benefits */}
+      {/* For Landlords — P8 AI Teaser */}
       <section className="border-t border-border bg-card">
-        <div className="mx-auto max-w-6xl px-4 py-20">
-          <h2 className="font-[var(--font-heading)] text-center text-3xl font-bold sm:text-4xl">
-            Why Landlords Choose P8
-          </h2>
-          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {benefits.map((b) => (
-              <div key={b.title} className="text-center">
-                <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 text-primary">
-                  <b.icon className="h-7 w-7" />
-                </div>
-                <h3 className="font-[var(--font-heading)] font-semibold">{b.title}</h3>
-                <p className="mt-2 text-sm text-muted-foreground">{b.description}</p>
+        <div className="mx-auto max-w-6xl px-4 py-16">
+          <div className="mx-auto max-w-3xl rounded-2xl border border-primary/20 bg-primary/5 p-8 sm:p-10">
+            <div className="flex flex-col items-center text-center">
+              <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 mb-4">
+                <Sparkles className="h-7 w-7 text-primary" />
               </div>
-            ))}
+              <span className="text-xs font-semibold text-primary bg-primary/10 px-3 py-1 rounded-full mb-3">For Landlords</span>
+              <h2 className="font-[var(--font-heading)] text-2xl font-bold sm:text-3xl">
+                List Your Property — Powered by P8 AI
+              </h2>
+              <p className="mt-3 max-w-lg text-muted-foreground">
+                Reach traveling healthcare workers looking for furnished housing. Plus, manage your properties with P8 —
+                your AI assistant that handles inspections, legal notices, maintenance triage, and more.
+              </p>
+              <div className="mt-6 grid gap-3 sm:grid-cols-3 w-full max-w-lg">
+                {[
+                  { icon: Building2, text: "List properties" },
+                  { icon: MessageCircle, text: "Chat with tenants" },
+                  { icon: Star, text: "AI property manager" },
+                ].map((f) => (
+                  <div key={f.text} className="flex items-center gap-2 rounded-xl border border-border bg-card p-3 text-sm font-medium">
+                    <f.icon className="h-4 w-4 text-primary shrink-0" />
+                    {f.text}
+                  </div>
+                ))}
+              </div>
+              <div className="mt-6 flex flex-col items-center gap-3 sm:flex-row">
+                <Button size="lg" asChild className="gap-2 px-8 py-6 rounded-xl text-base">
+                  <Link to={user ? "/add-property" : "/auth"}>
+                    List Your Property <ArrowRight className="h-4 w-4" />
+                  </Link>
+                </Button>
+                <Button size="lg" variant="outline" asChild className="px-8 py-6 rounded-xl text-base">
+                  <Link to="/pricing">See Plans</Link>
+                </Button>
+              </div>
+              <p className="mt-4 text-xs text-muted-foreground">Starting at $9.99/mo · No commissions on rentals</p>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* P8 vs. Traditional PM */}
-      <section className="mx-auto max-w-6xl px-4 py-20">
-        <h2 className="font-[var(--font-heading)] text-center text-3xl font-bold sm:text-4xl">
-          P8 vs. Traditional Property Manager
+      {/* Markets */}
+      <section className="mx-auto max-w-6xl px-4 py-16">
+        <h2 className="font-[var(--font-heading)] text-center text-2xl font-bold sm:text-3xl">
+          Available Markets
         </h2>
-        <div className="mx-auto mt-10 max-w-2xl overflow-hidden rounded-2xl border border-border">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="border-b border-border bg-muted">
-                <th className="px-4 py-3 text-left font-semibold">Feature</th>
-                <th className="px-4 py-3 text-center font-semibold text-primary">P8 AI</th>
-                <th className="px-4 py-3 text-center font-semibold text-muted-foreground">Traditional PM</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-border">
-              {comparison.map(([feature, p8, trad]) => (
-                <tr key={feature} className="bg-card">
-                  <td className="px-4 py-3 font-medium">{feature}</td>
-                  <td className="px-4 py-3 text-center font-semibold text-primary">{p8}</td>
-                  <td className="px-4 py-3 text-center text-muted-foreground">{trad}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      {/* Tenant section — secondary */}
-      <section className="border-t border-border bg-card">
-        <div className="mx-auto max-w-6xl px-4 py-20">
-          <div className="text-center">
-            <span className="text-xs font-semibold text-accent bg-accent/10 px-3 py-1 rounded-full">For Tenants</span>
-            <h2 className="font-[var(--font-heading)] text-3xl font-bold sm:text-4xl mt-4">
-              Looking for a Furnished Rental?
-            </h2>
-            <p className="mx-auto mt-3 max-w-lg text-muted-foreground">
-              Browse verified furnished properties in Fresno County. Free for tenants — no commissions, free screening.
-            </p>
-          </div>
-          <div className="mt-10 grid gap-6 sm:grid-cols-3">
-            {[
-              { icon: Search, title: "Browse Listings", desc: "Verified furnished rentals in Fresno County" },
-              { icon: MessageCircle, title: "Message Landlords", desc: "Chat directly — no middlemen" },
-              { icon: Shield, title: "Free Screening", desc: "Background checks at no cost to you" },
-            ].map((f) => (
-              <div key={f.title} className="rounded-2xl border border-border p-6 text-center">
-                <f.icon className="mx-auto h-8 w-8 text-accent mb-3" />
-                <h3 className="font-[var(--font-heading)] font-semibold">{f.title}</h3>
-                <p className="mt-1 text-sm text-muted-foreground">{f.desc}</p>
+        <p className="mx-auto mt-2 max-w-md text-center text-muted-foreground">
+          Currently serving Fresno County and Central Valley, CA
+        </p>
+        <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {activeMarkets.map((m) => (
+            <Link
+              key={m.slug}
+              to={`/listings?area=${m.slug}`}
+              className="flex items-center gap-3 rounded-xl border border-border bg-card p-4 transition-colors hover:border-primary/30 hover:bg-secondary/30"
+            >
+              <MapPin className="h-5 w-5 text-primary shrink-0" />
+              <div>
+                <p className="font-semibold text-sm">{m.name}, {m.state}</p>
+                <p className="text-xs text-muted-foreground">{m.county} County</p>
               </div>
-            ))}
-          </div>
-          <div className="mt-8 text-center">
-            <Button size="lg" variant="outline" asChild className="gap-2 px-8 py-6 rounded-xl text-base">
-              <Link to="/listings">
-                Browse Rentals
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-            </Button>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="bg-primary/5">
-        <div className="mx-auto max-w-6xl px-4 py-20 text-center">
-          <Sparkles className="mx-auto h-12 w-12 text-primary/60 mb-4" />
-          <h2 className="font-[var(--font-heading)] text-3xl font-bold sm:text-4xl">
-            Run Your Properties with P8
-          </h2>
-          <p className="mx-auto mt-3 max-w-lg text-muted-foreground">
-            Join landlords who are replacing expensive property managers with AI that works 24/7.
-          </p>
-          <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
-            <Button size="lg" asChild className="gap-2 px-8 py-6 rounded-xl text-base">
-              <Link to={user ? "/p8" : "/auth"}>
-                <Sparkles className="h-4 w-4" />
-                {user ? "Open P8" : "Get Started Free"}
-              </Link>
-            </Button>
-            <Button size="lg" variant="outline" asChild className="px-8 py-6 rounded-xl text-base">
-              <Link to="/pricing">See Pricing</Link>
-            </Button>
-          </div>
+            </Link>
+          ))}
         </div>
       </section>
 
@@ -304,29 +300,28 @@ export default function Index() {
             <div>
               <Link to="/" className="flex items-center gap-2.5">
                 <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
-                  <Sparkles className="h-4 w-4 text-primary-foreground" />
+                  <span className="text-xs font-bold text-primary-foreground">r8</span>
                 </div>
                 <span className="font-[var(--font-heading)] text-lg font-bold">runp8</span>
               </Link>
               <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
-                AI-powered property management for landlords. Inspector. VA. Manager.
+                Furnished rentals for traveling professionals. Powered by P8 AI.
               </p>
             </div>
             <div>
-              <h4 className="font-[var(--font-heading)] font-semibold mb-3">P8 AI</h4>
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                <li><Link to="/p8" className="hover:text-foreground transition-colors">P8 Assistant</Link></li>
-                <li><Link to="/inspections" className="hover:text-foreground transition-colors">Inspections</Link></li>
-                <li><Link to="/maintenance" className="hover:text-foreground transition-colors">Maintenance</Link></li>
-                <li><Link to="/pricing" className="hover:text-foreground transition-colors">Pricing</Link></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-[var(--font-heading)] font-semibold mb-3">Rentals</h4>
+              <h4 className="font-[var(--font-heading)] font-semibold mb-3">For Tenants</h4>
               <ul className="space-y-2 text-sm text-muted-foreground">
                 <li><Link to="/listings" className="hover:text-foreground transition-colors">Browse Rentals</Link></li>
                 <li><Link to="/how-it-works" className="hover:text-foreground transition-colors">How It Works</Link></li>
-                <li><Link to="/for-landlords" className="hover:text-foreground transition-colors">For Landlords</Link></li>
+                <li><Link to="/resources" className="hover:text-foreground transition-colors">Resources</Link></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-[var(--font-heading)] font-semibold mb-3">For Landlords</h4>
+              <ul className="space-y-2 text-sm text-muted-foreground">
+                <li><Link to="/for-landlords" className="hover:text-foreground transition-colors">List Property</Link></li>
+                <li><Link to="/pricing" className="hover:text-foreground transition-colors">Pricing</Link></li>
+                <li><Link to="/p8" className="hover:text-foreground transition-colors flex items-center gap-1"><Sparkles className="h-3 w-3" /> P8 AI</Link></li>
               </ul>
             </div>
             <div>
