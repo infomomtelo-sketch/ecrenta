@@ -22,27 +22,38 @@ export default function Auth() {
     if (!email.trim() || !password.trim()) return;
     setLoading(true);
 
-    if (isLogin) {
-      const { error } = await supabase.auth.signInWithPassword({ email, password });
-      if (error) {
-        toast({ title: "Login failed", description: error.message, variant: "destructive" });
+    try {
+      if (isLogin) {
+        const { error } = await supabase.auth.signInWithPassword({ email, password });
+        if (error) {
+          toast({ title: "Login failed", description: error.message, variant: "destructive" });
+        } else {
+          navigate("/dashboard");
+        }
       } else {
-        navigate("/");
+        const { data, error } = await supabase.auth.signUp({
+          email,
+          password,
+          options: { emailRedirectTo: window.location.origin },
+        });
+        if (error) {
+          toast({ title: "Signup failed", description: error.message, variant: "destructive" });
+        } else if (data.user && !data.session) {
+          // Email confirmation required
+          toast({
+            title: "Check your email",
+            description: "We sent you a confirmation link. Please verify your email before signing in.",
+          });
+        } else if (data.session) {
+          // Auto-confirmed (e.g. in dev mode) — go to role selection
+          navigate("/select-role");
+        }
       }
-    } else {
-      const { error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: { emailRedirectTo: window.location.origin },
-      });
-      if (error) {
-        toast({ title: "Signup failed", description: error.message, variant: "destructive" });
-      } else {
-        toast({ title: "Check your email", description: "We sent you a confirmation link." });
-        navigate("/select-role");
-      }
+    } catch (err) {
+      toast({ title: "Error", description: "Something went wrong. Please try again.", variant: "destructive" });
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   const handleGoogleAuth = async () => {
@@ -68,7 +79,8 @@ export default function Auth() {
       <div className="w-full max-w-sm space-y-6">
         <div className="text-center">
           <h1 className="text-3xl font-bold text-foreground">runp8</h1>
-          <p className="mt-2 text-sm text-muted-foreground">
+          <p className="mt-1 text-xs text-muted-foreground">for your business</p>
+          <p className="mt-3 text-sm text-muted-foreground">
             {isLogin ? "Sign in to your account" : "Create your account"}
           </p>
         </div>

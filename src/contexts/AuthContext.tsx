@@ -30,17 +30,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [subscriptionEnd, setSubscriptionEnd] = useState<string | null>(null);
   const [checkingSubscription, setCheckingSubscription] = useState(false);
 
-  const fetchUserData = async (userId: string) => {
-    const [{ data: roles }, { data: prof }] = await Promise.all([
+  const fetchUserData = (userId: string) => {
+    // Fire-and-forget — no await inside auth callbacks
+    Promise.all([
       supabase.from("user_roles").select("role").eq("user_id", userId),
       supabase.from("profiles").select("display_name, avatar_url").eq("user_id", userId).maybeSingle(),
-    ]);
-    if (roles && roles.length > 0) {
-      setRole(roles[0].role as "landlord" | "tenant");
-    } else {
-      setRole(null);
-    }
-    setProfile(prof || null);
+    ]).then(([{ data: roles }, { data: prof }]) => {
+      if (roles && roles.length > 0) {
+        setRole(roles[0].role as "landlord" | "tenant");
+      } else {
+        setRole(null);
+      }
+      setProfile(prof || null);
+    });
   };
 
   const checkSubscription = useCallback(async () => {
@@ -63,11 +65,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [session]);
 
   useEffect(() => {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
-      setSession(session);
-      setUser(session?.user ?? null);
-      if (session?.user) {
-        setTimeout(() => fetchUserData(session.user.id), 0);
+    // 1. Set up listener FIRST (catches auth events that fire during getSession)
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, newSession) => {
+      setSession(newSession);
+      setUser(newSession?.user ?? null);
+      if (newSession?.user) {
+        fetchUserData(newSession.user.id);
       } else {
         setRole(null);
         setProfile(null);
@@ -78,11 +81,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setLoading(false);
     });
 
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      setUser(session?.user ?? null);
-      if (session?.user) {
-        fetchUserData(session.user.id);
+    // 2. THEN restore session from storage
+    supabase.auth.getSession().then(({ data: { session: restoredSession } }) => {
+      setSession(restoredSession);
+      setUser(restoredSession?.user ?? null);
+      if (restoredSession?.user) {
+        fetchUserData(restoredSession.user.id);
       }
       setLoading(false);
     });
