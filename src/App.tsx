@@ -30,6 +30,9 @@ import Resources from "./pages/Resources";
 import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
 import BlogEditor from "./pages/BlogEditor";
+import Inspections from "./pages/Inspections";
+import NewInspection from "./pages/NewInspection";
+import InspectionReport from "./pages/InspectionReport";
 
 const queryClient = new QueryClient();
 
@@ -95,6 +98,9 @@ const App = () => (
               <Route path="/import-listing" element={<ProtectedRoute><RoleGate><ImportListing /></RoleGate></ProtectedRoute>} />
               <Route path="/dashboard" element={<ProtectedRoute><RoleGate><Dashboard /></RoleGate></ProtectedRoute>} />
               <Route path="/blog/new" element={<ProtectedRoute><BlogEditor /></ProtectedRoute>} />
+              <Route path="/inspections" element={<ProtectedRoute><RoleGate><Inspections /></RoleGate></ProtectedRoute>} />
+              <Route path="/inspections/new" element={<ProtectedRoute><RoleGate><NewInspection /></RoleGate></ProtectedRoute>} />
+              <Route path="/inspections/:id" element={<ProtectedRoute><RoleGate><InspectionReport /></RoleGate></ProtectedRoute>} />
 
               <Route path="*" element={<NotFound />} />
             </Routes>
