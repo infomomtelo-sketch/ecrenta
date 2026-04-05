@@ -37,6 +37,7 @@ import RepairRequest from "./pages/RepairRequest";
 import MaintenanceDashboard from "./pages/MaintenanceDashboard";
 import MaintenanceDetail from "./pages/MaintenanceDetail";
 import P8Dashboard from "./pages/P8Dashboard";
+import Install from "./pages/Install";
 
 const queryClient = new QueryClient();
 
