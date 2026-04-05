@@ -105,6 +105,13 @@ const App = () => (
               <Route path="/inspections/new" element={<ProtectedRoute><RoleGate><NewInspection /></RoleGate></ProtectedRoute>} />
               <Route path="/inspections/:id" element={<ProtectedRoute><RoleGate><InspectionReport /></RoleGate></ProtectedRoute>} />
 
+              {/* Public repair request - no auth required */}
+              <Route path="/repair" element={<RepairRequest />} />
+              <Route path="/maintenance/:id" element={<MaintenanceDetail />} />
+
+              {/* Protected maintenance dashboard */}
+              <Route path="/maintenance" element={<ProtectedRoute><RoleGate><MaintenanceDashboard /></RoleGate></ProtectedRoute>} />
+
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>
