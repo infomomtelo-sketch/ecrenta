@@ -1,11 +1,9 @@
 import { useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Bot, Lightbulb, Palette, ArrowLeft, Sparkles } from "lucide-react";
+import { Bot, Lightbulb, Palette, Sparkles } from "lucide-react";
 import P8Chat from "@/components/P8Chat";
 
 type P8Mode = "va" | "strategist" | "creative";
