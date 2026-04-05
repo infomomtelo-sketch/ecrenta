@@ -102,9 +102,10 @@ export default function MaintenanceDashboard() {
             <SelectContent>
               <SelectItem value="all">All Requests</SelectItem>
               <SelectItem value="emergency">🚨 Emergency</SelectItem>
-              <SelectItem value="submitted">📋 Submitted</SelectItem>
+              <SelectItem value="pending_review">⏳ Pending Review</SelectItem>
+              <SelectItem value="approved">✅ Approved</SelectItem>
+              <SelectItem value="rejected">❌ Rejected</SelectItem>
               <SelectItem value="needs_dispatch">🔧 Needs Dispatch</SelectItem>
-              <SelectItem value="ai_handled">🤖 AI Handled</SelectItem>
               <SelectItem value="in_progress">🔨 In Progress</SelectItem>
               <SelectItem value="resolved">✅ Resolved</SelectItem>
             </SelectContent>
