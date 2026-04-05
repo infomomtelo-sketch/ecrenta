@@ -119,9 +119,9 @@ export default function P8Chat({ mode }: P8ChatProps) {
   };
 
   const placeholders: Record<string, string> = {
-    va: "Ask P8 anything... e.g. 'Draft a 3-day notice for unit at 123 Main St'",
-    inspector: "Ask about inspections... e.g. 'What should I look for in a move-out inspection?'",
-    manager: "Ask about your portfolio... e.g. 'What's my current vacancy rate?'",
+    va: "Ask P8 anything... e.g. 'Help me write a proposal' or 'Translate this to Spanish'",
+    strategist: "Ask about strategy... e.g. 'How can I grow my customer base by 20%?'",
+    creative: "Ask for content... e.g. 'Write an Instagram post for my new product launch'",
   };
 
   return (
@@ -133,12 +133,12 @@ export default function P8Chat({ mode }: P8ChatProps) {
               <Bot className="w-7 h-7 text-primary" />
             </div>
             <h3 className="text-lg font-semibold text-foreground">
-              {mode === "va" ? "P8 Virtual Assistant" : mode === "inspector" ? "P8 Inspector" : "P8 Property Manager"}
+              {mode === "va" ? "P8 Business Assistant" : mode === "strategist" ? "P8 Strategist" : "P8 Creative Studio"}
             </h3>
             <p className="text-sm text-muted-foreground max-w-md">
-              {mode === "va" && "I can draft notices, answer property questions, and help manage your rentals."}
-              {mode === "inspector" && "I help plan inspections, analyze reports, and estimate repair costs."}
-              {mode === "manager" && "I track your portfolio, finances, maintenance, and provide strategic advice."}
+              {mode === "va" && "I help you run your business — draft documents, translate, plan, and answer anything."}
+              {mode === "strategist" && "I help with growth strategy, market analysis, financial planning, and scaling."}
+              {mode === "creative" && "I create social media posts, ad copy, content calendars, and brand messaging."}
             </p>
           </div>
         )}
