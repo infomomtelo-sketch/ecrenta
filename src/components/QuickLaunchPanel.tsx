@@ -46,17 +46,19 @@ export default function QuickLaunchPanel({ onClose, externalQuery }: QuickLaunch
     }
   }, [externalQuery]);
 
+  const searchRef = useRef<HTMLAnchorElement>(null);
+
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
       const q = searchQuery.trim();
-      window.open(`https://www.google.com/search?q=${encodeURIComponent(q)}`, "_blank", "noopener");
       setRecentSearches(prev => [q, ...prev.filter(s => s !== q)].slice(0, 5));
+      // Use a hidden anchor to reliably open in new tab
+      if (searchRef.current) {
+        searchRef.current.href = `https://www.google.com/search?q=${encodeURIComponent(q)}`;
+        searchRef.current.click();
+      }
     }
-  };
-
-  const openLink = (url: string) => {
-    window.open(url, "_blank", "noopener");
   };
 
   return (
