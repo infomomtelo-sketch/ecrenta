@@ -11,6 +11,7 @@ import { Mail, Lock, Eye, EyeOff } from "lucide-react";
 export default function Auth() {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { user, role } = useAuth();
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
