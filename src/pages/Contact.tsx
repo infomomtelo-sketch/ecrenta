@@ -21,11 +21,22 @@ export default function Contact() {
 
     try {
       // Save to database
+      const id = crypto.randomUUID();
       const { error: dbError } = await supabase
         .from("contact_messages")
-        .insert({ name, email, message });
+        .insert({ id, name, email, message });
 
       if (dbError) throw dbError;
+
+      // Send confirmation email to user
+      await supabase.functions.invoke("send-transactional-email", {
+        body: {
+          templateName: "contact-confirmation",
+          recipientEmail: email,
+          idempotencyKey: `contact-confirm-${id}`,
+          templateData: { name },
+        },
+      });
 
       // Trigger notification edge function
       await supabase.functions.invoke("contact-notify", {
