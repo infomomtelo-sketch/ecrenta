@@ -17,7 +17,18 @@ export default function Auth() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [loading, setLoading] = useState(false);
+
+  // Redirect if already logged in
+  useEffect(() => {
+    if (user) {
+      if (role) {
+        navigate("/dashboard", { replace: true });
+      } else {
+        navigate("/select-role", { replace: true });
+      }
+    }
+  }, [user, role, navigate]);
+
 
   const handleEmailAuth = async (e: React.FormEvent) => {
     e.preventDefault();
