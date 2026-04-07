@@ -39,6 +39,7 @@ import MaintenanceDashboard from "./pages/MaintenanceDashboard";
 import MaintenanceDetail from "./pages/MaintenanceDetail";
 import P8Dashboard from "./pages/P8Dashboard";
 import Install from "./pages/Install";
+import PostProperty from "./pages/PostProperty";
 
 const queryClient = new QueryClient();
 
@@ -116,6 +117,7 @@ const App = () => (
               <Route path="/repair" element={<RepairRequest />} />
               <Route path="/maintenance/:id" element={<MaintenanceDetail />} />
               <Route path="/install" element={<Install />} />
+              <Route path="/post-property" element={<PostProperty />} />
 
               {/* Authenticated dashboard routes with sidebar */}
               <Route element={<ProtectedDashboard />}>
