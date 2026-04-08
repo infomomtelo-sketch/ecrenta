@@ -42,10 +42,15 @@ const toolsNav = [
 ];
 
 export function AppSidebar() {
-  const { state } = useSidebar();
+  const { state, setOpenMobile, isMobile } = useSidebar();
   const collapsed = state === "collapsed";
   const location = useLocation();
   const { signOut, profile } = useAuth();
+  const mobile = useIsMobile();
+
+  const closeMobile = () => {
+    if (mobile || isMobile) setOpenMobile(false);
+  };
 
   const isActive = (path: string) => location.pathname === path || location.pathname.startsWith(path + "/");
 
