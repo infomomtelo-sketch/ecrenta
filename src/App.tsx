@@ -34,6 +34,8 @@ import BlogEditor from "./pages/BlogEditor";
 import Inspections from "./pages/Inspections";
 import NewInspection from "./pages/NewInspection";
 import InspectionReport from "./pages/InspectionReport";
+import InspectionCompare from "./pages/InspectionCompare";
+import SharedInspection from "./pages/SharedInspection";
 import RepairRequest from "./pages/RepairRequest";
 import MaintenanceDashboard from "./pages/MaintenanceDashboard";
 import MaintenanceDetail from "./pages/MaintenanceDetail";
@@ -126,6 +128,7 @@ const App = () => (
               <Route path="/post-property" element={<PostProperty />} />
               <Route path="/unsubscribe" element={<Unsubscribe />} />
               <Route path="/sign/:token" element={<SignForm />} />
+              <Route path="/inspection/:token" element={<SharedInspection />} />
               <Route path="/rentals/:slug" element={<MarketLanding />} />
 
               {/* Authenticated dashboard routes with sidebar */}
@@ -139,6 +142,7 @@ const App = () => (
                 <Route path="/inspections" element={<Inspections />} />
                 <Route path="/inspections/new" element={<NewInspection />} />
                 <Route path="/inspections/:id" element={<InspectionReport />} />
+                <Route path="/inspections/:id/compare" element={<InspectionCompare />} />
                 <Route path="/maintenance" element={<MaintenanceDashboard />} />
                 <Route path="/add-property" element={<AddProperty />} />
                 <Route path="/import-listing" element={<ImportListing />} />
