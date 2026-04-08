@@ -6,6 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { useState, useEffect } from "react";
 import { SUBSCRIPTION_TIERS } from "@/lib/subscriptions";
+import SEOHead from "@/components/SEOHead";
 
 export default function Pricing() {
   const { user, subscribed, subscriptionTier, subscriptionEnd } = useAuth();
