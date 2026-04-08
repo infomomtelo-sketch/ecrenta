@@ -18,6 +18,7 @@ import {
   SidebarHeader,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 
