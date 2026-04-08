@@ -62,6 +62,7 @@ export default function Contact() {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEOHead title="Contact Us" description="Get in touch with ecrenta. Questions about furnished rentals in Fresno County? We're here to help tenants and landlords." />
       <header className="sticky top-0 z-50 border-b border-border bg-card/90 backdrop-blur-md">
         <div className="mx-auto flex max-w-6xl items-center gap-3 px-4 py-3">
           <Link to="/" className="rounded-full p-2 hover:bg-secondary transition-colors">
