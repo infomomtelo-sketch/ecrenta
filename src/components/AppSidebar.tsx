@@ -1,6 +1,6 @@
 import {
   Bot, LayoutDashboard, Inbox, ClipboardCheck, Wrench,
-  Plus, FileText, LogOut, Sparkles,
+  Plus, FileText, LogOut, Sparkles, Users, FileSignature, DollarSign,
 } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { useLocation } from "react-router-dom";
@@ -25,6 +25,12 @@ const mainNav = [
   { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
   { title: "P8 Assistant", url: "/p8", icon: Sparkles },
   { title: "Inbox", url: "/inbox", icon: Inbox },
+];
+
+const managementNav = [
+  { title: "Tenants", url: "/tenants", icon: Users },
+  { title: "Forms & Signatures", url: "/forms", icon: FileSignature },
+  { title: "Invoices", url: "/invoices", icon: DollarSign },
 ];
 
 const toolsNav = [

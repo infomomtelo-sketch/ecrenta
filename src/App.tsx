@@ -124,12 +124,16 @@ const App = () => (
               <Route path="/install" element={<Install />} />
               <Route path="/post-property" element={<PostProperty />} />
               <Route path="/unsubscribe" element={<Unsubscribe />} />
+              <Route path="/sign/:token" element={<SignForm />} />
 
               {/* Authenticated dashboard routes with sidebar */}
               <Route element={<ProtectedDashboard />}>
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/p8" element={<P8Dashboard />} />
                 <Route path="/inbox" element={<Inbox />} />
+                <Route path="/tenants" element={<Tenants />} />
+                <Route path="/forms" element={<RentalForms />} />
+                <Route path="/invoices" element={<Invoices />} />
                 <Route path="/inspections" element={<Inspections />} />
                 <Route path="/inspections/new" element={<NewInspection />} />
                 <Route path="/inspections/:id" element={<InspectionReport />} />
