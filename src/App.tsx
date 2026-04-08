@@ -128,6 +128,7 @@ const App = () => (
               <Route path="/post-property" element={<PostProperty />} />
               <Route path="/unsubscribe" element={<Unsubscribe />} />
               <Route path="/sign/:token" element={<SignForm />} />
+              <Route path="/inspection/:token" element={<SharedInspection />} />
               <Route path="/rentals/:slug" element={<MarketLanding />} />
 
               {/* Authenticated dashboard routes with sidebar */}
