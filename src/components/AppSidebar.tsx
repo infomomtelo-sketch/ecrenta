@@ -82,7 +82,7 @@ export function AppSidebar() {
                     isActive={isActive(item.url)}
                     tooltip={item.title}
                   >
-                    <NavLink to={item.url} end={item.url === "/dashboard"}>
+                    <NavLink to={item.url} end={item.url === "/dashboard"} onClick={closeMobile}>
                       <item.icon className="h-4 w-4" />
                       <span>{item.title}</span>
                     </NavLink>
@@ -104,7 +104,7 @@ export function AppSidebar() {
                     isActive={isActive(item.url)}
                     tooltip={item.title}
                   >
-                    <NavLink to={item.url}>
+                    <NavLink to={item.url} onClick={closeMobile}>
                       <item.icon className="h-4 w-4" />
                       <span>{item.title}</span>
                     </NavLink>
@@ -126,7 +126,7 @@ export function AppSidebar() {
                     isActive={isActive(item.url)}
                     tooltip={item.title}
                   >
-                    <NavLink to={item.url} end={item.url === "/blog/new"}>
+                    <NavLink to={item.url} end={item.url === "/blog/new"} onClick={closeMobile}>
                       <item.icon className="h-4 w-4" />
                       <span>{item.title}</span>
                     </NavLink>
