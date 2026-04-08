@@ -46,7 +46,7 @@ export default function BlogPost() {
   return (
     <div className="min-h-screen bg-background">
       <Helmet>
-        <title>{post.meta_title || post.title} | EC Rental Property Management LLC Blog</title>
+        <title>{post.meta_title || post.title} | ecrenta Blog</title>
         <meta name="description" content={post.meta_description || post.excerpt} />
         <script type="application/ld+json">{JSON.stringify({
           "@context": "https://schema.org",

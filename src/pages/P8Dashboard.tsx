@@ -31,7 +31,7 @@ export default function P8Dashboard() {
   return (
     <>
       <Helmet>
-        <title>P8 AI Assistant | EC Rental Property Management LLC</title>
+        <title>P8 AI Assistant | ecrenta</title>
         <meta name="description" content="P8 — your AI property management assistant for inspections, operations, and growth." />
       </Helmet>
 

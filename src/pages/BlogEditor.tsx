@@ -52,7 +52,7 @@ export default function BlogEditor() {
       published,
       published_at: published ? new Date().toISOString() : null,
       user_id: user.id,
-      author_name: user.user_metadata?.display_name || "EC Rental Property Management LLC Team",
+      author_name: user.user_metadata?.display_name || "ecrenta Team",
     });
     setSaving(false);
 

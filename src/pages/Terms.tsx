@@ -13,7 +13,7 @@ export default function Terms() {
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
               <MapPin className="h-4 w-4 text-primary-foreground" />
             </div>
-            <span className="font-[var(--font-heading)] text-lg font-bold">EC Rental Property Management LLC</span>
+            <span className="font-[var(--font-heading)] text-lg font-bold">ecrenta</span>
           </Link>
         </div>
       </header>
@@ -25,7 +25,7 @@ export default function Terms() {
         <div className="mt-8 space-y-8 text-sm leading-relaxed text-muted-foreground">
           <section>
             <h2 className="font-[var(--font-heading)] text-lg font-semibold text-foreground mb-2">1. Acceptance of Terms</h2>
-            <p>By using EC Rental Property Management LLC, you agree to these Terms of Service. If you do not agree, do not use the platform. We may update these terms at any time, and continued use constitutes acceptance.</p>
+            <p>By using ecrenta, you agree to these Terms of Service. If you do not agree, do not use the platform. We may update these terms at any time, and continued use constitutes acceptance.</p>
           </section>
 
           <section>
@@ -45,7 +45,7 @@ export default function Terms() {
 
           <section>
             <h2 className="font-[var(--font-heading)] text-lg font-semibold text-foreground mb-2">5. Tenant Screening</h2>
-            <p>EC Rental Property Management LLC provides free basic tenant screening. Results are advisory only — landlords make their own rental decisions. EC Rental Property Management LLC is not responsible for the accuracy of screening results or rental decisions made based on them.</p>
+            <p>ecrenta provides free basic tenant screening. Results are advisory only — landlords make their own rental decisions. ecrenta is not responsible for the accuracy of screening results or rental decisions made based on them.</p>
           </section>
 
           <section>
@@ -55,7 +55,7 @@ export default function Terms() {
 
           <section>
             <h2 className="font-[var(--font-heading)] text-lg font-semibold text-foreground mb-2">7. Limitation of Liability</h2>
-            <p>EC Rental Property Management LLC is a marketplace platform. We do not guarantee the quality of listings, the reliability of users, or the outcome of any rental arrangement. We are not a party to any lease agreement between landlords and tenants.</p>
+            <p>ecrenta is a marketplace platform. We do not guarantee the quality of listings, the reliability of users, or the outcome of any rental arrangement. We are not a party to any lease agreement between landlords and tenants.</p>
           </section>
 
           <section>

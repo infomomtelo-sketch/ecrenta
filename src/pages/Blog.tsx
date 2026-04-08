@@ -39,7 +39,7 @@ export default function Blog() {
   return (
     <div className="min-h-screen bg-background">
       <Helmet>
-        <title>Blog — Furnished Rental Tips & Housing Guides | EC Rental Property Management LLC</title>
+        <title>Blog — Furnished Rental Tips & Housing Guides | ecrenta</title>
         <meta name="description" content="Expert guides on furnished housing, travel nurse tips, and Central Valley rental market insights. Find your next furnished rental in Fresno County." />
       </Helmet>
 

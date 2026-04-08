@@ -33,7 +33,7 @@ serve(async (req) => {
     if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY not configured");
 
     const roomList = rooms?.length ? rooms.join(", ") : "all rooms";
-    const systemPrompt = `You are a professional property inspector for EC Rental Property Management LLC. You analyze property photos to generate detailed move-out (or move-in/routine) inspection reports.
+    const systemPrompt = `You are a professional property inspector for ecrenta. You analyze property photos to generate detailed move-out (or move-in/routine) inspection reports.
 
 For each photo, identify:
 1. Room/area depicted

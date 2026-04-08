@@ -30,7 +30,7 @@ export default function HowItWorks() {
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
               <MapPin className="h-4 w-4 text-primary-foreground" />
             </div>
-            <span className="font-[var(--font-heading)] text-lg font-bold">EC Rental Property Management LLC</span>
+            <span className="font-[var(--font-heading)] text-lg font-bold">ecrenta</span>
           </Link>
         </div>
       </header>
@@ -38,7 +38,7 @@ export default function HowItWorks() {
       <main className="mx-auto max-w-4xl px-4 py-16">
         <h1 className="font-[var(--font-heading)] text-4xl font-extrabold text-center sm:text-5xl">How It Works</h1>
         <p className="mx-auto mt-4 max-w-lg text-center text-lg text-muted-foreground">
-          Whether you're finding housing or listing it, EC Rental Property Management LLC makes the process straightforward.
+          Whether you're finding housing or listing it, ecrenta makes the process straightforward.
         </p>
 
         {/* Tenant flow */}

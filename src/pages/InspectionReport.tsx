@@ -80,7 +80,7 @@ export default function InspectionReport() {
             <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary">
               <MapPin className="h-5 w-5 text-primary-foreground" />
             </div>
-            <span className="font-[var(--font-heading)] text-xl font-bold tracking-tight">EC Rental Property Management LLC</span>
+            <span className="font-[var(--font-heading)] text-xl font-bold tracking-tight">ecrenta</span>
           </Link>
           <Button variant="ghost" size="sm" asChild>
             <Link to="/inspections"><ArrowLeft className="h-4 w-4 mr-1" />All Inspections</Link>

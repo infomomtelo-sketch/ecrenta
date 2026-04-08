@@ -14,14 +14,14 @@ export default function About() {
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
               <MapPin className="h-4 w-4 text-primary-foreground" />
             </div>
-            <span className="font-[var(--font-heading)] text-lg font-bold">EC Rental Property Management LLC</span>
+            <span className="font-[var(--font-heading)] text-lg font-bold">ecrenta</span>
           </Link>
         </div>
       </header>
 
       <main className="mx-auto max-w-4xl px-4 py-16">
         <div className="text-center">
-          <h1 className="font-[var(--font-heading)] text-4xl font-extrabold sm:text-5xl">About EC Rental Property Management LLC</h1>
+          <h1 className="font-[var(--font-heading)] text-4xl font-extrabold sm:text-5xl">About ecrenta</h1>
           <p className="mx-auto mt-4 max-w-xl text-lg text-muted-foreground">
             Making mid-term furnished housing affordable and accessible for traveling professionals in Fresno County.
           </p>
@@ -33,10 +33,10 @@ export default function About() {
               <Heart className="h-6 w-6 text-primary" /> Our Mission
             </h2>
             <p className="mt-4 text-muted-foreground leading-relaxed">
-              EC Rental Property Management LLC was created to solve a real problem: traveling nurses and healthcare professionals 
+              ecrenta was created to solve a real problem: traveling nurses and healthcare professionals 
               relocating to Fresno County struggle to find affordable, furnished housing for their 
               assignments. Traditional platforms charge high fees, and most listings aren't tailored 
-              to mid-term stays. We built EC Rental Property Management LLC to change that — a focused, no-nonsense marketplace 
+              to mid-term stays. We built ecrenta to change that — a focused, no-nonsense marketplace 
               where landlords pay less and tenants get screened for free.
             </p>
           </div>
@@ -66,7 +66,7 @@ export default function About() {
               Saint Agnes Medical Center, and Kaiser Permanente — all of which regularly bring in 
               traveling healthcare workers. The Central Valley is also experiencing growth in other 
               professional sectors. Yet, the furnished rental market here has been underserved compared 
-              to coastal cities. EC Rental Property Management LLC fills that gap.
+              to coastal cities. ecrenta fills that gap.
             </p>
           </div>
         </div>

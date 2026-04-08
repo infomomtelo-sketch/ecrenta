@@ -62,12 +62,12 @@ const benefits = [
 ];
 
 const comparisonData = [
-  { feature: "Monthly Plan", EC Rental Property Management LLC: "$9.99/mo", competitor: "$16.58/mo" },
-  { feature: "Annual Plan", EC Rental Property Management LLC: "$99/yr", competitor: "$199/yr" },
-  { feature: "Commission Fees", EC Rental Property Management LLC: "0%", competitor: "0–10%" },
-  { feature: "Tenant Screening Cost", EC Rental Property Management LLC: "Free (we pay)", competitor: "$44.99/tenant" },
-  { feature: "Direct Messaging", EC Rental Property Management LLC: "Included", competitor: "Included" },
-  { feature: "Fresno County Focus", EC Rental Property Management LLC: "Specialized", competitor: "Generic" },
+  { feature: "Monthly Plan", ecrenta: "$9.99/mo", competitor: "$16.58/mo" },
+  { feature: "Annual Plan", ecrenta: "$99/yr", competitor: "$199/yr" },
+  { feature: "Commission Fees", ecrenta: "0%", competitor: "0–10%" },
+  { feature: "Tenant Screening Cost", ecrenta: "Free (we pay)", competitor: "$44.99/tenant" },
+  { feature: "Direct Messaging", ecrenta: "Included", competitor: "Included" },
+  { feature: "Fresno County Focus", ecrenta: "Specialized", competitor: "Generic" },
 ];
 
 const testimonials = [
@@ -119,7 +119,7 @@ const steps = [
 
 const faqs = [
   {
-    q: "How is EC Rental Property Management LLC different from FurnishedFinder?",
+    q: "How is ecrenta different from FurnishedFinder?",
     a: "We're cheaper ($99/yr vs $199/yr), we cover tenant screening for free (they charge $44.99), and we specialize in Fresno County so your listing reaches the right local audience.",
   },
   {
@@ -165,7 +165,7 @@ export default function ForLandlords() {
               <MapPin className="h-5 w-5 text-primary-foreground" />
             </div>
             <span className="font-[var(--font-heading)] text-xl font-bold tracking-tight">
-              EC Rental Property Management LLC
+              ecrenta
             </span>
           </Link>
           <div className="flex items-center gap-2">
@@ -256,7 +256,7 @@ export default function ForLandlords() {
             Everything You Need to Rent Furnished
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-muted-foreground">
-            We built EC Rental Property Management LLC for landlords who are tired of overpaying platforms that underdeliver.
+            We built ecrenta for landlords who are tired of overpaying platforms that underdeliver.
           </p>
         </div>
         <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -302,7 +302,7 @@ export default function ForLandlords() {
       <section id="comparison" className="mx-auto max-w-6xl px-4 py-20 scroll-mt-20">
         <div className="text-center">
           <h2 className="font-[var(--font-heading)] text-3xl font-bold sm:text-4xl">
-            EC Rental Property Management LLC vs. FurnishedFinder
+            ecrenta vs. FurnishedFinder
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-muted-foreground">
             Same tenant pool. Better price. Better tools.
@@ -313,12 +313,12 @@ export default function ForLandlords() {
             <thead>
               <tr className="border-b border-border bg-primary/5">
                 <th className="px-5 py-4 text-left font-semibold" />
-                <th className="px-5 py-4 text-center font-[var(--font-heading)] font-bold text-primary text-lg">EC Rental Property Management LLC</th>
+                <th className="px-5 py-4 text-center font-[var(--font-heading)] font-bold text-primary text-lg">ecrenta</th>
                 <th className="px-5 py-4 text-center font-semibold text-muted-foreground">Others</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
-              {comparisonData.map(({ feature, EC Rental Property Management LLC: ours, competitor }) => (
+              {comparisonData.map(({ feature, ecrenta: ours, competitor }) => (
                 <tr key={feature} className="bg-card">
                   <td className="px-5 py-4 font-medium">{feature}</td>
                   <td className="px-5 py-4 text-center font-semibold text-primary">{ours}</td>
@@ -385,7 +385,7 @@ export default function ForLandlords() {
                 <div className="space-y-4">
                   {[
                     { label: "Avg. monthly rent for private room", value: "$1,100" },
-                    { label: "Your EC Rental Property Management LLC subscription", value: "−$9.99/mo" },
+                    { label: "Your ecrenta subscription", value: "−$9.99/mo" },
                     { label: "Commission fees", value: "$0" },
                     { label: "Tenant screening cost", value: "$0" },
                   ].map((row) => (
@@ -412,7 +412,7 @@ export default function ForLandlords() {
       <section className="border-y border-border bg-card">
         <div className="mx-auto max-w-6xl px-4 py-20">
           <h2 className="font-[var(--font-heading)] text-center text-3xl font-bold sm:text-4xl">
-            Landlords Love EC Rental Property Management LLC
+            Landlords Love ecrenta
           </h2>
           <div className="mt-12 grid gap-6 sm:grid-cols-3">
             {testimonials.map((t) => (
@@ -490,7 +490,7 @@ export default function ForLandlords() {
               <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
                 <MapPin className="h-4 w-4 text-primary-foreground" />
               </div>
-              <span className="font-[var(--font-heading)] text-lg font-bold">EC Rental Property Management LLC</span>
+              <span className="font-[var(--font-heading)] text-lg font-bold">ecrenta</span>
             </Link>
             <div className="flex gap-6 text-sm text-muted-foreground">
               <Link to="/pricing" className="hover:text-foreground transition-colors">Pricing</Link>
