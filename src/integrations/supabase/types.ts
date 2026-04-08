@@ -268,9 +268,68 @@ export type Database = {
         }
         Relationships: []
       }
+      inspection_schedules: {
+        Row: {
+          created_at: string
+          id: string
+          interval_months: number
+          last_completed_id: string | null
+          listing_id: string | null
+          next_due: string
+          notes: string | null
+          notify_email: string | null
+          property_address: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          interval_months?: number
+          last_completed_id?: string | null
+          listing_id?: string | null
+          next_due: string
+          notes?: string | null
+          notify_email?: string | null
+          property_address: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          interval_months?: number
+          last_completed_id?: string | null
+          listing_id?: string | null
+          next_due?: string
+          notes?: string | null
+          notify_email?: string | null
+          property_address?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "inspection_schedules_last_completed_id_fkey"
+            columns: ["last_completed_id"]
+            isOneToOne: false
+            referencedRelation: "inspections"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "inspection_schedules_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "listings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       inspections: {
         Row: {
           ai_report: Json | null
+          checklist_data: Json
+          comparison_id: string | null
           created_at: string
           id: string
           inspection_type: string
@@ -278,12 +337,16 @@ export type Database = {
           notes: string | null
           photos: string[]
           property_address: string
+          share_token: string | null
           status: string
+          template_type: string
           updated_at: string
           user_id: string
         }
         Insert: {
           ai_report?: Json | null
+          checklist_data?: Json
+          comparison_id?: string | null
           created_at?: string
           id?: string
           inspection_type?: string
@@ -291,12 +354,16 @@ export type Database = {
           notes?: string | null
           photos?: string[]
           property_address: string
+          share_token?: string | null
           status?: string
+          template_type?: string
           updated_at?: string
           user_id: string
         }
         Update: {
           ai_report?: Json | null
+          checklist_data?: Json
+          comparison_id?: string | null
           created_at?: string
           id?: string
           inspection_type?: string
@@ -304,11 +371,20 @@ export type Database = {
           notes?: string | null
           photos?: string[]
           property_address?: string
+          share_token?: string | null
           status?: string
+          template_type?: string
           updated_at?: string
           user_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "inspections_comparison_id_fkey"
+            columns: ["comparison_id"]
+            isOneToOne: false
+            referencedRelation: "inspections"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "inspections_listing_id_fkey"
             columns: ["listing_id"]
