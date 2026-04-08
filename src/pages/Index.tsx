@@ -341,7 +341,7 @@ export default function Index() {
             </div>
           </div>
           <div className="mt-10 border-t border-border pt-6 flex flex-col items-center justify-between gap-3 sm:flex-row">
-            <p className="text-xs text-muted-foreground">© {new Date().getFullYear()} EC Rental Property Management LLC — EC Rental Property Management LLC</p>
+            <p className="text-xs text-muted-foreground">© {new Date().getFullYear()} EC Rental Property Management LLC</p>
             <div className="flex items-center gap-3">
               <span className="inline-flex items-center gap-1 text-xs text-primary font-medium">
                 <Sparkles className="h-3 w-3" /> Powered by P8 AI
