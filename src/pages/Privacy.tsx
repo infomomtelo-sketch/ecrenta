@@ -13,7 +13,7 @@ export default function Privacy() {
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
               <MapPin className="h-4 w-4 text-primary-foreground" />
             </div>
-            <span className="font-[var(--font-heading)] text-lg font-bold">runp8</span>
+            <span className="font-[var(--font-heading)] text-lg font-bold">ecrenta</span>
           </Link>
         </div>
       </header>
@@ -55,13 +55,13 @@ export default function Privacy() {
 
           <section>
             <h2 className="font-[var(--font-heading)] text-lg font-semibold text-foreground mb-2">7. Contact Us</h2>
-            <p>For privacy questions, contact us at <a href="mailto:privacy@runp8.com" className="text-primary hover:underline">privacy@runp8.com</a></p>
+            <p>For privacy questions, contact us at <a href="mailto:privacy@ecrenta.space" className="text-primary hover:underline">privacy@ecrenta.space</a></p>
           </section>
         </div>
       </main>
 
       <footer className="border-t border-border py-6 text-center text-xs text-muted-foreground">
-        © {new Date().getFullYear()} runp8. All rights reserved.
+        © {new Date().getFullYear()} ecrenta. All rights reserved.
       </footer>
     </div>
   );

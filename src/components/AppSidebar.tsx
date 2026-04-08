@@ -51,7 +51,7 @@ export function AppSidebar() {
           </div>
           {!collapsed && (
             <div className="flex flex-col">
-              <span className="text-sm font-bold font-heading leading-tight">runp8</span>
+              <span className="text-sm font-bold font-heading leading-tight">ecrenta</span>
               <span className="text-[10px] text-muted-foreground leading-tight">for your business</span>
             </div>
           )}

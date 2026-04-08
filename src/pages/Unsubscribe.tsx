@@ -66,7 +66,7 @@ export default function Unsubscribe() {
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
             <MapPin className="h-4 w-4 text-primary-foreground" />
           </div>
-          <span className="font-[var(--font-heading)] text-lg font-bold">runp8</span>
+          <span className="font-[var(--font-heading)] text-lg font-bold">ecrenta</span>
         </Link>
 
         {status === "loading" && (
@@ -81,7 +81,7 @@ export default function Unsubscribe() {
             <MailX className="mx-auto h-12 w-12 text-muted-foreground" />
             <h1 className="font-[var(--font-heading)] text-xl font-bold">Unsubscribe</h1>
             <p className="text-sm text-muted-foreground">
-              You'll no longer receive app emails from runp8.
+              You'll no longer receive app emails from ecrenta.
             </p>
             <Button
               onClick={handleUnsubscribe}
@@ -99,7 +99,7 @@ export default function Unsubscribe() {
             <CheckCircle className="mx-auto h-12 w-12 text-primary" />
             <h1 className="font-[var(--font-heading)] text-xl font-bold">You're unsubscribed</h1>
             <p className="text-sm text-muted-foreground">
-              You won't receive any more app emails from runp8.
+              You won't receive any more app emails from ecrenta.
             </p>
           </div>
         )}
@@ -123,7 +123,7 @@ export default function Unsubscribe() {
             <p className="text-sm text-muted-foreground">
               {status === "invalid"
                 ? "This unsubscribe link is invalid or has expired."
-                : "Please try again later or contact support@runp8.com."}
+                : "Please try again later or contact support@ecrenta.space."}
             </p>
           </div>
         )}

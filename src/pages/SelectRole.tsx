@@ -76,7 +76,7 @@ export default function SelectRole() {
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="w-full max-w-sm space-y-6 text-center">
         <div>
-          <h1 className="text-2xl font-bold text-foreground">How will you use runp8?</h1>
+          <h1 className="text-2xl font-bold text-foreground">How will you use ecrenta?</h1>
           <p className="mt-2 text-sm text-muted-foreground">Choose your role to get started</p>
         </div>
 
