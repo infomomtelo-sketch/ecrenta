@@ -1,6 +1,6 @@
 import {
   Bot, LayoutDashboard, Inbox, ClipboardCheck, Wrench,
-  Plus, FileText, LogOut, Sparkles,
+  Plus, FileText, LogOut, Sparkles, Users, FileSignature, DollarSign,
 } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { useLocation } from "react-router-dom";
@@ -25,6 +25,12 @@ const mainNav = [
   { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
   { title: "P8 Assistant", url: "/p8", icon: Sparkles },
   { title: "Inbox", url: "/inbox", icon: Inbox },
+];
+
+const managementNav = [
+  { title: "Tenants", url: "/tenants", icon: Users },
+  { title: "Forms & Signatures", url: "/forms", icon: FileSignature },
+  { title: "Invoices", url: "/invoices", icon: DollarSign },
 ];
 
 const toolsNav = [
@@ -71,6 +77,28 @@ export function AppSidebar() {
                     tooltip={item.title}
                   >
                     <NavLink to={item.url} end={item.url === "/dashboard"}>
+                      <item.icon className="h-4 w-4" />
+                      <span>{item.title}</span>
+                    </NavLink>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        <SidebarGroup>
+          <SidebarGroupLabel>Management</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {managementNav.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton
+                    asChild
+                    isActive={isActive(item.url)}
+                    tooltip={item.title}
+                  >
+                    <NavLink to={item.url}>
                       <item.icon className="h-4 w-4" />
                       <span>{item.title}</span>
                     </NavLink>
