@@ -41,6 +41,10 @@ import P8Dashboard from "./pages/P8Dashboard";
 import Install from "./pages/Install";
 import PostProperty from "./pages/PostProperty";
 import Unsubscribe from "./pages/Unsubscribe";
+import Tenants from "./pages/Tenants";
+import RentalForms from "./pages/RentalForms";
+import Invoices from "./pages/Invoices";
+import SignForm from "./pages/SignForm";
 
 const queryClient = new QueryClient();
 
