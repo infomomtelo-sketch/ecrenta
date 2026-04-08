@@ -131,14 +131,14 @@ export default function RepairRequest() {
   if (submitted) {
     return (
       <div className="min-h-screen bg-background">
-        <Helmet><title>Request Submitted | ecrenta</title></Helmet>
+        <Helmet><title>Request Submitted | EC Rental Property Management LLC</title></Helmet>
         <header className="border-b border-border bg-card/80 backdrop-blur-sm sticky top-0 z-50">
           <div className="container mx-auto px-4 py-4 flex items-center gap-3">
             <Link to="/" className="flex items-center gap-2">
               <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center">
                 <span className="text-primary-foreground font-bold text-sm" style={{ fontFamily: "var(--font-heading)" }}>P8</span>
               </div>
-              <span className="font-semibold text-foreground" style={{ fontFamily: "var(--font-heading)" }}>ecrenta</span>
+              <span className="font-semibold text-foreground" style={{ fontFamily: "var(--font-heading)" }}>EC Rental Property Management LLC</span>
             </Link>
           </div>
         </header>
@@ -193,7 +193,7 @@ export default function RepairRequest() {
   return (
     <div className="min-h-screen bg-background">
       <Helmet>
-        <title>Report a Repair | ecrenta</title>
+        <title>Report a Repair | EC Rental Property Management LLC</title>
         <meta name="description" content="Submit a maintenance or repair request for your rental property. P8 AI will triage and respond instantly." />
       </Helmet>
 
@@ -203,7 +203,7 @@ export default function RepairRequest() {
             <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center">
               <span className="text-primary-foreground font-bold text-sm" style={{ fontFamily: "var(--font-heading)" }}>P8</span>
             </div>
-            <span className="font-semibold text-foreground" style={{ fontFamily: "var(--font-heading)" }}>ecrenta</span>
+            <span className="font-semibold text-foreground" style={{ fontFamily: "var(--font-heading)" }}>EC Rental Property Management LLC</span>
           </Link>
           <Link to="/">
             <Button variant="ghost" size="sm"><ArrowLeft className="h-4 w-4 mr-1" /> Back</Button>

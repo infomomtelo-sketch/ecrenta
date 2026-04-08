@@ -185,7 +185,7 @@ export default function ImportListing() {
               ) : (
                 <Check className="mr-2 h-4 w-4" />
               )}
-              Import to ecrenta
+              Import to EC Rental Property Management LLC
             </Button>
           </div>
         )}

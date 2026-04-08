@@ -66,7 +66,7 @@ export default function Unsubscribe() {
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
             <MapPin className="h-4 w-4 text-primary-foreground" />
           </div>
-          <span className="font-[var(--font-heading)] text-lg font-bold">ecrenta</span>
+          <span className="font-[var(--font-heading)] text-lg font-bold">EC Rental Property Management LLC</span>
         </Link>
 
         {status === "loading" && (

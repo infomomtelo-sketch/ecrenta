@@ -70,7 +70,7 @@ export default function Contact() {
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
               <MapPin className="h-4 w-4 text-primary-foreground" />
             </div>
-            <span className="font-[var(--font-heading)] text-lg font-bold">ecrenta</span>
+            <span className="font-[var(--font-heading)] text-lg font-bold">EC Rental Property Management LLC</span>
           </Link>
         </div>
       </header>
@@ -78,7 +78,7 @@ export default function Contact() {
       <main className="mx-auto max-w-4xl px-4 py-16">
         <h1 className="font-[var(--font-heading)] text-3xl font-extrabold sm:text-4xl text-center">Contact Us</h1>
         <p className="mx-auto mt-3 max-w-lg text-center text-muted-foreground">
-          Have questions about ecrenta? We're here to help landlords and tenants in the Fresno County area.
+          Have questions about EC Rental Property Management LLC? We're here to help landlords and tenants in the Fresno County area.
         </p>
 
         <div className="mt-12 grid gap-8 lg:grid-cols-2">
