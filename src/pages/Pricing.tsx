@@ -121,6 +121,7 @@ export default function Pricing() {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEOHead title="Pricing – Landlord Plans from $9.99/mo" description="Free for tenants. Landlord plans start at $9.99/month or $99/year. No commissions, free tenant screening. Compare plans." />
       <header className="sticky top-0 z-50 border-b border-border bg-card/90 backdrop-blur-md">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
           <Link to="/" className="flex items-center gap-2.5">

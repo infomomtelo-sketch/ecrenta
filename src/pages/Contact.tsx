@@ -1,4 +1,5 @@
 import { useState } from "react";
+import SEOHead from "@/components/SEOHead";
 import { Link } from "react-router-dom";
 import { ArrowLeft, MapPin, Mail, Phone, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";

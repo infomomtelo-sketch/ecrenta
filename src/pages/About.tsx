@@ -1,10 +1,13 @@
 import { Link } from "react-router-dom";
 import { ArrowLeft, MapPin, Heart, Stethoscope, DollarSign, Users, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import SEOHead from "@/components/SEOHead";
+import { Button } from "@/components/ui/button";
 
 export default function About() {
   return (
     <div className="min-h-screen bg-background">
+      <SEOHead title="About ecrenta" description="ecrenta connects traveling nurses with affordable furnished rentals in Fresno County. Learn our mission and how we serve healthcare professionals." />
       <header className="sticky top-0 z-50 border-b border-border bg-card/90 backdrop-blur-md">
         <div className="mx-auto flex max-w-6xl items-center gap-3 px-4 py-3">
           <Link to="/" className="rounded-full p-2 hover:bg-secondary transition-colors">
