@@ -142,6 +142,7 @@ const App = () => (
                 <Route path="/inspections" element={<Inspections />} />
                 <Route path="/inspections/new" element={<NewInspection />} />
                 <Route path="/inspections/:id" element={<InspectionReport />} />
+                <Route path="/inspections/:id/compare" element={<InspectionCompare />} />
                 <Route path="/maintenance" element={<MaintenanceDashboard />} />
                 <Route path="/add-property" element={<AddProperty />} />
                 <Route path="/import-listing" element={<ImportListing />} />
