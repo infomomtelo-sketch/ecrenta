@@ -41,7 +41,7 @@ export default function Index() {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Helmet>
-        <title>ecrenta — Furnished Rentals in Fresno County, CA</title>
+        <title>EC Rental Property Management LLC — Furnished Rentals in Fresno County, CA</title>
         <meta name="description" content="Find furnished rentals in Fresno, Clovis, and Central Valley. No commissions, free tenant screening. Perfect for traveling nurses and healthcare professionals." />
       </Helmet>
 
@@ -52,7 +52,7 @@ export default function Index() {
             <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary">
               <span className="text-sm font-bold text-primary-foreground">r8</span>
             </div>
-            <span className="font-[var(--font-heading)] text-xl font-bold tracking-tight">ecrenta</span>
+            <span className="font-[var(--font-heading)] text-xl font-bold tracking-tight">EC Rental Property Management LLC</span>
           </Link>
           <nav className="hidden items-center gap-6 md:flex">
             <Link to="/listings" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">Browse Rentals</Link>
@@ -214,7 +214,7 @@ export default function Index() {
       {/* Tenant Perks */}
       <section className="mx-auto max-w-6xl px-4 py-16">
         <h2 className="font-[var(--font-heading)] text-center text-2xl font-bold sm:text-3xl">
-          Why Tenants Love ecrenta
+          Why Tenants Love EC Rental Property Management LLC
         </h2>
         <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {tenantPerks.map((p) => (
@@ -307,7 +307,7 @@ export default function Index() {
                 <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
                   <span className="text-xs font-bold text-primary-foreground">r8</span>
                 </div>
-                <span className="font-[var(--font-heading)] text-lg font-bold">ecrenta</span>
+                <span className="font-[var(--font-heading)] text-lg font-bold">EC Rental Property Management LLC</span>
               </Link>
               <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
                 Furnished rentals for traveling professionals. Powered by P8 AI.
@@ -341,7 +341,7 @@ export default function Index() {
             </div>
           </div>
           <div className="mt-10 border-t border-border pt-6 flex flex-col items-center justify-between gap-3 sm:flex-row">
-            <p className="text-xs text-muted-foreground">© {new Date().getFullYear()} ecrenta — EC Rental Property Management LLC</p>
+            <p className="text-xs text-muted-foreground">© {new Date().getFullYear()} EC Rental Property Management LLC</p>
             <div className="flex items-center gap-3">
               <span className="inline-flex items-center gap-1 text-xs text-primary font-medium">
                 <Sparkles className="h-3 w-3" /> Powered by P8 AI

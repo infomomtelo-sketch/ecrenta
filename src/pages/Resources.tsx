@@ -43,13 +43,13 @@ const strategies = [
   {
     icon: Target,
     title: "Content Marketing",
-    description: "Publish 2-4 blog posts per month targeting local search queries. Position ecrenta as THE resource for Fresno furnished rentals.",
+    description: "Publish 2-4 blog posts per month targeting local search queries. Position EC Rental Property Management LLC as THE resource for Fresno furnished rentals.",
     tips: ["\"Complete Guide to Travel Nurse Housing in Fresno\"", "\"Top 10 Neighborhoods for Furnished Rentals\"", "\"How to Furnish Your Rental for Travel Nurses\""],
   },
   {
     icon: BarChart3,
     title: "Listing Syndication",
-    description: "Cross-post listings on Craigslist, Facebook Marketplace, Zillow, and even FurnishedFinder — but funnel repeat tenants back to ecrenta for free screening.",
+    description: "Cross-post listings on Craigslist, Facebook Marketplace, Zillow, and even FurnishedFinder — but funnel repeat tenants back to EC Rental Property Management LLC for free screening.",
     tips: ["Craigslist: free, post in Housing → Furnished", "Facebook Marketplace: huge local reach", "Zillow/Trulia: free for rentals, massive SEO authority"],
   },
 ];
@@ -134,7 +134,7 @@ export default function Resources() {
           <p className="text-sm text-muted-foreground max-w-md mx-auto">
             Download our comprehensive Marketing & Lead Generation Playbook — 15 chapters covering SEO, partnerships, paid ads, email sequences, and a week-by-week launch checklist.
           </p>
-          <p className="text-xs text-muted-foreground">Available as a free PDF for ecrenta landlords.</p>
+          <p className="text-xs text-muted-foreground">Available as a free PDF for EC Rental Property Management LLC landlords.</p>
         </section>
 
         {/* CTA */}
