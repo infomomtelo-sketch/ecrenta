@@ -17,14 +17,14 @@ export default function SocialLinks() {
         className="mb-8 flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
       >
         <ArrowLeft className="h-4 w-4" />
-        Back to EC Rental Property Management LLC
+        Back to ecrenta
       </Link>
 
       <div className="mb-6 flex flex-col items-center gap-3">
         <div className="flex h-20 w-20 items-center justify-center rounded-full bg-primary text-primary-foreground font-heading text-2xl font-bold">
           r8
         </div>
-        <h1 className="font-heading text-2xl font-bold text-foreground">EC Rental Property Management LLC</h1>
+        <h1 className="font-heading text-2xl font-bold text-foreground">ecrenta</h1>
         <p className="text-center text-sm text-muted-foreground max-w-xs">
           Find your next rental. Follow us everywhere.
         </p>
@@ -49,7 +49,7 @@ export default function SocialLinks() {
       </div>
 
       <p className="mt-12 text-xs text-muted-foreground">
-        © {new Date().getFullYear()} EC Rental Property Management LLC — All rights reserved
+        © {new Date().getFullYear()} ecrenta — All rights reserved
       </p>
     </div>
   );

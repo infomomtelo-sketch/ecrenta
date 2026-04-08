@@ -78,7 +78,7 @@ export default function MaintenanceDetail() {
 
   return (
     <div className="min-h-screen bg-background">
-      <Helmet><title>{request.title} | Maintenance | EC Rental Property Management LLC</title></Helmet>
+      <Helmet><title>{request.title} | Maintenance | ecrenta</title></Helmet>
 
       <header className="border-b border-border bg-card/80 backdrop-blur-sm sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex items-center gap-3">
