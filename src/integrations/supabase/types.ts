@@ -318,6 +318,65 @@ export type Database = {
           },
         ]
       }
+      invoices: {
+        Row: {
+          amount: number
+          created_at: string
+          description: string | null
+          due_date: string
+          id: string
+          invoice_number: string
+          line_items: Json
+          notes: string | null
+          paid_at: string | null
+          sent_at: string | null
+          status: string
+          tenant_id: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          description?: string | null
+          due_date: string
+          id?: string
+          invoice_number: string
+          line_items?: Json
+          notes?: string | null
+          paid_at?: string | null
+          sent_at?: string | null
+          status?: string
+          tenant_id?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          description?: string | null
+          due_date?: string
+          id?: string
+          invoice_number?: string
+          line_items?: Json
+          notes?: string | null
+          paid_at?: string | null
+          sent_at?: string | null
+          status?: string
+          tenant_id?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "invoices_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       listings: {
         Row: {
           address: string
@@ -547,6 +606,71 @@ export type Database = {
         }
         Relationships: []
       }
+      rental_forms: {
+        Row: {
+          content: Json
+          created_at: string
+          form_type: string
+          id: string
+          recipient_email: string | null
+          sent_at: string | null
+          sign_token: string | null
+          signature_data: string | null
+          signed_at: string | null
+          signer_ip: string | null
+          signer_name: string | null
+          status: string
+          tenant_id: string | null
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          content?: Json
+          created_at?: string
+          form_type?: string
+          id?: string
+          recipient_email?: string | null
+          sent_at?: string | null
+          sign_token?: string | null
+          signature_data?: string | null
+          signed_at?: string | null
+          signer_ip?: string | null
+          signer_name?: string | null
+          status?: string
+          tenant_id?: string | null
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          content?: Json
+          created_at?: string
+          form_type?: string
+          id?: string
+          recipient_email?: string | null
+          sent_at?: string | null
+          sign_token?: string | null
+          signature_data?: string | null
+          signed_at?: string | null
+          signer_ip?: string | null
+          signer_name?: string | null
+          status?: string
+          tenant_id?: string | null
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "rental_forms_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       suppressed_emails: {
         Row: {
           created_at: string
@@ -568,6 +692,51 @@ export type Database = {
           id?: string
           metadata?: Json | null
           reason?: string
+        }
+        Relationships: []
+      }
+      tenants: {
+        Row: {
+          created_at: string
+          email: string | null
+          full_name: string
+          id: string
+          lease_end: string | null
+          lease_start: string | null
+          notes: string | null
+          phone: string | null
+          rent_amount: number | null
+          unit_address: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          full_name: string
+          id?: string
+          lease_end?: string | null
+          lease_start?: string | null
+          notes?: string | null
+          phone?: string | null
+          rent_amount?: number | null
+          unit_address?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          full_name?: string
+          id?: string
+          lease_end?: string | null
+          lease_start?: string | null
+          notes?: string | null
+          phone?: string | null
+          rent_amount?: number | null
+          unit_address?: string | null
+          updated_at?: string
+          user_id?: string
         }
         Relationships: []
       }
