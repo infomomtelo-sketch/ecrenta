@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { ArrowLeft, MapPin, UserPlus, Search, MessageCircle, Home, Shield, CreditCard, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import SEOHead from "@/components/SEOHead";
 
 const tenantSteps = [
   { icon: UserPlus, title: "Create a Free Account", description: "Sign up in seconds — no credit card required. Browse listings immediately." },
@@ -21,6 +22,7 @@ const landlordSteps = [
 export default function HowItWorks() {
   return (
     <div className="min-h-screen bg-background">
+      <SEOHead title="How ecrenta Works" description="Learn how to find and rent furnished housing in Fresno County, or list your property. Simple steps for tenants and landlords." />
       <header className="sticky top-0 z-50 border-b border-border bg-card/90 backdrop-blur-md">
         <div className="mx-auto flex max-w-6xl items-center gap-3 px-4 py-3">
           <Link to="/" className="rounded-full p-2 hover:bg-secondary transition-colors">

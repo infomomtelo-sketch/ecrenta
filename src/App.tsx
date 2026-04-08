@@ -45,6 +45,7 @@ import Tenants from "./pages/Tenants";
 import RentalForms from "./pages/RentalForms";
 import Invoices from "./pages/Invoices";
 import SignForm from "./pages/SignForm";
+import MarketLanding from "./pages/MarketLanding";
 
 const queryClient = new QueryClient();
 
@@ -125,6 +126,7 @@ const App = () => (
               <Route path="/post-property" element={<PostProperty />} />
               <Route path="/unsubscribe" element={<Unsubscribe />} />
               <Route path="/sign/:token" element={<SignForm />} />
+              <Route path="/rentals/:slug" element={<MarketLanding />} />
 
               {/* Authenticated dashboard routes with sidebar */}
               <Route element={<ProtectedDashboard />}>

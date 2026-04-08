@@ -1,4 +1,5 @@
 import { useListings } from "@/contexts/ListingsContext";
+import SEOHead from "@/components/SEOHead";
 import { ListingCard } from "@/components/ListingCard";
 import { UserMenu } from "@/components/UserMenu";
 import { Search, SlidersHorizontal, Bookmark, Plus, Globe, X, MapPin } from "lucide-react";
@@ -56,6 +57,10 @@ export default function Listings() {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEOHead
+        title="Browse Furnished Rentals in Fresno County"
+        description="Search affordable furnished mid-term rentals in Fresno, Clovis, Madera and more. Filter by price, bedrooms, and area. No commissions."
+      />
       <header className="sticky top-0 z-50 bg-card border-b border-border">
         <div className="flex items-center gap-2 px-3 py-2">
           <div className="relative flex-1">

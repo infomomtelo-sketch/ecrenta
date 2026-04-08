@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import SEOHead from "@/components/SEOHead";
 import { useAuth } from "@/contexts/AuthContext";
 import {
   ArrowRight,
@@ -157,6 +158,7 @@ export default function ForLandlords() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <SEOHead title="For Landlords – List Furnished Rentals" description="List your furnished rental in Fresno County. Reach traveling nurses, get free tenant screening, and fill vacancies faster. Plans from $9.99/mo." />
       {/* Nav */}
       <header className="sticky top-0 z-50 border-b border-border bg-card/90 backdrop-blur-md">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
