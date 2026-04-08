@@ -13,7 +13,7 @@ export default function Terms() {
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
               <MapPin className="h-4 w-4 text-primary-foreground" />
             </div>
-            <span className="font-[var(--font-heading)] text-lg font-bold">runp8</span>
+            <span className="font-[var(--font-heading)] text-lg font-bold">ecrenta</span>
           </Link>
         </div>
       </header>
@@ -25,7 +25,7 @@ export default function Terms() {
         <div className="mt-8 space-y-8 text-sm leading-relaxed text-muted-foreground">
           <section>
             <h2 className="font-[var(--font-heading)] text-lg font-semibold text-foreground mb-2">1. Acceptance of Terms</h2>
-            <p>By using runp8, you agree to these Terms of Service. If you do not agree, do not use the platform. We may update these terms at any time, and continued use constitutes acceptance.</p>
+            <p>By using ecrenta, you agree to these Terms of Service. If you do not agree, do not use the platform. We may update these terms at any time, and continued use constitutes acceptance.</p>
           </section>
 
           <section>
@@ -45,7 +45,7 @@ export default function Terms() {
 
           <section>
             <h2 className="font-[var(--font-heading)] text-lg font-semibold text-foreground mb-2">5. Tenant Screening</h2>
-            <p>runp8 provides free basic tenant screening. Results are advisory only — landlords make their own rental decisions. runp8 is not responsible for the accuracy of screening results or rental decisions made based on them.</p>
+            <p>ecrenta provides free basic tenant screening. Results are advisory only — landlords make their own rental decisions. ecrenta is not responsible for the accuracy of screening results or rental decisions made based on them.</p>
           </section>
 
           <section>
@@ -55,18 +55,18 @@ export default function Terms() {
 
           <section>
             <h2 className="font-[var(--font-heading)] text-lg font-semibold text-foreground mb-2">7. Limitation of Liability</h2>
-            <p>runp8 is a marketplace platform. We do not guarantee the quality of listings, the reliability of users, or the outcome of any rental arrangement. We are not a party to any lease agreement between landlords and tenants.</p>
+            <p>ecrenta is a marketplace platform. We do not guarantee the quality of listings, the reliability of users, or the outcome of any rental arrangement. We are not a party to any lease agreement between landlords and tenants.</p>
           </section>
 
           <section>
             <h2 className="font-[var(--font-heading)] text-lg font-semibold text-foreground mb-2">8. Contact</h2>
-            <p>Questions about these terms? Contact <a href="mailto:legal@runp8.com" className="text-primary hover:underline">legal@runp8.com</a></p>
+            <p>Questions about these terms? Contact <a href="mailto:legal@ecrenta.space" className="text-primary hover:underline">legal@ecrenta.space</a></p>
           </section>
         </div>
       </main>
 
       <footer className="border-t border-border py-6 text-center text-xs text-muted-foreground">
-        © {new Date().getFullYear()} runp8. All rights reserved.
+        © {new Date().getFullYear()} ecrenta. All rights reserved.
       </footer>
     </div>
   );

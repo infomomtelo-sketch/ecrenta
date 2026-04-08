@@ -69,7 +69,7 @@ export default function Inspections() {
             <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary">
               <MapPin className="h-5 w-5 text-primary-foreground" />
             </div>
-            <span className="font-[var(--font-heading)] text-xl font-bold tracking-tight">runp8</span>
+            <span className="font-[var(--font-heading)] text-xl font-bold tracking-tight">ecrenta</span>
           </Link>
           <div className="flex items-center gap-2">
             <Button variant="ghost" size="sm" asChild>

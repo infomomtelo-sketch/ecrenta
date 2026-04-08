@@ -185,7 +185,7 @@ export default function ImportListing() {
               ) : (
                 <Check className="mr-2 h-4 w-4" />
               )}
-              Import to runp8
+              Import to ecrenta
             </Button>
           </div>
         )}

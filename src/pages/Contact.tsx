@@ -51,7 +51,7 @@ export default function Contact() {
       console.error("Contact form error:", err);
       toast({
         title: "Something went wrong",
-        description: "Please try again or email us directly at support@runp8.com",
+        description: "Please try again or email us directly at support@ecrenta.space",
         variant: "destructive",
       });
     } finally {
@@ -70,7 +70,7 @@ export default function Contact() {
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
               <MapPin className="h-4 w-4 text-primary-foreground" />
             </div>
-            <span className="font-[var(--font-heading)] text-lg font-bold">runp8</span>
+            <span className="font-[var(--font-heading)] text-lg font-bold">ecrenta</span>
           </Link>
         </div>
       </header>
@@ -78,7 +78,7 @@ export default function Contact() {
       <main className="mx-auto max-w-4xl px-4 py-16">
         <h1 className="font-[var(--font-heading)] text-3xl font-extrabold sm:text-4xl text-center">Contact Us</h1>
         <p className="mx-auto mt-3 max-w-lg text-center text-muted-foreground">
-          Have questions about runp8? We're here to help landlords and tenants in the Fresno County area.
+          Have questions about ecrenta? We're here to help landlords and tenants in the Fresno County area.
         </p>
 
         <div className="mt-12 grid gap-8 lg:grid-cols-2">
@@ -87,7 +87,7 @@ export default function Contact() {
               <Mail className="mt-0.5 h-5 w-5 text-primary shrink-0" />
               <div>
                 <h3 className="font-[var(--font-heading)] font-semibold">Email</h3>
-                <p className="text-sm text-muted-foreground">support@runp8.com</p>
+                <p className="text-sm text-muted-foreground">support@ecrenta.space</p>
               </div>
             </div>
             <div className="flex items-start gap-4 rounded-xl border border-border bg-card p-5">
@@ -127,7 +127,7 @@ export default function Contact() {
       </main>
 
       <footer className="border-t border-border py-6 text-center text-xs text-muted-foreground">
-        © {new Date().getFullYear()} runp8. All rights reserved.
+        © {new Date().getFullYear()} ecrenta. All rights reserved.
       </footer>
     </div>
   );

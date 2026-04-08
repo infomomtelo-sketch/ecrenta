@@ -52,7 +52,7 @@ export default function BlogEditor() {
       published,
       published_at: published ? new Date().toISOString() : null,
       user_id: user.id,
-      author_name: user.user_metadata?.display_name || "runp8 Team",
+      author_name: user.user_metadata?.display_name || "ecrenta Team",
     });
     setSaving(false);
 
@@ -103,7 +103,7 @@ export default function BlogEditor() {
         <div className="space-y-1.5">
           <label className="text-xs font-medium text-muted-foreground">URL Slug</label>
           <div className="flex items-center gap-1 text-xs text-muted-foreground">
-            <span>runp8.com/blog/</span>
+            <span>ecrenta.space/blog/</span>
             <input
               type="text"
               value={slug}

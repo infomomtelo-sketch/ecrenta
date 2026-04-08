@@ -111,7 +111,7 @@ const Install = () => {
         </div>
 
         <Link to="/" className="inline-block text-sm text-muted-foreground hover:text-foreground transition-colors">
-          ← Back to runp8.com
+          ← Back to ecrenta.space
         </Link>
       </div>
     </div>

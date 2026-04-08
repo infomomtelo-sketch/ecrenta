@@ -127,7 +127,7 @@ export default function Pricing() {
             <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary">
               <MapPin className="h-5 w-5 text-primary-foreground" />
             </div>
-            <span className="font-[var(--font-heading)] text-xl font-bold tracking-tight">runp8</span>
+            <span className="font-[var(--font-heading)] text-xl font-bold tracking-tight">ecrenta</span>
           </Link>
           <div className="flex items-center gap-2">
             {user ? (
@@ -248,7 +248,7 @@ export default function Pricing() {
               { q: "What's included in the free tenant screening?", a: "We provide a basic background check and credit screening at no cost to tenants. This helps landlords make decisions faster." },
               { q: "Can I cancel my landlord subscription?", a: "Yes, you can cancel anytime. Monthly plans stop at the end of the billing cycle. Annual plans can be cancelled with a prorated refund." },
               { q: "What areas do you cover?", a: "We currently focus on Fresno County, California — including Fresno, Clovis, Madera, Sanger, Selma, Reedley, and surrounding areas." },
-              { q: "Why is runp8 cheaper than competitors?", a: "We keep costs low by focusing on one region and building lean. No commissions, no hidden fees — just a simple subscription for landlords." },
+              { q: "Why is ecrenta cheaper than competitors?", a: "We keep costs low by focusing on one region and building lean. No commissions, no hidden fees — just a simple subscription for landlords." },
             ].map((faq) => (
               <div key={faq.q} className="rounded-xl border border-border bg-card p-5">
                 <h3 className="font-[var(--font-heading)] font-semibold">{faq.q}</h3>
@@ -265,7 +265,7 @@ export default function Pricing() {
           <Link to="/terms" className="hover:text-foreground">Terms</Link>
           <Link to="/contact" className="hover:text-foreground">Contact</Link>
         </div>
-        <p className="mt-2">© {new Date().getFullYear()} runp8. All rights reserved.</p>
+        <p className="mt-2">© {new Date().getFullYear()} ecrenta. All rights reserved.</p>
       </footer>
     </div>
   );

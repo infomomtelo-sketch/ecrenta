@@ -161,7 +161,7 @@ export default function PostProperty() {
             <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary">
               <MapPin className="h-5 w-5 text-primary-foreground" />
             </div>
-            <span className="font-[var(--font-heading)] text-xl font-bold tracking-tight">runp8</span>
+            <span className="font-[var(--font-heading)] text-xl font-bold tracking-tight">ecrenta</span>
           </Link>
           <div className="flex items-center gap-2">
             {user ? (
@@ -197,7 +197,7 @@ export default function PostProperty() {
               <span className="text-primary">Auto-List. Start Earning.</span>
             </h1>
             <p className="mx-auto mt-5 max-w-xl text-base text-muted-foreground sm:text-lg leading-relaxed">
-              Fill out the form below and your property instantly goes live on the runp8 marketplace — reaching 
+              Fill out the form below and your property instantly goes live on the ecrenta marketplace — reaching 
               hundreds of traveling healthcare professionals in Fresno County.
             </p>
             <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
@@ -230,7 +230,7 @@ export default function PostProperty() {
       {/* Perks */}
       <section className="mx-auto max-w-6xl px-4 py-14">
         <h2 className="text-center font-[var(--font-heading)] text-2xl font-bold sm:text-3xl">
-          Why Landlords Choose runp8
+          Why Landlords Choose ecrenta
         </h2>
         <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {perks.map((p) => (
@@ -368,7 +368,7 @@ export default function PostProperty() {
           </div>
           <blockquote className="text-lg italic text-foreground leading-relaxed">
             "I posted my spare room at 9pm and had a traveling nurse reach out by the next morning. 
-            runp8 made it incredibly easy."
+            ecrenta made it incredibly easy."
           </blockquote>
           <p className="mt-4 text-sm font-semibold text-muted-foreground">— Maria G., Clovis</p>
         </div>
@@ -381,7 +381,7 @@ export default function PostProperty() {
             Ready to Start Earning?
           </h2>
           <p className="mx-auto mt-3 max-w-md text-muted-foreground">
-            Join landlords across Fresno County who are filling vacancies faster with runp8.
+            Join landlords across Fresno County who are filling vacancies faster with ecrenta.
           </p>
           <div className="mt-6 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
             <Button size="lg" onClick={scrollToForm} className="gap-2 text-base px-10 py-7 rounded-xl">
@@ -397,7 +397,7 @@ export default function PostProperty() {
 
       {/* Footer */}
       <footer className="border-t border-border py-6 text-center text-xs text-muted-foreground">
-        <p>© {new Date().getFullYear()} runp8 · Powered by P8 AI</p>
+        <p>© {new Date().getFullYear()} ecrenta · Powered by P8 AI</p>
       </footer>
     </div>
   );

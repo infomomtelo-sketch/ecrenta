@@ -1,4 +1,4 @@
-// Stripe product/price IDs for runp8 landlord subscriptions
+// Stripe product/price IDs for ecrenta landlord subscriptions
 export const SUBSCRIPTION_TIERS = {
   monthly: {
     product_id: "prod_UH59QWiqzx0bB2",
