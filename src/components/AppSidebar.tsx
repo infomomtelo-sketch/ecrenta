@@ -1,7 +1,8 @@
 import {
-  Bot, LayoutDashboard, Inbox, ClipboardCheck, Wrench,
+  LayoutDashboard, Inbox, ClipboardCheck, Wrench,
   Plus, FileText, LogOut, Sparkles, Users, FileSignature, DollarSign,
 } from "lucide-react";
+import { ecrentaLogo } from "@/components/BrandLogo";
 import { NavLink } from "@/components/NavLink";
 import { useLocation } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
