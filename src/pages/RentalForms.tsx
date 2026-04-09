@@ -289,10 +289,36 @@ export default function RentalForms() {
           })}
         </div>
 
-        <div className="flex gap-3 mt-8 pt-6 border-t border-border">
-          <Button onClick={handleExportPDF} className="gap-2">
-            <Download className="h-4 w-4" /> Export as PDF
-          </Button>
+        <div className="mt-8 pt-6 border-t border-border space-y-4">
+          <div className="flex gap-3">
+            <Button onClick={handleExportPDF} variant="outline" className="gap-2">
+              <Download className="h-4 w-4" /> Export PDF
+            </Button>
+          </div>
+
+          {user && (
+            <div className="p-4 rounded-lg border border-primary/20 bg-primary/5 space-y-3">
+              <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
+                <Send className="h-4 w-4 text-primary" /> Send for E-Signature
+              </h3>
+              <p className="text-xs text-muted-foreground">
+                Save this form and email a secure signing link to the recipient.
+              </p>
+              <div className="flex gap-2">
+                <Input
+                  type="email"
+                  placeholder="Recipient email address..."
+                  value={sendEmail}
+                  onChange={(e) => setSendEmail(e.target.value)}
+                  className="flex-1"
+                />
+                <Button onClick={handleSendForSignature} disabled={!sendEmail.trim() || sending} className="gap-2">
+                  {sending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
+                  {sending ? "Sending..." : "Send"}
+                </Button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     );
