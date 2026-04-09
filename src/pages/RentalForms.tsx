@@ -1,12 +1,14 @@
 import { useState, useCallback, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/contexts/AuthContext";
 import {
   Home, Building2, Scale, Plus, ArrowLeft, FileText, PenTool,
   Download, ChevronRight, Search, Lock, ClipboardList, ClipboardCheck,
   Wrench, ShieldAlert, FileSignature, Eraser, GripVertical,
   Type, AlignLeft, Calendar, Mail, Phone, Hash, ChevronDown,
-  CheckSquare, Heading
+  CheckSquare, Heading, Send, Loader2
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -29,6 +31,7 @@ type View = "library" | "fill" | "builder";
 
 export default function RentalForms() {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [view, setView] = useState<View>("library");
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
@@ -36,6 +39,8 @@ export default function RentalForms() {
   const [formValues, setFormValues] = useState<Record<string, string>>({});
   const [customFields, setCustomFields] = useState<FormField[]>([]);
   const [customFormName, setCustomFormName] = useState("Untitled Form");
+  const [sendEmail, setSendEmail] = useState("");
+  const [sending, setSending] = useState(false);
   const formRef = useRef<HTMLDivElement>(null);
 
   const filteredTemplates = FORM_TEMPLATES.filter((t) => {
@@ -142,6 +147,62 @@ export default function RentalForms() {
     toast.success("PDF export opened — use Print > Save as PDF");
   }, [formValues, selectedTemplate]);
 
+  const handleSendForSignature = useCallback(async () => {
+    if (!sendEmail.trim() || !selectedTemplate || !user) return;
+    setSending(true);
+    try {
+      const signToken = crypto.randomUUID();
+      const content: Record<string, string> = {};
+      for (const f of selectedTemplate.fields) {
+        if (formValues[f.id]) content[f.id] = formValues[f.id];
+        // Also store display-friendly versions
+        if (f.type === "heading" || f.type === "paragraph") continue;
+        if (f.id === "property_address" && formValues[f.id]) content.property_address = formValues[f.id];
+        if (f.id === "rent_amount" && formValues[f.id]) content.rent_amount = formValues[f.id];
+        if (f.id === "lease_start" && formValues[f.id]) content.lease_start = formValues[f.id];
+        if (f.id === "lease_end" && formValues[f.id]) content.lease_end = formValues[f.id];
+      }
+      // Store terms (all paragraph fields concatenated)
+      const terms = selectedTemplate.fields
+        .filter(f => f.type === "paragraph")
+        .map(f => f.label)
+        .join("\n\n");
+      content.terms = terms;
+
+      const { error } = await supabase.from("rental_forms").insert({
+        title: selectedTemplate.name,
+        form_type: selectedTemplate.id,
+        content: content as any,
+        user_id: user.id,
+        status: "pending",
+        sign_token: signToken,
+        recipient_email: sendEmail.trim(),
+      });
+      if (error) throw error;
+
+      // Send the email via edge function
+      const signUrl = `${window.location.origin}/sign/${signToken}`;
+      await supabase.functions.invoke("send-transactional-email", {
+        body: {
+          to: sendEmail.trim(),
+          template: "form-sign-request",
+          data: {
+            title: selectedTemplate.name,
+            signUrl,
+            companyName: "EC Rental Property Management LLC",
+          },
+        },
+      });
+
+      toast.success(`Signature request sent to ${sendEmail.trim()}`);
+      setSendEmail("");
+    } catch (err: any) {
+      toast.error(err.message || "Failed to send");
+    } finally {
+      setSending(false);
+    }
+  }, [sendEmail, selectedTemplate, formValues, user]);
+
   // ── LIBRARY VIEW ──
   if (view === "library") {
     return (
@@ -228,10 +289,36 @@ export default function RentalForms() {
           })}
         </div>
 
-        <div className="flex gap-3 mt-8 pt-6 border-t border-border">
-          <Button onClick={handleExportPDF} className="gap-2">
-            <Download className="h-4 w-4" /> Export as PDF
-          </Button>
+        <div className="mt-8 pt-6 border-t border-border space-y-4">
+          <div className="flex gap-3">
+            <Button onClick={handleExportPDF} variant="outline" className="gap-2">
+              <Download className="h-4 w-4" /> Export PDF
+            </Button>
+          </div>
+
+          {user && (
+            <div className="p-4 rounded-lg border border-primary/20 bg-primary/5 space-y-3">
+              <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
+                <Send className="h-4 w-4 text-primary" /> Send for E-Signature
+              </h3>
+              <p className="text-xs text-muted-foreground">
+                Save this form and email a secure signing link to the recipient.
+              </p>
+              <div className="flex gap-2">
+                <Input
+                  type="email"
+                  placeholder="Recipient email address..."
+                  value={sendEmail}
+                  onChange={(e) => setSendEmail(e.target.value)}
+                  className="flex-1"
+                />
+                <Button onClick={handleSendForSignature} disabled={!sendEmail.trim() || sending} className="gap-2">
+                  {sending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
+                  {sending ? "Sending..." : "Send"}
+                </Button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     );

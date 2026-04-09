@@ -12,23 +12,31 @@ export const SignaturePad = ({ value, onChange, label }: SignaturePadProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isDrawing, setIsDrawing] = useState(false);
 
-  useEffect(() => {
+  const initCanvas = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
-    canvas.width = canvas.offsetWidth * 2;
-    canvas.height = canvas.offsetHeight * 2;
-    ctx.scale(2, 2);
+    const rect = canvas.getBoundingClientRect();
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+    ctx.scale(dpr, dpr);
     ctx.lineCap = "round";
     ctx.lineJoin = "round";
     ctx.lineWidth = 2;
-    ctx.strokeStyle = "hsl(210, 20%, 95%)";
+    ctx.strokeStyle = "#000000";
     if (value) {
       const img = new Image();
-      img.onload = () => ctx.drawImage(img, 0, 0, canvas.offsetWidth, canvas.offsetHeight);
+      img.onload = () => ctx.drawImage(img, 0, 0, rect.width, rect.height);
       img.src = value;
     }
+  }, [value]);
+
+  useEffect(() => {
+    initCanvas();
+    window.addEventListener("resize", initCanvas);
+    return () => window.removeEventListener("resize", initCanvas);
   }, []);
 
   const getPos = useCallback((e: React.MouseEvent | React.TouchEvent) => {
@@ -43,6 +51,10 @@ export const SignaturePad = ({ value, onChange, label }: SignaturePadProps) => {
     e.preventDefault();
     const ctx = canvasRef.current?.getContext("2d");
     if (!ctx) return;
+    ctx.strokeStyle = "#000000";
+    ctx.lineWidth = 2;
+    ctx.lineCap = "round";
+    ctx.lineJoin = "round";
     const { x, y } = getPos(e);
     ctx.beginPath();
     ctx.moveTo(x, y);
@@ -78,7 +90,7 @@ export const SignaturePad = ({ value, onChange, label }: SignaturePadProps) => {
   return (
     <div className="space-y-1.5">
       {label && <label className="text-sm font-medium text-foreground">{label}</label>}
-      <div className="relative rounded-lg border border-border bg-card overflow-hidden">
+      <div className="relative rounded-lg border-2 border-border bg-white overflow-hidden">
         <canvas
           ref={canvasRef}
           className="w-full h-28 cursor-crosshair touch-none"
@@ -90,8 +102,9 @@ export const SignaturePad = ({ value, onChange, label }: SignaturePadProps) => {
           onTouchMove={draw}
           onTouchEnd={endDraw}
         />
-        <div className="absolute bottom-1.5 left-2 text-[10px] text-muted-foreground pointer-events-none">
-          Sign above
+        <div className="absolute bottom-1 left-2 right-12 border-t border-muted-foreground/30" />
+        <div className="absolute bottom-1.5 left-2 text-[10px] text-muted-foreground/60 pointer-events-none">
+          ✕ Sign here
         </div>
         <Button
           type="button"
