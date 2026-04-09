@@ -1,12 +1,14 @@
 import { useState, useCallback, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/contexts/AuthContext";
 import {
   Home, Building2, Scale, Plus, ArrowLeft, FileText, PenTool,
   Download, ChevronRight, Search, Lock, ClipboardList, ClipboardCheck,
   Wrench, ShieldAlert, FileSignature, Eraser, GripVertical,
   Type, AlignLeft, Calendar, Mail, Phone, Hash, ChevronDown,
-  CheckSquare, Heading
+  CheckSquare, Heading, Send, Loader2
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
