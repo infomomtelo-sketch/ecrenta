@@ -682,6 +682,51 @@ export type Database = {
         }
         Relationships: []
       }
+      property_owner_leads: {
+        Row: {
+          created_at: string
+          email: string | null
+          follow_up_date: string | null
+          id: string
+          notes: string | null
+          owner_name: string
+          phone: string | null
+          property_address: string | null
+          source: string
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          follow_up_date?: string | null
+          id?: string
+          notes?: string | null
+          owner_name: string
+          phone?: string | null
+          property_address?: string | null
+          source?: string
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          follow_up_date?: string | null
+          id?: string
+          notes?: string | null
+          owner_name?: string
+          phone?: string | null
+          property_address?: string | null
+          source?: string
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       rental_forms: {
         Row: {
           content: Json
