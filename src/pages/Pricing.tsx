@@ -1,12 +1,51 @@
 import { Link, useSearchParams } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
-import { Check, MapPin, Star, Loader2 } from "lucide-react";
+import { Check, MapPin, Star, Loader2, Shield, Camera, Home, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { useState, useEffect } from "react";
-import { SUBSCRIPTION_TIERS } from "@/lib/subscriptions";
+import { SERVICE_TIERS } from "@/lib/subscriptions";
 import SEOHead from "@/components/SEOHead";
+
+function ComparisonTable() {
+  const rows = [
+    { feature: "Tenant Placement Fee", ecrenta: "$499", ziprent: "$1,500", ff: "N/A" },
+    { feature: "Monthly Management", ecrenta: "$99/mo", ziprent: "$150/mo", ff: "N/A" },
+    { feature: "Premium w/ Guarantees", ecrenta: "$149/mo", ziprent: "$250/mo", ff: "N/A" },
+    { feature: "Tenant Screening", ecrenta: "Free", ziprent: "Included", ff: "$44.99" },
+    { feature: "Professional Photography", ecrenta: "Included", ziprent: "Included", ff: "N/A" },
+    { feature: "On-Demand Showings", ecrenta: "Included", ziprent: "Included", ff: "N/A" },
+    { feature: "Rent Guarantee", ecrenta: "Premium tier", ziprent: "Premium tier", ff: "N/A" },
+    { feature: "Eviction Protection", ecrenta: "Premium tier", ziprent: "Premium tier", ff: "N/A" },
+    { feature: "Commissions", ecrenta: "None", ziprent: "None", ff: "None" },
+  ];
+
+  return (
+    <div className="overflow-x-auto">
+      <table className="w-full text-sm">
+        <thead>
+          <tr className="border-b border-border">
+            <th className="py-3 px-4 text-left font-semibold">Feature</th>
+            <th className="py-3 px-4 text-center font-semibold text-primary">ecrenta</th>
+            <th className="py-3 px-4 text-center font-semibold text-muted-foreground">Ziprent</th>
+            <th className="py-3 px-4 text-center font-semibold text-muted-foreground">FurnishedFinder</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((row) => (
+            <tr key={row.feature} className="border-b border-border/50">
+              <td className="py-3 px-4">{row.feature}</td>
+              <td className="py-3 px-4 text-center font-medium text-primary">{row.ecrenta}</td>
+              <td className="py-3 px-4 text-center text-muted-foreground">{row.ziprent}</td>
+              <td className="py-3 px-4 text-center text-muted-foreground">{row.ff}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
 
 export default function Pricing() {
   const { user, subscribed, subscriptionTier, subscriptionEnd } = useAuth();
@@ -20,15 +59,15 @@ export default function Pricing() {
     }
   }, [searchParams]);
 
-  const handleCheckout = async (priceId: string, planKey: string) => {
+  const handleCheckout = async (priceId: string, mode: string, planKey: string) => {
     if (!user) {
-      toast({ title: "Sign in required", description: "Please sign in to subscribe.", variant: "destructive" });
+      toast({ title: "Sign in required", description: "Please sign in to get started.", variant: "destructive" });
       return;
     }
     setLoadingPlan(planKey);
     try {
       const { data, error } = await supabase.functions.invoke("create-checkout", {
-        body: { priceId },
+        body: { priceId, mode },
       });
       if (error) throw error;
       if (data?.url) {
@@ -58,71 +97,83 @@ export default function Pricing() {
 
   const plans = [
     {
-      key: "tenant",
-      name: "Tenant",
-      price: "Free",
-      period: "",
-      description: "Search and apply for furnished rentals at no cost.",
+      key: "placement",
+      icon: <Camera className="h-6 w-6" />,
+      name: "Tenant Placement",
+      price: "$499",
+      period: " one-time",
+      savings: "Save $1,001 vs. Ziprent",
+      description: "We find you a qualified tenant fast. Professional photography, showings, screening, and lease — all done for you.",
       features: [
-        "Browse all listings",
-        "Direct messaging with landlords",
-        "Free background & credit screening",
-        "Save favorite properties",
-        "Receive new listing alerts",
+        "Professional photography & listing",
+        "Listing syndication across platforms",
+        "On-demand property showings",
+        "Full tenant screening & background checks",
+        "Lease generation & signing",
+        "Move-in coordination",
       ],
-      cta: user ? "You're all set!" : "Sign Up Free",
-      ctaAction: () => {},
-      ctaLink: user ? undefined : "/auth",
+      cta: "Get Started",
+      ctaAction: () => handleCheckout(SERVICE_TIERS.placement.price_id, "payment", "placement"),
       popular: false,
-      isCurrentPlan: !!user && !subscribed,
-      disabled: !!user,
+      isCurrentPlan: false,
+      disabled: false,
     },
     {
-      key: "monthly",
-      name: "Landlord Monthly",
-      price: "$9.99",
-      period: "/month",
-      description: "List your furnished properties with full platform access.",
-      features: [
-        "Unlimited property listings",
-        "Direct tenant messaging",
-        "Tenant screening reports",
-        "Listing analytics & views",
-        "Priority support",
-        "Cancel anytime",
-      ],
-      cta: subscriptionTier === "monthly" ? "Current Plan" : "Start Monthly Plan",
-      ctaAction: () => handleCheckout(SUBSCRIPTION_TIERS.monthly.price_id, "monthly"),
-      popular: true,
-      isCurrentPlan: subscriptionTier === "monthly",
-      disabled: subscriptionTier === "monthly",
-    },
-    {
-      key: "annual",
-      name: "Landlord Annual",
+      key: "management",
+      icon: <Home className="h-6 w-6" />,
+      name: "Property Management",
       price: "$99",
-      period: "/year",
-      description: "Best value — save over 17% vs. monthly billing.",
+      period: "/mo per property",
+      savings: "Save $51/mo vs. Ziprent",
+      description: "Hands-off landlording. We handle everything from rent collection to maintenance — you collect the check.",
       features: [
-        "Everything in Monthly plan",
-        "Save $20.88 per year",
-        "Featured listing badges",
-        "Early access to new features",
-        "Premium landlord profile",
-        "Priority placement in search",
+        "Everything in Tenant Placement",
+        "Monthly rent collection",
+        "Maintenance coordination & dispatch",
+        "Tenant communication management",
+        "Monthly financial statements",
+        "Lease renewal handling",
+        "24/7 emergency support line",
       ],
-      cta: subscriptionTier === "annual" ? "Current Plan" : "Start Annual Plan",
-      ctaAction: () => handleCheckout(SUBSCRIPTION_TIERS.annual.price_id, "annual"),
+      cta: subscriptionTier === "management" ? "Current Plan" : "Start Management",
+      ctaAction: () => handleCheckout(SERVICE_TIERS.management.price_id, "subscription", "management"),
+      popular: true,
+      isCurrentPlan: subscriptionTier === "management",
+      disabled: subscriptionTier === "management",
+    },
+    {
+      key: "premium",
+      icon: <Shield className="h-6 w-6" />,
+      name: "Premium Guarantee",
+      price: "$149",
+      period: "/mo per property",
+      savings: "Save $101/mo vs. Ziprent",
+      description: "Total peace of mind. Guaranteed rent, eviction protection, and a dedicated manager — risk-free landlording.",
+      features: [
+        "Everything in Property Management",
+        "Rent guarantee — get paid even if tenant doesn't",
+        "Eviction protection coverage",
+        "Vacancy guarantee",
+        "Annual property inspections",
+        "Dedicated account manager",
+        "Priority vendor network",
+      ],
+      cta: subscriptionTier === "premium" ? "Current Plan" : "Go Premium",
+      ctaAction: () => handleCheckout(SERVICE_TIERS.premium.price_id, "subscription", "premium"),
       popular: false,
       badge: "Best Value",
-      isCurrentPlan: subscriptionTier === "annual",
-      disabled: subscriptionTier === "annual",
+      isCurrentPlan: subscriptionTier === "premium",
+      disabled: subscriptionTier === "premium",
     },
   ];
 
   return (
     <div className="min-h-screen bg-background">
-      <SEOHead title="Pricing – Landlord Plans from $9.99/mo" description="Free for tenants. Landlord plans start at $9.99/month or $99/year. No commissions, free tenant screening. Compare plans." />
+      <SEOHead
+        title="Pricing – Property Management from $99/mo | ecrenta"
+        description="Professional property management starting at $99/mo — 34% cheaper than Ziprent. Tenant placement for $499 one-time. Free tenant screening. No commissions."
+      />
+
       <header className="sticky top-0 z-50 border-b border-border bg-card/90 backdrop-blur-md">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
           <Link to="/" className="flex items-center gap-2.5">
@@ -143,18 +194,21 @@ export default function Pricing() {
 
       <main className="mx-auto max-w-6xl px-4 py-16">
         <div className="text-center">
+          <div className="mx-auto mb-4 inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5 text-xs font-semibold text-primary">
+            Save 34–67% vs. Ziprent
+          </div>
           <h1 className="font-[var(--font-heading)] text-4xl font-extrabold sm:text-5xl">
-            Simple, Affordable Pricing
+            Professional Management.<br />Fresno Prices.
           </h1>
-          <p className="mx-auto mt-4 max-w-lg text-lg text-muted-foreground">
-            Free for tenants. Landlords get unlimited listings starting at just $9.99/month — half the cost of competitors.
+          <p className="mx-auto mt-4 max-w-2xl text-lg text-muted-foreground">
+            Same full-service property management as the big guys — professional photography, tenant screening, rent collection, maintenance, guarantees — at a fraction of the cost. Built for Fresno County landlords.
           </p>
         </div>
 
         {subscribed && (
           <div className="mx-auto mt-8 max-w-md rounded-xl border border-primary/30 bg-primary/5 p-4 text-center">
             <p className="text-sm font-medium text-primary">
-              ✓ Active {subscriptionTier === "annual" ? "Annual" : "Monthly"} Subscription
+              ✓ Active Subscription
             </p>
             {subscriptionEnd && (
               <p className="mt-1 text-xs text-muted-foreground">
@@ -196,17 +250,28 @@ export default function Pricing() {
                   <Star className="h-3 w-3" /> Most Popular
                 </div>
               )}
-              {!plan.isCurrentPlan && plan.badge && (
+              {!plan.isCurrentPlan && !plan.popular && plan.badge && (
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-accent px-4 py-1 text-xs font-semibold text-accent-foreground">
                   {plan.badge}
                 </div>
               )}
-              <h3 className="font-[var(--font-heading)] text-xl font-bold">{plan.name}</h3>
-              <div className="mt-3 flex items-baseline gap-1">
-                <span className="font-[var(--font-heading)] text-4xl font-extrabold">{plan.price}</span>
-                {plan.period && <span className="text-muted-foreground">{plan.period}</span>}
+
+              <div className="flex items-center gap-3 text-primary">
+                {plan.icon}
+                <h3 className="font-[var(--font-heading)] text-xl font-bold text-foreground">{plan.name}</h3>
               </div>
+
+              <div className="mt-4 flex items-baseline gap-1">
+                <span className="font-[var(--font-heading)] text-4xl font-extrabold">{plan.price}</span>
+                <span className="text-muted-foreground">{plan.period}</span>
+              </div>
+
+              {plan.savings && (
+                <p className="mt-1 text-xs font-semibold text-primary">{plan.savings}</p>
+              )}
+
               <p className="mt-3 text-sm text-muted-foreground">{plan.description}</p>
+
               <ul className="mt-6 space-y-3">
                 {plan.features.map((f) => (
                   <li key={f} className="flex items-start gap-2 text-sm">
@@ -215,17 +280,8 @@ export default function Pricing() {
                   </li>
                 ))}
               </ul>
-              {plan.ctaLink ? (
-                <Button
-                  asChild
-                  className="mt-8 w-full rounded-xl py-6 text-sm font-semibold"
-                  variant={plan.popular ? "default" : "outline"}
-                  size="lg"
-                  disabled={plan.disabled}
-                >
-                  <Link to={plan.ctaLink}>{plan.cta}</Link>
-                </Button>
-              ) : (
+
+              {plan.ctaAction && (
                 <Button
                   className="mt-8 w-full rounded-xl py-6 text-sm font-semibold"
                   variant={plan.isCurrentPlan ? "secondary" : plan.popular ? "default" : "outline"}
@@ -235,10 +291,40 @@ export default function Pricing() {
                 >
                   {loadingPlan === plan.key && <Loader2 className="h-4 w-4 animate-spin mr-2" />}
                   {plan.cta}
+                  {!plan.isCurrentPlan && <ArrowRight className="ml-2 h-4 w-4" />}
                 </Button>
               )}
             </div>
           ))}
+        </div>
+
+        {/* How It Works */}
+        <div className="mx-auto mt-20 max-w-3xl text-center">
+          <h2 className="font-[var(--font-heading)] text-2xl font-bold mb-8">How It Works</h2>
+          <div className="grid gap-6 sm:grid-cols-4">
+            {[
+              { step: "1", title: "Tell Us About Your Property", desc: "Enter your address and property details." },
+              { step: "2", title: "We Prep & List It", desc: "Professional photos, optimized listing, syndicated everywhere." },
+              { step: "3", title: "We Screen & Place", desc: "Background checks, showings, and lease signing handled." },
+              { step: "4", title: "You Collect Rent", desc: "Sit back while we manage the rest." },
+            ].map((s) => (
+              <div key={s.step} className="text-center">
+                <div className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-primary text-sm font-bold text-primary-foreground">
+                  {s.step}
+                </div>
+                <h3 className="font-[var(--font-heading)] text-sm font-semibold">{s.title}</h3>
+                <p className="mt-1 text-xs text-muted-foreground">{s.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Competitor Comparison */}
+        <div className="mx-auto mt-20 max-w-3xl">
+          <h2 className="font-[var(--font-heading)] text-2xl font-bold text-center mb-8">How We Compare</h2>
+          <div className="rounded-xl border border-border bg-card overflow-hidden">
+            <ComparisonTable />
+          </div>
         </div>
 
         {/* FAQ */}
@@ -246,11 +332,12 @@ export default function Pricing() {
           <h2 className="font-[var(--font-heading)] text-2xl font-bold text-center mb-8">Frequently Asked Questions</h2>
           <div className="space-y-4">
             {[
-              { q: "Is it really free for tenants?", a: "Yes! Tenants can browse listings, message landlords, and get screened for free. We only charge landlords a small subscription fee." },
-              { q: "What's included in the free tenant screening?", a: "We provide a basic background check and credit screening at no cost to tenants. This helps landlords make decisions faster." },
-              { q: "Can I cancel my landlord subscription?", a: "Yes, you can cancel anytime. Monthly plans stop at the end of the billing cycle. Annual plans can be cancelled with a prorated refund." },
-              { q: "What areas do you cover?", a: "We currently focus on Fresno County, California — including Fresno, Clovis, Madera, Sanger, Selma, Reedley, and surrounding areas." },
-              { q: "Why is ecrenta cheaper than competitors?", a: "We keep costs low by focusing on one region and building lean. No commissions, no hidden fees — just a simple subscription for landlords." },
+              { q: "What's included in Tenant Placement?", a: "Professional photography, listing creation, syndication to major platforms, on-demand showings, full tenant screening (background, credit, income verification), lease generation, and move-in coordination. All for a one-time $499 fee." },
+              { q: "How is this cheaper than Ziprent?", a: "We focus exclusively on Fresno County, which keeps our overhead low. No Bay Area office costs. We pass those savings to you — same quality service at 34–67% less." },
+              { q: "What does the rent guarantee cover?", a: "On our Premium plan, if your tenant misses rent, we pay you anyway. We also cover eviction costs and legal fees if it comes to that. It's landlording without the risk." },
+              { q: "Can I start with placement and upgrade later?", a: "Absolutely. Many landlords start with Tenant Placement, then upgrade to Property Management once they see how much time it saves. You can upgrade anytime." },
+              { q: "What areas do you cover?", a: "We currently serve Fresno County — including Fresno, Clovis, Madera, Sanger, Selma, Reedley, and surrounding areas. We know this market inside and out." },
+              { q: "Is there a long-term contract?", a: "No. Property Management and Premium plans are month-to-month. Cancel anytime with 30 days notice. No penalties, no hidden fees." },
             ].map((faq) => (
               <div key={faq.q} className="rounded-xl border border-border bg-card p-5">
                 <h3 className="font-[var(--font-heading)] font-semibold">{faq.q}</h3>
@@ -258,6 +345,17 @@ export default function Pricing() {
               </div>
             ))}
           </div>
+        </div>
+
+        {/* CTA */}
+        <div className="mx-auto mt-16 max-w-lg text-center">
+          <h2 className="font-[var(--font-heading)] text-2xl font-bold">Ready to stop overpaying?</h2>
+          <p className="mt-2 text-muted-foreground">Join Fresno County landlords saving thousands with ecrenta.</p>
+          <Button size="lg" className="mt-6 rounded-xl px-8 py-6" asChild>
+            <Link to={user ? "/post-property" : "/auth"}>
+              Get Started <ArrowRight className="ml-2 h-4 w-4" />
+            </Link>
+          </Button>
         </div>
       </main>
 
