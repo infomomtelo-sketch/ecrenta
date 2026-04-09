@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { BrandLogo } from "@/components/BrandLogo";
 import { Check, ArrowRight, Shield, DollarSign, Clock, Users, BarChart3, Wrench } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { SEOHead } from "@/components/SEOHead";
+import SEOHead from "@/components/SEOHead";
 
 const benefits = [
   { icon: DollarSign, title: "Earn 20-40% More", desc: "Furnished rentals command premium rates. Travel nurses pay $1,800-$2,500/mo for units that rent unfurnished at $1,200." },

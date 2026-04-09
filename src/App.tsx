@@ -49,6 +49,8 @@ import RentalForms from "./pages/RentalForms";
 import Invoices from "./pages/Invoices";
 import SignForm from "./pages/SignForm";
 import MarketLanding from "./pages/MarketLanding";
+import OutreachCRM from "./pages/OutreachCRM";
+import ListWithUs from "./pages/ListWithUs";
 
 const queryClient = new QueryClient();
 
