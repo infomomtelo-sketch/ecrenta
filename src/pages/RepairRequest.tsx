@@ -135,10 +135,7 @@ export default function RepairRequest() {
         <header className="border-b border-border bg-card/80 backdrop-blur-sm sticky top-0 z-50">
           <div className="container mx-auto px-4 py-4 flex items-center gap-3">
             <Link to="/" className="flex items-center gap-2">
-              <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center">
-                <span className="text-primary-foreground font-bold text-sm" style={{ fontFamily: "var(--font-heading)" }}>P8</span>
-              </div>
-              <span className="font-semibold text-foreground" style={{ fontFamily: "var(--font-heading)" }}>ecrenta</span>
+              <BrandLogo size="sm" />
             </Link>
           </div>
         </header>
