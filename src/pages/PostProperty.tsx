@@ -1,3 +1,4 @@
+import { BrandLogo } from "@/components/BrandLogo";
 import { useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -158,10 +159,7 @@ export default function PostProperty() {
       <header className="sticky top-0 z-50 border-b border-border bg-card/90 backdrop-blur-md">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
           <Link to="/" className="flex items-center gap-2.5">
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary">
-              <MapPin className="h-5 w-5 text-primary-foreground" />
-            </div>
-            <span className="font-[var(--font-heading)] text-xl font-bold tracking-tight">ecrenta</span>
+            <BrandLogo size="md" />
           </Link>
           <div className="flex items-center gap-2">
             {user ? (

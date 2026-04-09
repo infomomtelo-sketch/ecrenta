@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { BrandLogo } from "@/components/BrandLogo";
 import { useAuth } from "@/contexts/AuthContext";
 import { useListings } from "@/contexts/ListingsContext";
 import { ListingCard } from "@/components/ListingCard";
@@ -49,10 +50,7 @@ export default function Index() {
       <header className="sticky top-0 z-50 border-b border-border bg-card/90 backdrop-blur-md">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
           <Link to="/" className="flex items-center gap-2.5">
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary">
-              <span className="text-sm font-bold text-primary-foreground">r8</span>
-            </div>
-            <span className="font-[var(--font-heading)] text-xl font-bold tracking-tight">ecrenta</span>
+            <BrandLogo size="md" />
           </Link>
           <nav className="hidden items-center gap-6 md:flex">
             <Link to="/listings" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">Browse Rentals</Link>
@@ -304,10 +302,7 @@ export default function Index() {
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
             <div>
               <Link to="/" className="flex items-center gap-2.5">
-                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
-                  <span className="text-xs font-bold text-primary-foreground">r8</span>
-                </div>
-                <span className="font-[var(--font-heading)] text-lg font-bold">ecrenta</span>
+                <BrandLogo size="sm" />
               </Link>
               <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
                 Furnished rentals for traveling professionals. Powered by P8 AI.

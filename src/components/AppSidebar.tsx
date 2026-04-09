@@ -1,7 +1,8 @@
 import {
-  Bot, LayoutDashboard, Inbox, ClipboardCheck, Wrench,
+  LayoutDashboard, Inbox, ClipboardCheck, Wrench,
   Plus, FileText, LogOut, Sparkles, Users, FileSignature, DollarSign,
 } from "lucide-react";
+import { ecrentaLogo } from "@/components/BrandLogo";
 import { NavLink } from "@/components/NavLink";
 import { useLocation } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
@@ -58,14 +59,10 @@ export function AppSidebar() {
     <Sidebar collapsible="icon" className="border-r border-border">
       <SidebarHeader className="px-3 py-4">
         <NavLink to="/dashboard" className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center flex-shrink-0">
-            <Bot className="w-4 h-4 text-primary-foreground" />
-          </div>
-          {!collapsed && (
-            <div className="flex flex-col">
-              <span className="text-sm font-bold font-heading leading-tight">ecrenta</span>
-              <span className="text-[10px] text-muted-foreground leading-tight">for your business</span>
-            </div>
+          {collapsed ? (
+            <img src={ecrentaLogo} alt="ecrenta" className="h-8 w-auto" />
+          ) : (
+            <img src={ecrentaLogo} alt="ecrenta" className="h-8 w-auto" />
           )}
         </NavLink>
       </SidebarHeader>
