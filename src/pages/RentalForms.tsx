@@ -187,9 +187,9 @@ export default function RentalForms() {
           to: sendEmail.trim(),
           template: "form-sign-request",
           data: {
-            formTitle: selectedTemplate.name,
+            title: selectedTemplate.name,
             signUrl,
-            senderName: user.user_metadata?.full_name || user.email || "Your Landlord",
+            companyName: "EC Rental Property Management LLC",
           },
         },
       });
