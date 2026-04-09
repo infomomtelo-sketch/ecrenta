@@ -31,6 +31,7 @@ type View = "library" | "fill" | "builder";
 
 export default function RentalForms() {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [view, setView] = useState<View>("library");
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
@@ -38,6 +39,8 @@ export default function RentalForms() {
   const [formValues, setFormValues] = useState<Record<string, string>>({});
   const [customFields, setCustomFields] = useState<FormField[]>([]);
   const [customFormName, setCustomFormName] = useState("Untitled Form");
+  const [sendEmail, setSendEmail] = useState("");
+  const [sending, setSending] = useState(false);
   const formRef = useRef<HTMLDivElement>(null);
 
   const filteredTemplates = FORM_TEMPLATES.filter((t) => {
