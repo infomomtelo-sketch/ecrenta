@@ -1,3 +1,4 @@
+import { BrandLogo } from "@/components/BrandLogo";
 import { Link } from "react-router-dom";
 import { ArrowLeft, MapPin, Heart, Stethoscope, DollarSign, Users, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";

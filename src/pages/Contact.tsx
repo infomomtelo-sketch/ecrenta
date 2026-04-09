@@ -1,3 +1,4 @@
+import { BrandLogo } from "@/components/BrandLogo";
 import { useState } from "react";
 import SEOHead from "@/components/SEOHead";
 import { Link } from "react-router-dom";

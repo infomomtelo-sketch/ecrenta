@@ -1,3 +1,4 @@
+import { BrandLogo } from "@/components/BrandLogo";
 import { useParams, Link, Navigate } from "react-router-dom";
 import { getMarketBySlug, getActiveMarkets } from "@/data/markets";
 import { useListings } from "@/contexts/ListingsContext";

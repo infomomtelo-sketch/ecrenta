@@ -1,3 +1,4 @@
+import { BrandLogo } from "@/components/BrandLogo";
 import { Link, useSearchParams } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { Check, MapPin, Star, Loader2, Shield, Camera, Home, ArrowRight } from "lucide-react";
