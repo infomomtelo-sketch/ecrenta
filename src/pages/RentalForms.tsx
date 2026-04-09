@@ -147,6 +147,62 @@ export default function RentalForms() {
     toast.success("PDF export opened — use Print > Save as PDF");
   }, [formValues, selectedTemplate]);
 
+  const handleSendForSignature = useCallback(async () => {
+    if (!sendEmail.trim() || !selectedTemplate || !user) return;
+    setSending(true);
+    try {
+      const signToken = crypto.randomUUID();
+      const content: Record<string, string> = {};
+      for (const f of selectedTemplate.fields) {
+        if (formValues[f.id]) content[f.id] = formValues[f.id];
+        // Also store display-friendly versions
+        if (f.type === "heading" || f.type === "paragraph") continue;
+        if (f.id === "property_address" && formValues[f.id]) content.property_address = formValues[f.id];
+        if (f.id === "rent_amount" && formValues[f.id]) content.rent_amount = formValues[f.id];
+        if (f.id === "lease_start" && formValues[f.id]) content.lease_start = formValues[f.id];
+        if (f.id === "lease_end" && formValues[f.id]) content.lease_end = formValues[f.id];
+      }
+      // Store terms (all paragraph fields concatenated)
+      const terms = selectedTemplate.fields
+        .filter(f => f.type === "paragraph")
+        .map(f => f.label)
+        .join("\n\n");
+      content.terms = terms;
+
+      const { error } = await supabase.from("rental_forms").insert({
+        title: selectedTemplate.name,
+        form_type: selectedTemplate.id,
+        content: content as any,
+        user_id: user.id,
+        status: "pending",
+        sign_token: signToken,
+        recipient_email: sendEmail.trim(),
+      });
+      if (error) throw error;
+
+      // Send the email via edge function
+      const signUrl = `${window.location.origin}/sign/${signToken}`;
+      await supabase.functions.invoke("send-transactional-email", {
+        body: {
+          to: sendEmail.trim(),
+          template: "form-sign-request",
+          data: {
+            formTitle: selectedTemplate.name,
+            signUrl,
+            senderName: user.user_metadata?.full_name || user.email || "Your Landlord",
+          },
+        },
+      });
+
+      toast.success(`Signature request sent to ${sendEmail.trim()}`);
+      setSendEmail("");
+    } catch (err: any) {
+      toast.error(err.message || "Failed to send");
+    } finally {
+      setSending(false);
+    }
+  }, [sendEmail, selectedTemplate, formValues, user]);
+
   // ── LIBRARY VIEW ──
   if (view === "library") {
     return (
