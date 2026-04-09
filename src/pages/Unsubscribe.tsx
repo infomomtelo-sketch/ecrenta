@@ -63,10 +63,7 @@ export default function Unsubscribe() {
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="w-full max-w-sm space-y-6 text-center">
         <Link to="/" className="inline-flex items-center gap-2 justify-center">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
-            <MapPin className="h-4 w-4 text-primary-foreground" />
-          </div>
-          <span className="font-[var(--font-heading)] text-lg font-bold">ecrenta</span>
+          <BrandLogo size="sm" />
         </Link>
 
         {status === "loading" && (

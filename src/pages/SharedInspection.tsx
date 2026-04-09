@@ -85,10 +85,7 @@ export default function SharedInspection() {
       <header className="sticky top-0 z-50 border-b border-border bg-card/80 backdrop-blur-lg">
         <div className="mx-auto flex max-w-4xl items-center justify-between px-4 py-3">
           <div className="flex items-center gap-2.5">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
-              <MapPin className="h-4 w-4 text-primary-foreground" />
-            </div>
-            <span className="font-[var(--font-heading)] text-lg font-bold tracking-tight">ecrenta</span>
+            <BrandLogo size="sm" />
           </div>
           <Badge variant="outline" className="text-[11px] font-medium">
             <Shield className="h-3 w-3 mr-1" />Shared Report

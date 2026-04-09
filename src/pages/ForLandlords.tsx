@@ -489,10 +489,7 @@ export default function ForLandlords() {
         <div className="mx-auto max-w-6xl px-4 py-10">
           <div className="flex flex-col items-center justify-between gap-3 sm:flex-row">
             <Link to="/" className="flex items-center gap-2">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
-                <MapPin className="h-4 w-4 text-primary-foreground" />
-              </div>
-              <span className="font-[var(--font-heading)] text-lg font-bold">ecrenta</span>
+              <BrandLogo size="sm" />
             </Link>
             <div className="flex gap-6 text-sm text-muted-foreground">
               <Link to="/pricing" className="hover:text-foreground transition-colors">Pricing</Link>
