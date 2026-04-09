@@ -42,6 +42,7 @@ import MaintenanceDetail from "./pages/MaintenanceDetail";
 import P8Dashboard from "./pages/P8Dashboard";
 import Install from "./pages/Install";
 import PostProperty from "./pages/PostProperty";
+import GetStarted from "./pages/GetStarted";
 import Unsubscribe from "./pages/Unsubscribe";
 import Tenants from "./pages/Tenants";
 import RentalForms from "./pages/RentalForms";
@@ -126,6 +127,7 @@ const App = () => (
               <Route path="/maintenance/:id" element={<MaintenanceDetail />} />
               <Route path="/install" element={<Install />} />
               <Route path="/post-property" element={<PostProperty />} />
+              <Route path="/get-started" element={<GetStarted />} />
               <Route path="/unsubscribe" element={<Unsubscribe />} />
               <Route path="/sign/:token" element={<SignForm />} />
               <Route path="/inspection/:token" element={<SharedInspection />} />
