@@ -121,11 +121,7 @@ export default function HowItWorks() {
                 <div className="aspect-[4/3] rounded-2xl border border-border bg-card overflow-hidden flex items-center justify-center">
                   <div className="text-center p-8">
                     <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10">
-                      {step.features ? (
-                        <step.features[0].icon className="h-8 w-8 text-primary" />
-                      ) : (
-                        <Home className="h-8 w-8 text-primary" />
-                      )}
+                      <Home className="h-8 w-8 text-primary" />
                     </div>
                     <p className="text-sm font-semibold text-foreground">Step {step.step}</p>
                     <p className="text-xs text-muted-foreground mt-1">{step.title}</p>
