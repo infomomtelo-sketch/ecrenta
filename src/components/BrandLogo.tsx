@@ -13,9 +13,15 @@ export function BrandLogo({ size = "md", showText = true, className = "" }: Bran
     <div className={`flex items-center gap-2 ${className}`}>
       <img
         src={ecrentaLogo}
-        alt="ecrenta — easy to rent a space"
+        alt="E.Crenta — easy to rent a space"
         className={`${heights[size]} w-auto`}
       />
+      {showText && (
+        <span className="font-[var(--font-heading)] font-bold text-foreground tracking-tight"
+          style={{ fontSize: size === "sm" ? "1rem" : size === "lg" ? "1.5rem" : "1.25rem" }}>
+          E.Crenta
+        </span>
+      )}
     </div>
   );
 }
