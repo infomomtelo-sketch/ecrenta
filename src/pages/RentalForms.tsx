@@ -184,9 +184,10 @@ export default function RentalForms() {
       const signUrl = `${window.location.origin}/sign/${signToken}`;
       await supabase.functions.invoke("send-transactional-email", {
         body: {
-          to: sendEmail.trim(),
-          template: "form-sign-request",
-          data: {
+          templateName: "form-sign-request",
+          recipientEmail: sendEmail.trim(),
+          idempotencyKey: `form-sign-${signToken}`,
+          templateData: {
             title: selectedTemplate.name,
             signUrl,
             companyName: "EC Rental Property Management LLC",
