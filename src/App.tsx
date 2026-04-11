@@ -52,6 +52,8 @@ import MarketLanding from "./pages/MarketLanding";
 import OutreachCRM from "./pages/OutreachCRM";
 import ListWithUs from "./pages/ListWithUs";
 import AdminDashboard from "./pages/AdminDashboard";
+import CapturePage from "./pages/CapturePage";
+import CapturePages from "./pages/CapturePages";
 
 const queryClient = new QueryClient();
 
@@ -136,6 +138,7 @@ const App = () => (
               <Route path="/inspection/:token" element={<SharedInspection />} />
               <Route path="/rentals/:slug" element={<MarketLanding />} />
               <Route path="/list-with-us" element={<ListWithUs />} />
+              <Route path="/c/:slug" element={<CapturePage />} />
 
               {/* Authenticated dashboard routes with sidebar */}
               <Route element={<ProtectedDashboard />}>
@@ -155,6 +158,7 @@ const App = () => (
                 <Route path="/import-listing" element={<ImportListing />} />
                 <Route path="/blog/new" element={<BlogEditor />} />
                 <Route path="/admin" element={<AdminDashboard />} />
+                <Route path="/capture-pages" element={<CapturePages />} />
               </Route>
 
               <Route path="*" element={<NotFound />} />
