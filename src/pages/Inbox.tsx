@@ -43,8 +43,6 @@ export default function Inbox() {
   const navigate = useNavigate();
   const { listings } = useListings();
   const { role } = useAuth();
-  const navigate = useNavigate();
-  const { listings } = useListings();
   const propertyId = searchParams.get("property");
   const prefillMsg = searchParams.get("msg");
 
