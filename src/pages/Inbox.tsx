@@ -1,8 +1,10 @@
 import { useState, useEffect, useRef } from "react";
 import { useSearchParams, useNavigate, Link } from "react-router-dom";
 import { useListings } from "@/contexts/ListingsContext";
+import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { ArrowLeft, Send, Calendar, CheckCircle, StickyNote } from "lucide-react";
+import ChatQuickActions from "@/components/ChatQuickActions";
 
 interface Message {
   id: string;
@@ -40,6 +42,7 @@ export default function Inbox() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const { listings } = useListings();
+  const { role } = useAuth();
   const propertyId = searchParams.get("property");
   const prefillMsg = searchParams.get("msg");
 
@@ -321,6 +324,14 @@ export default function Inbox() {
       </div>
 
       <div className="shrink-0 border-t border-border bg-card px-3 py-2">
+        <ChatQuickActions
+          role={role}
+          conversationId={activeConvId!}
+          listingId={activeConv.listing_id}
+          onInsertMessage={(text) => {
+            setNewMessage(text);
+          }}
+        />
         <div className="flex items-center gap-2">
           <input
             type="text"
