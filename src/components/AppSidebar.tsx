@@ -1,6 +1,6 @@
 import {
   LayoutDashboard, Inbox, ClipboardCheck, Wrench,
-  Plus, FileText, LogOut, Sparkles, Users, FileSignature, DollarSign, Target,
+  Plus, FileText, LogOut, Sparkles, Users, FileSignature, DollarSign, Target, Shield,
 } from "lucide-react";
 import { ecrentaLogo } from "@/components/BrandLogo";
 import { NavLink } from "@/components/NavLink";

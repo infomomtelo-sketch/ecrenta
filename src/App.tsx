@@ -154,6 +154,7 @@ const App = () => (
                 <Route path="/add-property" element={<AddProperty />} />
                 <Route path="/import-listing" element={<ImportListing />} />
                 <Route path="/blog/new" element={<BlogEditor />} />
+                <Route path="/admin" element={<AdminDashboard />} />
               </Route>
 
               <Route path="*" element={<NotFound />} />
