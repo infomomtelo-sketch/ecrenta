@@ -51,6 +51,7 @@ import SignForm from "./pages/SignForm";
 import MarketLanding from "./pages/MarketLanding";
 import OutreachCRM from "./pages/OutreachCRM";
 import ListWithUs from "./pages/ListWithUs";
+import AdminDashboard from "./pages/AdminDashboard";
 
 const queryClient = new QueryClient();
 
