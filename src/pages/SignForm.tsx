@@ -128,6 +128,7 @@ function NoticeView({ content, form }: { content: any; form: any }) {
 }
 
 export default function SignForm() {
+  const navigate = useNavigate();
   const { token } = useParams<{ token: string }>();
   const [form, setForm] = useState<any>(null);
   const [loading, setLoading] = useState(true);
