@@ -51,6 +51,7 @@ import SignForm from "./pages/SignForm";
 import MarketLanding from "./pages/MarketLanding";
 import OutreachCRM from "./pages/OutreachCRM";
 import ListWithUs from "./pages/ListWithUs";
+import AdminDashboard from "./pages/AdminDashboard";
 
 const queryClient = new QueryClient();
 
@@ -153,6 +154,7 @@ const App = () => (
                 <Route path="/add-property" element={<AddProperty />} />
                 <Route path="/import-listing" element={<ImportListing />} />
                 <Route path="/blog/new" element={<BlogEditor />} />
+                <Route path="/admin" element={<AdminDashboard />} />
               </Route>
 
               <Route path="*" element={<NotFound />} />

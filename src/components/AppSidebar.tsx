@@ -1,6 +1,6 @@
 import {
   LayoutDashboard, Inbox, ClipboardCheck, Wrench,
-  Plus, FileText, LogOut, Sparkles, Users, FileSignature, DollarSign, Target,
+  Plus, FileText, LogOut, Sparkles, Users, FileSignature, DollarSign, Target, Shield,
 } from "lucide-react";
 import { ecrentaLogo } from "@/components/BrandLogo";
 import { NavLink } from "@/components/NavLink";
@@ -47,8 +47,9 @@ export function AppSidebar() {
   const { state, setOpenMobile, isMobile } = useSidebar();
   const collapsed = state === "collapsed";
   const location = useLocation();
-  const { signOut, profile } = useAuth();
+  const { signOut, profile, role } = useAuth();
   const mobile = useIsMobile();
+  const showAdmin = role === "landlord" || role === "admin" as any;
 
   const closeMobile = () => {
     if (mobile || isMobile) setOpenMobile(false);
@@ -134,6 +135,28 @@ export function AppSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
+
+        {showAdmin && (
+          <SidebarGroup>
+            <SidebarGroupLabel>Admin</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                <SidebarMenuItem>
+                  <SidebarMenuButton
+                    asChild
+                    isActive={isActive("/admin")}
+                    tooltip="Admin Panel"
+                  >
+                    <NavLink to="/admin" onClick={closeMobile}>
+                      <Shield className="h-4 w-4" />
+                      <span>Admin Panel</span>
+                    </NavLink>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        )}
       </SidebarContent>
 
       <SidebarFooter className="px-3 py-3">
