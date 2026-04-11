@@ -39,6 +39,7 @@ const toolsNav = [
   { title: "Inspections", url: "/inspections", icon: ClipboardCheck },
   { title: "Maintenance", url: "/maintenance", icon: Wrench },
   { title: "Outreach CRM", url: "/outreach", icon: Target },
+  { title: "Capture Pages", url: "/capture-pages", icon: Target },
   { title: "Add Property", url: "/add-property", icon: Plus },
   { title: "Blog Editor", url: "/blog/new", icon: FileText },
 ];
