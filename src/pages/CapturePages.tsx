@@ -22,7 +22,7 @@ export default function CapturePages() {
 
   const fetchPages = async () => {
     if (!user) return;
-    const { data } = await supabase.from("capture_pages").select("*").order("created_at", { ascending: false });
+    const { data } = await (supabase.from as any)("capture_pages").select("*").order("created_at", { ascending: false });
     setPages(data || []);
     setLoading(false);
   };
@@ -39,7 +39,7 @@ export default function CapturePages() {
     }
     setCreating(true);
     try {
-      const { error } = await supabase.from("capture_pages").insert({
+      const { error } = await (supabase.from as any)("capture_pages").insert({
         user_id: user.id,
         title: form.title,
         slug: form.slug,

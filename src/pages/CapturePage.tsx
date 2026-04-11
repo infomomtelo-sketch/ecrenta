@@ -38,7 +38,7 @@ export default function CapturePage() {
         setLoading(false);
         // Increment view count (fire and forget)
         if (data) {
-          supabase.rpc("increment_capture_view" as any, { page_id: data.id }).then(() => {});
+          (supabase.rpc as any)("increment_capture_view", { page_id: data.id }).then(() => {});
         }
       });
   }, [slug]);
@@ -48,7 +48,7 @@ export default function CapturePage() {
     if (!page) return;
     setSubmitting(true);
     try {
-      const { error } = await supabase.from("capture_leads").insert({
+      const { error } = await (supabase.from as any)("capture_leads").insert({
         capture_page_id: page.id,
         name: formData.name || "Anonymous",
         email: formData.email || null,
