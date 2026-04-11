@@ -245,6 +245,16 @@ export default function SignForm() {
         <title>{form.title} | E.Crenta</title>
       </Helmet>
       <div className="max-w-2xl mx-auto space-y-6">
+        {/* Top bar with back + print — hidden when printing */}
+        <div className="flex items-center justify-between print:hidden">
+          <Button variant="ghost" size="sm" onClick={() => navigate(-1)} className="gap-1">
+            <ArrowLeft className="w-4 h-4" /> Back
+          </Button>
+          <Button variant="outline" size="sm" onClick={() => window.print()} className="gap-1">
+            <Printer className="w-4 h-4" /> Print
+          </Button>
+        </div>
+
         <div className="text-center space-y-1">
           <div className="flex items-center justify-center gap-2">
             {getIcon()}
