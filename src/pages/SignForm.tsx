@@ -5,7 +5,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
-import { CheckCircle, FileText, Receipt, FileWarning, DollarSign } from "lucide-react";
+import { CheckCircle, FileText, Receipt, FileWarning, DollarSign, ArrowLeft, Printer } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 function ReceiptView({ content, form }: { content: any; form: any }) {
   return (
@@ -127,6 +128,7 @@ function NoticeView({ content, form }: { content: any; form: any }) {
 }
 
 export default function SignForm() {
+  const navigate = useNavigate();
   const { token } = useParams<{ token: string }>();
   const [form, setForm] = useState<any>(null);
   const [loading, setLoading] = useState(true);
@@ -243,6 +245,16 @@ export default function SignForm() {
         <title>{form.title} | E.Crenta</title>
       </Helmet>
       <div className="max-w-2xl mx-auto space-y-6">
+        {/* Top bar with back + print — hidden when printing */}
+        <div className="flex items-center justify-between print:hidden">
+          <Button variant="ghost" size="sm" onClick={() => navigate(-1)} className="gap-1">
+            <ArrowLeft className="w-4 h-4" /> Back
+          </Button>
+          <Button variant="outline" size="sm" onClick={() => window.print()} className="gap-1">
+            <Printer className="w-4 h-4" /> Print
+          </Button>
+        </div>
+
         <div className="text-center space-y-1">
           <div className="flex items-center justify-center gap-2">
             {getIcon()}
