@@ -181,7 +181,7 @@ export default function P8Chat({ mode, onSearchQuery }: P8ChatProps) {
                   : "bg-muted text-foreground"
               }`}>
                 {msg.role === "assistant" ? (
-                  <div className="prose prose-sm dark:prose-invert max-w-none [&>*:first-child]:mt-0 [&>*:last-child]:mb-0">
+                  <div className="prose prose-sm dark:prose-invert max-w-none [&>*:first-child]:mt-0 [&>*:last-child]:mb-0 break-words overflow-hidden">
                     <ReactMarkdown components={markdownComponents}>{msg.content}</ReactMarkdown>
                   </div>
                 ) : (
