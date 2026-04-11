@@ -1,8 +1,10 @@
 import { useState, useEffect, useRef } from "react";
 import { useSearchParams, useNavigate, Link } from "react-router-dom";
 import { useListings } from "@/contexts/ListingsContext";
+import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { ArrowLeft, Send, Calendar, CheckCircle, StickyNote } from "lucide-react";
+import ChatQuickActions from "@/components/ChatQuickActions";
 
 interface Message {
   id: string;
