@@ -47,8 +47,9 @@ export function AppSidebar() {
   const { state, setOpenMobile, isMobile } = useSidebar();
   const collapsed = state === "collapsed";
   const location = useLocation();
-  const { signOut, profile } = useAuth();
+  const { signOut, profile, role } = useAuth();
   const mobile = useIsMobile();
+  const showAdmin = role === "landlord" || role === "admin" as any;
 
   const closeMobile = () => {
     if (mobile || isMobile) setOpenMobile(false);
