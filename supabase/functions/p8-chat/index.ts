@@ -7,6 +7,196 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
+const TOOLS = [
+  {
+    type: "function",
+    function: {
+      name: "create_rent_receipt",
+      description: "Create a shareable rent receipt that the landlord can send to a tenant. Use this when the user asks you to create/generate a rent receipt.",
+      parameters: {
+        type: "object",
+        properties: {
+          tenant_name: { type: "string", description: "Tenant's full name" },
+          property_address: { type: "string", description: "Property address" },
+          amount_paid: { type: "number", description: "Amount paid in dollars" },
+          payment_date: { type: "string", description: "Date of payment (YYYY-MM-DD)" },
+          period_from: { type: "string", description: "Rental period start (YYYY-MM-DD)" },
+          period_to: { type: "string", description: "Rental period end (YYYY-MM-DD)" },
+          payment_method: { type: "string", enum: ["cash", "check", "money_order", "zelle", "venmo", "bank_transfer", "other"], description: "Payment method" },
+          received_by: { type: "string", description: "Name of person who received payment" },
+          notes: { type: "string", description: "Any additional notes" },
+        },
+        required: ["tenant_name", "property_address", "amount_paid", "payment_date", "period_from", "period_to", "received_by"],
+      },
+    },
+  },
+  {
+    type: "function",
+    function: {
+      name: "create_invoice",
+      description: "Create a shareable invoice for a tenant (rent, fees, etc). Use when user asks to create/generate/send an invoice.",
+      parameters: {
+        type: "object",
+        properties: {
+          tenant_name: { type: "string", description: "Tenant's full name" },
+          property_address: { type: "string", description: "Property address" },
+          amount: { type: "number", description: "Total amount due in dollars" },
+          due_date: { type: "string", description: "Due date (YYYY-MM-DD)" },
+          description: { type: "string", description: "What this invoice is for" },
+          line_items: {
+            type: "array",
+            items: {
+              type: "object",
+              properties: {
+                description: { type: "string" },
+                amount: { type: "number" },
+              },
+              required: ["description", "amount"],
+            },
+            description: "Itemized charges",
+          },
+          notes: { type: "string", description: "Any additional notes or payment instructions" },
+        },
+        required: ["tenant_name", "property_address", "amount", "due_date", "description", "line_items"],
+      },
+    },
+  },
+  {
+    type: "function",
+    function: {
+      name: "create_notice",
+      description: "Create a shareable legal notice (3-day notice, lease violation, move-out notice, etc). Use when user asks to create a formal notice document.",
+      parameters: {
+        type: "object",
+        properties: {
+          notice_type: { type: "string", enum: ["3_day_pay_or_quit", "30_day_notice", "60_day_notice", "lease_violation", "move_out", "entry_notice", "other"], description: "Type of notice" },
+          tenant_name: { type: "string", description: "Tenant's full name" },
+          property_address: { type: "string", description: "Property address" },
+          body_text: { type: "string", description: "Full body text of the notice with all legal language" },
+          effective_date: { type: "string", description: "Effective date (YYYY-MM-DD)" },
+          landlord_name: { type: "string", description: "Landlord's full name" },
+        },
+        required: ["notice_type", "tenant_name", "property_address", "body_text", "effective_date", "landlord_name"],
+      },
+    },
+  },
+];
+
+function generateToken(): string {
+  const chars = "abcdefghijklmnopqrstuvwxyz0123456789";
+  let token = "";
+  for (let i = 0; i < 24; i++) {
+    token += chars[Math.floor(Math.random() * chars.length)];
+  }
+  return token;
+}
+
+async function executeToolCall(
+  supabase: any,
+  userId: string,
+  toolName: string,
+  args: Record<string, any>,
+  siteUrl: string,
+): Promise<string> {
+  const signToken = generateToken();
+
+  if (toolName === "create_rent_receipt") {
+    const content = {
+      type: "rent_receipt",
+      tenant_name: args.tenant_name,
+      property_address: args.property_address,
+      amount_paid: args.amount_paid,
+      payment_date: args.payment_date,
+      period_from: args.period_from,
+      period_to: args.period_to,
+      payment_method: args.payment_method || "other",
+      received_by: args.received_by,
+      notes: args.notes || "",
+    };
+
+    const { data, error } = await supabase.from("rental_forms").insert({
+      user_id: userId,
+      title: `Rent Receipt — ${args.tenant_name} — ${args.payment_date}`,
+      form_type: "rent_receipt",
+      content,
+      status: "sent",
+      sign_token: signToken,
+      recipient_email: null,
+    }).select("id").single();
+
+    if (error) throw new Error(`Failed to create receipt: ${error.message}`);
+    return JSON.stringify({
+      success: true,
+      document_type: "Rent Receipt",
+      share_url: `${siteUrl}/sign/${signToken}`,
+      id: data.id,
+    });
+  }
+
+  if (toolName === "create_invoice") {
+    const content = {
+      type: "invoice",
+      tenant_name: args.tenant_name,
+      property_address: args.property_address,
+      amount: args.amount,
+      due_date: args.due_date,
+      description: args.description,
+      line_items: args.line_items,
+      notes: args.notes || "",
+    };
+
+    const { data, error } = await supabase.from("rental_forms").insert({
+      user_id: userId,
+      title: `Invoice — ${args.tenant_name} — $${args.amount}`,
+      form_type: "invoice",
+      content,
+      status: "sent",
+      sign_token: signToken,
+      recipient_email: null,
+    }).select("id").single();
+
+    if (error) throw new Error(`Failed to create invoice: ${error.message}`);
+    return JSON.stringify({
+      success: true,
+      document_type: "Invoice",
+      share_url: `${siteUrl}/sign/${signToken}`,
+      id: data.id,
+    });
+  }
+
+  if (toolName === "create_notice") {
+    const content = {
+      type: "notice",
+      notice_type: args.notice_type,
+      tenant_name: args.tenant_name,
+      property_address: args.property_address,
+      body_text: args.body_text,
+      effective_date: args.effective_date,
+      landlord_name: args.landlord_name,
+    };
+
+    const { data, error } = await supabase.from("rental_forms").insert({
+      user_id: userId,
+      title: `${args.notice_type.replace(/_/g, " ").replace(/\b\w/g, (c: string) => c.toUpperCase())} — ${args.tenant_name}`,
+      form_type: "notice",
+      content,
+      status: "sent",
+      sign_token: signToken,
+      recipient_email: null,
+    }).select("id").single();
+
+    if (error) throw new Error(`Failed to create notice: ${error.message}`);
+    return JSON.stringify({
+      success: true,
+      document_type: "Notice",
+      share_url: `${siteUrl}/sign/${signToken}`,
+      id: data.id,
+    });
+  }
+
+  return JSON.stringify({ error: `Unknown tool: ${toolName}` });
+}
+
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
@@ -22,18 +212,23 @@ serve(async (req) => {
     const { data: { user }, error: authErr } = await supabase.auth.getUser(token);
     if (authErr || !user) throw new Error("Not authenticated");
 
-    const { messages, mode, conversationId } = await req.json();
+    const { messages, mode } = await req.json();
     if (!messages?.length) throw new Error("No messages provided");
 
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY not configured");
 
+    // Determine site URL from referer or env
+    const referer = req.headers.get("referer") || req.headers.get("origin") || "";
+    const siteUrl = referer ? new URL(referer).origin : "https://ecrenta.lovable.app";
+
     // Fetch user's property data for context
-    const [{ data: listings }, { data: inspections }, { data: maintenance }, { data: profile }] = await Promise.all([
+    const [{ data: listings }, { data: inspections }, { data: maintenance }, { data: profile }, { data: tenants }] = await Promise.all([
       supabase.from("listings").select("id, title, address, price, bedrooms, bathrooms, sqft, available").eq("user_id", user.id),
       supabase.from("inspections").select("id, property_address, inspection_type, status, created_at, ai_report").eq("user_id", user.id).order("created_at", { ascending: false }).limit(10),
       supabase.from("maintenance_requests").select("id, title, property_address, category, urgency, status, description, created_at").eq("user_id", user.id).order("created_at", { ascending: false }).limit(20),
       supabase.from("profiles").select("display_name").eq("user_id", user.id).maybeSingle(),
+      supabase.from("tenants").select("full_name, unit_address, rent_amount, email, phone").eq("user_id", user.id),
     ]);
 
     const userName = profile?.display_name || "Landlord";
@@ -49,43 +244,49 @@ serve(async (req) => {
       ? maintenance.map(m => `• [${m.urgency.toUpperCase()}] ${m.title} at ${m.property_address} — ${m.status} (${m.category})`).join("\n")
       : "No maintenance requests yet.";
 
+    const tenantContext = tenants?.length
+      ? tenants.map(t => `• ${t.full_name} at ${t.unit_address || "N/A"} — $${t.rent_amount || "N/A"}/mo, ${t.email || "no email"}, ${t.phone || "no phone"}`).join("\n")
+      : "No tenants added yet.";
+
     const vacantCount = listings?.filter(l => l.available).length || 0;
     const occupiedCount = listings?.filter(l => !l.available).length || 0;
+
+    const toolInstructions = `
+**DOCUMENT CREATION:**
+You have tools to create REAL shareable documents. When the user asks for a receipt, invoice, or notice:
+1. Use the appropriate tool (create_rent_receipt, create_invoice, create_notice) to generate the document.
+2. After the document is created, you'll get back a shareable URL. Present this to the user.
+3. Ask the user for any missing required info before calling the tool. Use tenant/property data you have when possible.
+4. Today's date is ${new Date().toISOString().split("T")[0]}.
+
+Tenants on file:
+${tenantContext}
+`;
 
     const systemPrompts: Record<string, string> = {
       va: `You are P8, an AI virtual assistant for ${userName}, a property manager using ecrenta (ecrenta.space). You specialize in rental property management but can help with anything.
 
 **CRITICAL BEHAVIOR: Be a DO-ER, not a DELEGATOR.**
-When the user asks you to do something (e.g. "create a social media account", "set up a listing", "draft a post"), DO NOT just tell them to go do it themselves. Instead:
-1. DO the actual work for them whenever possible — write the exact copy, generate the bio text, create the content, fill in the details.
-2. When you truly CANNOT perform an action (like clicking buttons on external sites), provide an ULTRA-DETAILED step-by-step walkthrough with:
-   - Exact text to copy/paste at each step (in code blocks they can copy)
-   - Specific button names, menu locations, and what to click
-   - Screenshots descriptions of what they should see
-   - Pre-written content for every field (bio, description, username suggestions, etc.)
-3. The user has a Quick Launch panel next to this chat with shortcuts to Google, Facebook, Instagram, TikTok, YouTube, Zillow, Apartments.com, Craigslist, and Canva. Reference these: "Open Instagram from your Quick Launch panel →"
+When the user asks you to do something (e.g. "create a receipt", "generate an invoice", "draft a notice"), DO the actual work:
+1. Use your document creation tools to generate REAL shareable receipts, invoices, and notices.
+2. When you truly CANNOT perform an action (like clicking buttons on external sites), provide an ULTRA-DETAILED step-by-step walkthrough.
+3. The user has a Quick Launch panel next to this chat. Reference these: "Open Instagram from your Quick Launch panel →"
 4. Break complex tasks into numbered steps. After giving steps, ask "Which step are you on?" to keep helping.
-5. **CLICKABLE SEARCH LINKS:** When recommending tools, platforms, tutorials, or anything the user should look up, wrap the recommendation in a markdown link using the format: [display text](search:search query). Examples:
-   - "You should [create an Instagram Business account](search:how to create Instagram Business account for rental property)"
-   - "Try using [Canva to design flyers](search:Canva rental property flyer templates)"
-   - "Check out [Facebook Marketplace listing tips](search:Facebook Marketplace rental listing best practices)"
-   - "Look into [California 3-day notice requirements](search:California 3-day notice to pay rent or quit template)"
-   This makes your recommendations instantly searchable for the user. Use this format generously for any actionable recommendation.
+5. **CLICKABLE SEARCH LINKS:** Wrap recommendations in markdown: [display text](search:search query).
+
+${toolInstructions}
 
 **Property Management:**
-- Draft legal notices (late rent, lease violations, move-out, etc.) per California law
+- Draft legal notices, create receipts, generate invoices — all as shareable documents
 - Answer questions about properties, tenants, and operations
 - Help with tenant communication and message drafting
 - Calculate vacancy rates, rental income, and expenses
 - Maintenance triage and vendor coordination
-- Lease review and renewal planning
 
 **General Assistance:**
 - Improve, rewrite, or proofread messages and documents
 - Translate text between languages (English, Spanish, etc.)
-- Summarize documents or reports
-- Draft professional emails, letters, and proposals
-- Answer general questions, brainstorm, and research
+- Summarize documents, draft emails, brainstorm, research
 - Business planning and strategy advice
 
 ${userName}'s Properties:
@@ -97,18 +298,19 @@ ${inspectionContext}
 Maintenance Requests:
 ${maintenanceContext}
 
-Be professional, concise, and reference specific properties by address when relevant. For legal documents, include proper California legal language and disclaimers. Always provide ready-to-use content the user can copy/paste. Format responses with markdown.`,
+Be professional, concise, and reference specific properties by address when relevant. For legal documents, include proper California legal language. Format responses with markdown.`,
 
-      inspector: `You are P8 Inspector, an AI property inspection assistant for ${userName} on ecrenta (ecrenta.space). You analyze property conditions, help plan inspections, and provide guidance on damage assessment.
+      inspector: `You are P8 Inspector, an AI property inspection assistant for ${userName} on ecrenta (ecrenta.space).
+
+${toolInstructions}
 
 **Your Capabilities:**
 - Help plan move-in, move-out, routine, and annual inspections
 - Analyze inspection findings and categorize damage vs. normal wear & tear per California law
 - Estimate repair costs with itemized breakdowns
-- Guide security deposit deduction calculations with legal compliance
-- Generate inspection checklists tailored to property type
-- Compare before/after conditions across inspections
-- Advise on habitability standards and required repairs
+- Guide security deposit deduction calculations
+- Generate inspection checklists
+- Create shareable inspection-related notices and invoices for repairs
 
 ${userName}'s Properties:
 ${propertyContext}
@@ -116,53 +318,55 @@ ${propertyContext}
 Recent Inspections:
 ${inspectionContext}
 
-Be thorough and precise. Always cite California Civil Code when discussing security deposits or habitability. Format responses with markdown.`,
+Be thorough and precise. Always cite California Civil Code when relevant. Format responses with markdown.`,
 
-      growth: `You are P8 Growth, an AI marketing and growth assistant for ${userName} on ecrenta (ecrenta.space). You help landlords fill vacancies faster, market their properties effectively, and grow their rental business.
+      growth: `You are P8 Growth, an AI marketing and growth assistant for ${userName} on ecrenta (ecrenta.space).
+
+${toolInstructions}
 
 **Marketing & Content:**
-- Draft listing descriptions optimized for rental platforms (Zillow, Apartments.com, Facebook Marketplace, Craigslist)
-- Create social media posts for property listings (Instagram, Facebook, TikTok, etc.)
-- Write engaging ad copy and headlines
-- Suggest hashtags, posting schedules, and platform strategies
-- Draft email campaigns for tenant outreach and lead nurturing
-- Create content calendars for consistent marketing
+- Draft listing descriptions for rental platforms
+- Create social media posts, ad copy, and hashtags
+- Draft email campaigns for tenant outreach
+- Create content calendars
 
 **Growth Strategy:**
-- Analyze market rent comparisons and pricing recommendations
-- Tenant acquisition strategies and lead generation ideas
-- Tenant retention and satisfaction strategies
+- Market rent comparisons and pricing recommendations
+- Tenant acquisition and retention strategies
 - Portfolio expansion planning
-- Revenue optimization and vacancy reduction tactics
-- Competitor analysis for your rental market
+- Revenue optimization and vacancy reduction
 
 **Current Portfolio:**
 ${propertyContext}
 Vacant: ${vacantCount} | Occupied: ${occupiedCount}
 
-Be creative, data-aware, and always provide ready-to-use copy and actionable strategies. Format responses with markdown.`,
+Be creative, data-aware, and provide ready-to-use content. Format responses with markdown.`,
     };
 
     const systemPrompt = systemPrompts[mode] || systemPrompts.va;
 
-    const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+    // First AI call — may return tool calls
+    const aiPayload: any = {
+      model: "google/gemini-3-flash-preview",
+      messages: [
+        { role: "system", content: systemPrompt },
+        ...messages,
+      ],
+      tools: TOOLS,
+      stream: false, // first call non-streaming to check for tool calls
+    };
+
+    const firstResp = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${LOVABLE_API_KEY}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        model: "google/gemini-3-flash-preview",
-        messages: [
-          { role: "system", content: systemPrompt },
-          ...messages,
-        ],
-        stream: true,
-      }),
+      body: JSON.stringify(aiPayload),
     });
 
-    if (!response.ok) {
-      const status = response.status;
+    if (!firstResp.ok) {
+      const status = firstResp.status;
       if (status === 429) {
         return new Response(JSON.stringify({ error: "Rate limited. Please try again in a moment." }), {
           status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -176,7 +380,78 @@ Be creative, data-aware, and always provide ready-to-use copy and actionable str
       throw new Error(`AI gateway error: ${status}`);
     }
 
-    return new Response(response.body, {
+    const firstResult = await firstResp.json();
+    const firstChoice = firstResult.choices?.[0];
+
+    // Check if the AI wants to call tools
+    if (firstChoice?.message?.tool_calls?.length) {
+      const toolCalls = firstChoice.message.tool_calls;
+      const toolResults: any[] = [];
+
+      for (const tc of toolCalls) {
+        const args = typeof tc.function.arguments === "string"
+          ? JSON.parse(tc.function.arguments)
+          : tc.function.arguments;
+        
+        try {
+          const result = await executeToolCall(supabase, user.id, tc.function.name, args, siteUrl);
+          toolResults.push({
+            role: "tool",
+            tool_call_id: tc.id,
+            content: result,
+          });
+        } catch (err) {
+          toolResults.push({
+            role: "tool",
+            tool_call_id: tc.id,
+            content: JSON.stringify({ error: err instanceof Error ? err.message : "Tool execution failed" }),
+          });
+        }
+      }
+
+      // Second call — stream the final response with tool results
+      const secondResp = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${LOVABLE_API_KEY}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          model: "google/gemini-3-flash-preview",
+          messages: [
+            { role: "system", content: systemPrompt },
+            ...messages,
+            firstChoice.message,
+            ...toolResults,
+          ],
+          stream: true,
+        }),
+      });
+
+      if (!secondResp.ok) throw new Error(`AI gateway error on second call: ${secondResp.status}`);
+
+      return new Response(secondResp.body, {
+        headers: { ...corsHeaders, "Content-Type": "text/event-stream" },
+      });
+    }
+
+    // No tool calls — stream directly (re-do as streaming)
+    const streamResp = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${LOVABLE_API_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        ...aiPayload,
+        stream: true,
+        tools: undefined, // don't need tools for re-stream
+      }),
+    });
+
+    if (!streamResp.ok) throw new Error(`AI gateway error: ${streamResp.status}`);
+
+    return new Response(streamResp.body, {
       headers: { ...corsHeaders, "Content-Type": "text/event-stream" },
     });
   } catch (e) {
