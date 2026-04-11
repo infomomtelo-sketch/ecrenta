@@ -1,6 +1,6 @@
 import {
   LayoutDashboard, Inbox, ClipboardCheck, Wrench,
-  Plus, FileText, LogOut, Sparkles, Users, FileSignature, DollarSign, Target, Shield,
+  Plus, FileText, LogOut, Sparkles, Users, FileSignature, DollarSign, Target, Shield, Link2,
 } from "lucide-react";
 import { ecrentaLogo } from "@/components/BrandLogo";
 import { NavLink } from "@/components/NavLink";
@@ -39,6 +39,7 @@ const toolsNav = [
   { title: "Inspections", url: "/inspections", icon: ClipboardCheck },
   { title: "Maintenance", url: "/maintenance", icon: Wrench },
   { title: "Outreach CRM", url: "/outreach", icon: Target },
+  { title: "Capture Pages", url: "/capture-pages", icon: Link2 },
   { title: "Add Property", url: "/add-property", icon: Plus },
   { title: "Blog Editor", url: "/blog/new", icon: FileText },
 ];
