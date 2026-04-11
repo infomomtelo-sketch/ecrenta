@@ -116,6 +116,109 @@ export type Database = {
         }
         Relationships: []
       }
+      capture_leads: {
+        Row: {
+          capture_page_id: string
+          created_at: string
+          email: string | null
+          id: string
+          message: string | null
+          metadata: Json | null
+          name: string
+          phone: string | null
+          source: string | null
+        }
+        Insert: {
+          capture_page_id: string
+          created_at?: string
+          email?: string | null
+          id?: string
+          message?: string | null
+          metadata?: Json | null
+          name: string
+          phone?: string | null
+          source?: string | null
+        }
+        Update: {
+          capture_page_id?: string
+          created_at?: string
+          email?: string | null
+          id?: string
+          message?: string | null
+          metadata?: Json | null
+          name?: string
+          phone?: string | null
+          source?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "capture_leads_capture_page_id_fkey"
+            columns: ["capture_page_id"]
+            isOneToOne: false
+            referencedRelation: "capture_pages"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      capture_pages: {
+        Row: {
+          cover_image: string | null
+          created_at: string
+          description: string | null
+          form_fields: Json
+          id: string
+          lead_count: number
+          listing_id: string | null
+          page_type: string
+          slug: string
+          status: string
+          title: string
+          updated_at: string
+          user_id: string
+          view_count: number
+        }
+        Insert: {
+          cover_image?: string | null
+          created_at?: string
+          description?: string | null
+          form_fields?: Json
+          id?: string
+          lead_count?: number
+          listing_id?: string | null
+          page_type?: string
+          slug: string
+          status?: string
+          title: string
+          updated_at?: string
+          user_id: string
+          view_count?: number
+        }
+        Update: {
+          cover_image?: string | null
+          created_at?: string
+          description?: string | null
+          form_fields?: Json
+          id?: string
+          lead_count?: number
+          listing_id?: string | null
+          page_type?: string
+          slug?: string
+          status?: string
+          title?: string
+          updated_at?: string
+          user_id?: string
+          view_count?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "capture_pages_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "listings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       contact_messages: {
         Row: {
           created_at: string
@@ -857,6 +960,39 @@ export type Database = {
           rent_amount?: number | null
           unit_address?: string | null
           updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_activity_log: {
+        Row: {
+          action_type: string
+          created_at: string
+          entity_id: string | null
+          entity_type: string | null
+          id: string
+          metadata: Json | null
+          summary: string
+          user_id: string
+        }
+        Insert: {
+          action_type: string
+          created_at?: string
+          entity_id?: string | null
+          entity_type?: string | null
+          id?: string
+          metadata?: Json | null
+          summary: string
+          user_id: string
+        }
+        Update: {
+          action_type?: string
+          created_at?: string
+          entity_id?: string | null
+          entity_type?: string | null
+          id?: string
+          metadata?: Json | null
+          summary?: string
           user_id?: string
         }
         Relationships: []
