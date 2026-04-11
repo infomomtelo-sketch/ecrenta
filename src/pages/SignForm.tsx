@@ -5,7 +5,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
-import { CheckCircle, FileText, Receipt, FileWarning, DollarSign } from "lucide-react";
+import { CheckCircle, FileText, Receipt, FileWarning, DollarSign, ArrowLeft, Printer } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 function ReceiptView({ content, form }: { content: any; form: any }) {
   return (
