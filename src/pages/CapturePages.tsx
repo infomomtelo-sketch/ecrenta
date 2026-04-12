@@ -8,9 +8,19 @@ import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { toast } from "sonner";
 import { logActivity } from "@/lib/activityLogger";
-import { Plus, Copy, ExternalLink, Eye, Users, Loader2, ArrowLeft } from "lucide-react";
+import { Plus, Copy, ExternalLink, Eye, Users, Loader2, ChevronDown, Mail, Phone, MessageSquare } from "lucide-react";
+
+interface Lead {
+  id: string;
+  name: string;
+  email: string | null;
+  phone: string | null;
+  message: string | null;
+  created_at: string;
+}
 
 export default function CapturePages() {
   const { user } = useAuth();
@@ -19,6 +29,9 @@ export default function CapturePages() {
   const [creating, setCreating] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [form, setForm] = useState({ title: "", slug: "", description: "", page_type: "general" });
+  const [expandedPage, setExpandedPage] = useState<string | null>(null);
+  const [leads, setLeads] = useState<Record<string, Lead[]>>({});
+  const [loadingLeads, setLoadingLeads] = useState<string | null>(null);
 
   const fetchPages = async () => {
     if (!user) return;
@@ -28,6 +41,26 @@ export default function CapturePages() {
   };
 
   useEffect(() => { fetchPages(); }, [user]);
+
+  const fetchLeads = async (pageId: string) => {
+    if (leads[pageId]) return; // already loaded
+    setLoadingLeads(pageId);
+    const { data } = await (supabase.from as any)("capture_leads")
+      .select("id, name, email, phone, message, created_at")
+      .eq("capture_page_id", pageId)
+      .order("created_at", { ascending: false });
+    setLeads((prev) => ({ ...prev, [pageId]: data || [] }));
+    setLoadingLeads(null);
+  };
+
+  const toggleExpand = (pageId: string) => {
+    if (expandedPage === pageId) {
+      setExpandedPage(null);
+    } else {
+      setExpandedPage(pageId);
+      fetchLeads(pageId);
+    }
+  };
 
   const generateSlug = (title: string) =>
     title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 40);
@@ -64,6 +97,8 @@ export default function CapturePages() {
     navigator.clipboard.writeText(url);
     toast.success("Link copied!");
   };
+
+  const formatDate = (d: string) => new Date(d).toLocaleDateString("en-US", { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
 
   if (loading) {
     return (
@@ -145,30 +180,84 @@ export default function CapturePages() {
       ) : (
         <div className="grid gap-4">
           {pages.map((p) => (
-            <div key={p.id} className="rounded-xl border border-border bg-card p-4 flex flex-col sm:flex-row sm:items-center gap-3">
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2">
-                  <h3 className="font-semibold text-foreground truncate">{p.title}</h3>
-                  <Badge variant={p.status === "active" ? "default" : "secondary"} className="text-xs">{p.status}</Badge>
-                  <Badge variant="outline" className="text-xs">{p.page_type}</Badge>
+            <Collapsible key={p.id} open={expandedPage === p.id} onOpenChange={() => toggleExpand(p.id)}>
+              <div className="rounded-xl border border-border bg-card overflow-hidden">
+                <div className="p-4 flex flex-col sm:flex-row sm:items-center gap-3">
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2">
+                      <h3 className="font-semibold text-foreground truncate">{p.title}</h3>
+                      <Badge variant={p.status === "active" ? "default" : "secondary"} className="text-xs">{p.status}</Badge>
+                      <Badge variant="outline" className="text-xs">{p.page_type}</Badge>
+                    </div>
+                    <p className="text-sm text-muted-foreground truncate mt-0.5">/c/{p.slug}</p>
+                    <div className="flex items-center gap-4 mt-1 text-xs text-muted-foreground">
+                      <span className="flex items-center gap-1"><Eye className="h-3 w-3" /> {p.view_count} views</span>
+                      <span className="flex items-center gap-1"><Users className="h-3 w-3" /> {p.lead_count} leads</span>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CollapsibleTrigger asChild>
+                      <Button variant="outline" size="sm">
+                        <Users className="h-3.5 w-3.5 mr-1" /> Leads
+                        <ChevronDown className={`h-3.5 w-3.5 ml-1 transition-transform ${expandedPage === p.id ? "rotate-180" : ""}`} />
+                      </Button>
+                    </CollapsibleTrigger>
+                    <Button variant="outline" size="sm" onClick={() => copyLink(p.slug)}>
+                      <Copy className="h-3.5 w-3.5 mr-1" /> Copy
+                    </Button>
+                    <Button variant="ghost" size="sm" asChild>
+                      <a href={`/c/${p.slug}`} target="_blank" rel="noopener noreferrer">
+                        <ExternalLink className="h-3.5 w-3.5" />
+                      </a>
+                    </Button>
+                  </div>
                 </div>
-                <p className="text-sm text-muted-foreground truncate mt-0.5">/c/{p.slug}</p>
-                <div className="flex items-center gap-4 mt-1 text-xs text-muted-foreground">
-                  <span className="flex items-center gap-1"><Eye className="h-3 w-3" /> {p.view_count} views</span>
-                  <span className="flex items-center gap-1"><Users className="h-3 w-3" /> {p.lead_count} leads</span>
-                </div>
+
+                <CollapsibleContent>
+                  <div className="border-t border-border px-4 py-3 bg-muted/30">
+                    {loadingLeads === p.id ? (
+                      <div className="flex items-center justify-center py-4">
+                        <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+                      </div>
+                    ) : (leads[p.id] || []).length === 0 ? (
+                      <p className="text-sm text-muted-foreground text-center py-4">No leads yet</p>
+                    ) : (
+                      <div className="space-y-3">
+                        <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                          {(leads[p.id] || []).length} lead{(leads[p.id] || []).length !== 1 ? "s" : ""}
+                        </p>
+                        {(leads[p.id] || []).map((lead) => (
+                          <div key={lead.id} className="rounded-lg border border-border bg-card p-3 space-y-1.5">
+                            <div className="flex items-center justify-between">
+                              <span className="font-medium text-sm text-foreground">{lead.name}</span>
+                              <span className="text-xs text-muted-foreground">{formatDate(lead.created_at)}</span>
+                            </div>
+                            <div className="flex flex-wrap gap-3 text-xs text-muted-foreground">
+                              {lead.email && (
+                                <a href={`mailto:${lead.email}`} className="flex items-center gap-1 hover:text-primary transition-colors">
+                                  <Mail className="h-3 w-3" /> {lead.email}
+                                </a>
+                              )}
+                              {lead.phone && (
+                                <a href={`tel:${lead.phone}`} className="flex items-center gap-1 hover:text-primary transition-colors">
+                                  <Phone className="h-3 w-3" /> {lead.phone}
+                                </a>
+                              )}
+                            </div>
+                            {lead.message && (
+                              <p className="text-sm text-muted-foreground flex items-start gap-1.5">
+                                <MessageSquare className="h-3 w-3 mt-0.5 shrink-0" />
+                                {lead.message}
+                              </p>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </CollapsibleContent>
               </div>
-              <div className="flex items-center gap-2">
-                <Button variant="outline" size="sm" onClick={() => copyLink(p.slug)}>
-                  <Copy className="h-3.5 w-3.5 mr-1" /> Copy Link
-                </Button>
-                <Button variant="ghost" size="sm" asChild>
-                  <a href={`/c/${p.slug}`} target="_blank" rel="noopener noreferrer">
-                    <ExternalLink className="h-3.5 w-3.5" />
-                  </a>
-                </Button>
-              </div>
-            </div>
+            </Collapsible>
           ))}
         </div>
       )}
