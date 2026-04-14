@@ -26,20 +26,19 @@ serve(async (req) => {
     const authHeader = req.headers.get("Authorization");
     if (!authHeader) throw new Error("No authorization header provided");
 
-    // Use anon key + auth header for user context (works with signing-keys)
-    const userClient = createClient(
+    const supabaseClient = createClient(
       Deno.env.get("SUPABASE_URL") ?? "",
-      Deno.env.get("SUPABASE_ANON_KEY") ?? "",
-      { global: { headers: { Authorization: authHeader } } }
+      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "",
+      { auth: { persistSession: false } }
     );
 
     const token = authHeader.replace("Bearer ", "");
-    const { data: claimsData, error: claimsError } = await userClient.auth.getClaims(token);
-    if (claimsError || !claimsData?.claims) throw new Error(`Authentication error: ${claimsError?.message || "Invalid token"}`);
-
-    const email = claimsData.claims.email as string;
-    const userId = claimsData.claims.sub as string;
-    if (!email) throw new Error("User email not available in token");
+    const { data: userData, error: userError } = await supabaseClient.auth.getUser(token);
+    if (userError) throw new Error(`Authentication error: ${userError.message}`);
+    const user = userData.user;
+    if (!user?.email) throw new Error("User not authenticated or email not available");
+    const email = user.email;
+    const userId = user.id;
     logStep("User authenticated", { userId, email });
 
     const stripe = new Stripe(stripeKey, { apiVersion: "2025-08-27.basil" });
