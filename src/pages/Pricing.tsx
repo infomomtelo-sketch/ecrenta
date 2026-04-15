@@ -98,28 +98,6 @@ export default function Pricing() {
 
   const plans = [
     {
-      key: "placement",
-      icon: <Camera className="h-6 w-6" />,
-      name: "Tenant Placement",
-      price: "$499",
-      period: " one-time",
-      savings: "Save $1,001 vs. Ziprent",
-      description: "We find you a qualified tenant fast. Professional photography, showings, screening, and lease — all done for you.",
-      features: [
-        "Professional photography & listing",
-        "Listing syndication across platforms",
-        "On-demand property showings",
-        "Full tenant screening & background checks",
-        "Lease generation & signing",
-        "Move-in coordination",
-      ],
-      cta: "Get Started",
-      ctaAction: () => handleCheckout(SERVICE_TIERS.placement.price_id, "payment", "placement"),
-      popular: false,
-      isCurrentPlan: false,
-      disabled: false,
-    },
-    {
       key: "management",
       icon: <Home className="h-6 w-6" />,
       name: "Property Management",
