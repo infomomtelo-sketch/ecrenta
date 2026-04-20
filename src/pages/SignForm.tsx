@@ -205,6 +205,12 @@ export default function SignForm() {
       signature_data: signatureData,
       signer_name: signerName.trim(),
     }).eq("sign_token", token);
+    // Fan out signed copies to tenant, landlord, and P8 archive
+    try {
+      await supabase.functions.invoke("notify-form-signed", { body: { formId: form.id } });
+    } catch (e) {
+      console.error("notify-form-signed failed:", e);
+    }
     setSigned(true);
     setSigning(false);
   };
