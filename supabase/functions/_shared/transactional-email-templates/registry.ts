@@ -11,10 +11,12 @@ export interface TemplateEntry {
 
 import { template as contactConfirmation } from './contact-confirmation.tsx'
 import { template as formSignRequest } from './form-sign-request.tsx'
+import { template as formSignedCopy } from './form-signed-copy.tsx'
 import { template as invoiceReminder } from './invoice-reminder.tsx'
 
 export const TEMPLATES: Record<string, TemplateEntry> = {
   'contact-confirmation': contactConfirmation,
   'form-sign-request': formSignRequest,
+  'form-signed-copy': formSignedCopy,
   'invoice-reminder': invoiceReminder,
 }
