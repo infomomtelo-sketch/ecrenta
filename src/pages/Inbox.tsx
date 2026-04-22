@@ -298,24 +298,32 @@ export default function Inbox() {
         </div>
       )}
 
-      <div className="flex-1 overflow-y-auto px-4 py-4">
-        <div className="mx-auto max-w-2xl space-y-2">
-          {messages.map((msg) => {
+      <div className="flex-1 overflow-y-auto bg-background px-3 py-4 sm:px-4">
+        <div className="mx-auto flex max-w-2xl flex-col gap-3">
+          {messages.map((msg, idx) => {
             const isLandlord = msg.sender_id === "landlord";
+            const prev = messages[idx - 1];
+            const showSender = !prev || prev.sender_id !== msg.sender_id;
+            const senderLabel = isLandlord ? "You (Landlord)" : activeConv.tenant_name || "Tenant";
             return (
-              <div key={msg.id} className={`flex ${isLandlord ? "justify-end" : "justify-start"}`}>
+              <div key={msg.id} className={`flex flex-col ${isLandlord ? "items-end" : "items-start"}`}>
+                {showSender && (
+                  <span className={`mb-1 px-2 text-[11px] font-semibold uppercase tracking-wide ${isLandlord ? "text-primary" : "text-foreground/70"}`}>
+                    {senderLabel}
+                  </span>
+                )}
                 <div
-                  className={`max-w-[80%] rounded-2xl px-4 py-2.5 text-sm ${
+                  className={`max-w-[85%] rounded-2xl px-4 py-2.5 text-[15px] leading-snug shadow-sm ring-1 ${
                     isLandlord
-                      ? "bg-primary text-primary-foreground rounded-br-md"
-                      : "bg-secondary text-foreground rounded-bl-md"
+                      ? "bg-primary text-primary-foreground rounded-br-sm ring-primary/40"
+                      : "bg-card text-foreground rounded-bl-sm ring-border"
                   }`}
                 >
-                  <p>{msg.text}</p>
-                  <p className={`mt-1 text-[10px] ${isLandlord ? "text-primary-foreground/60" : "text-muted-foreground"}`}>
-                    {new Date(msg.created_at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
-                  </p>
+                  <p className="whitespace-pre-wrap break-words">{msg.text}</p>
                 </div>
+                <span className={`mt-1 px-2 text-[11px] ${isLandlord ? "text-muted-foreground" : "text-muted-foreground"}`}>
+                  {new Date(msg.created_at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+                </span>
               </div>
             );
           })}
