@@ -1,8 +1,8 @@
 // Stripe product/price IDs for ecrenta service tiers
 export const SERVICE_TIERS = {
   management: {
-    product_id: "prod_UKzSp7VAscEPQb",
-    price_id: "price_1TMJTyDC1mrZ8mSw8aBtXS89",
+    product_id: "prod_UNxB4vjoYawGoz",
+    price_id: "price_1TPBGtAH9qPFLg89ej76BgQR",
     name: "Property Management",
     price: 99,
     mode: "subscription" as const,
@@ -10,8 +10,8 @@ export const SERVICE_TIERS = {
     description: "/mo per property",
   },
   premium: {
-    product_id: "prod_UKzTmt5ji9GI99",
-    price_id: "price_1TMJUIDC1mrZ8mSwChcszg7U",
+    product_id: "prod_UNxCsmk1he7wej",
+    price_id: "price_1TPBI1AH9qPFLg89kgR4h7CJ",
     name: "Premium Guarantee",
     price: 149,
     mode: "subscription" as const,
