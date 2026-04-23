@@ -117,15 +117,26 @@ export default function Inbox() {
         .single();
 
       if (newConv) {
-        await supabase.from("messages").insert({
-          conversation_id: newConv.id,
-          sender_id: "tenant",
-          text,
-          type: "text",
-        });
+        const { data: insertedMsg } = await supabase
+          .from("messages")
+          .insert({
+            conversation_id: newConv.id,
+            sender_id: "tenant",
+            text,
+            type: "text",
+          })
+          .select()
+          .single();
         await fetchConversations();
         setActiveConvId(newConv.id);
         await fetchMessages(newConv.id);
+        if (insertedMsg) {
+          supabase.functions
+            .invoke("notify-new-message", {
+              body: { messageId: insertedMsg.id, conversationId: newConv.id, senderRole: "tenant" },
+            })
+            .catch(() => {});
+        }
       }
     };
 
