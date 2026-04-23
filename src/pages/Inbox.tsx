@@ -117,15 +117,26 @@ export default function Inbox() {
         .single();
 
       if (newConv) {
-        await supabase.from("messages").insert({
-          conversation_id: newConv.id,
-          sender_id: "tenant",
-          text,
-          type: "text",
-        });
+        const { data: insertedMsg } = await supabase
+          .from("messages")
+          .insert({
+            conversation_id: newConv.id,
+            sender_id: "tenant",
+            text,
+            type: "text",
+          })
+          .select()
+          .single();
         await fetchConversations();
         setActiveConvId(newConv.id);
         await fetchMessages(newConv.id);
+        if (insertedMsg) {
+          supabase.functions
+            .invoke("notify-new-message", {
+              body: { messageId: insertedMsg.id, conversationId: newConv.id, senderRole: "tenant" },
+            })
+            .catch(() => {});
+        }
       }
     };
 
@@ -170,15 +181,27 @@ export default function Inbox() {
 
   const handleSend = async () => {
     if (!newMessage.trim() || !activeConvId) return;
-    await supabase.from("messages").insert({
-      conversation_id: activeConvId,
-      sender_id: "landlord",
-      text: newMessage,
-      type: "text",
-    });
+    const text = newMessage;
     setNewMessage("");
+    const { data: inserted } = await supabase
+      .from("messages")
+      .insert({
+        conversation_id: activeConvId,
+        sender_id: "landlord",
+        text,
+        type: "text",
+      })
+      .select()
+      .single();
     await fetchMessages(activeConvId);
     await fetchConversations();
+    if (inserted) {
+      supabase.functions
+        .invoke("notify-new-message", {
+          body: { messageId: inserted.id, conversationId: activeConvId, senderRole: "landlord" },
+        })
+        .catch(() => {});
+    }
   };
 
   const updateStatus = async (status: Conversation["status"]) => {
