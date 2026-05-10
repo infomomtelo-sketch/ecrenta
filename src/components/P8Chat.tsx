@@ -246,7 +246,7 @@ export default function P8Chat({ mode, onSearchQuery }: P8ChatProps) {
 
   if (showHistory) {
     return (
-      <div className="flex flex-col h-[calc(100vh-16rem)] max-h-[700px]">
+      <div className="flex flex-col h-[calc(100dvh-14rem)] max-h-[700px] min-h-[400px]">
         <div className="flex items-center justify-between px-4 py-3 border-b border-border">
           <h3 className="text-sm font-semibold">Chat History</h3>
           <div className="flex gap-2">
