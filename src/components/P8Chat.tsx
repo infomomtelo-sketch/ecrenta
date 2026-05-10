@@ -279,7 +279,7 @@ export default function P8Chat({ mode, onSearchQuery }: P8ChatProps) {
   }
 
   return (
-    <div className="flex flex-col h-[calc(100vh-16rem)] max-h-[700px]">
+    <div className="flex flex-col h-[calc(100dvh-14rem)] max-h-[700px] min-h-[400px]">
       <div className="flex items-center justify-end px-4 py-1.5 gap-1">
         <Button size="icon" variant="ghost" className="h-7 w-7" onClick={startNewConversation} title="New chat">
           <Plus className="w-3.5 h-3.5" />
