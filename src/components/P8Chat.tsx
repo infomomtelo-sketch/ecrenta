@@ -355,7 +355,7 @@ export default function P8Chat({ mode, onSearchQuery }: P8ChatProps) {
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder={placeholders[mode]}
-            className="min-h-[44px] max-h-[120px] resize-none text-sm"
+            className="!min-h-[44px] max-h-[120px] resize-none text-sm"
             rows={1}
           />
           <Button
