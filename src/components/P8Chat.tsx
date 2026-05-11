@@ -246,7 +246,7 @@ export default function P8Chat({ mode, onSearchQuery }: P8ChatProps) {
 
   if (showHistory) {
     return (
-      <div className="flex flex-col h-[calc(100dvh-14rem)] max-h-[700px] min-h-[400px]">
+      <div className="flex flex-col h-[calc(100svh-12rem)] max-h-[700px] min-h-[280px]">
         <div className="flex items-center justify-between px-4 py-3 border-b border-border">
           <h3 className="text-sm font-semibold">Chat History</h3>
           <div className="flex gap-2">
@@ -279,7 +279,7 @@ export default function P8Chat({ mode, onSearchQuery }: P8ChatProps) {
   }
 
   return (
-    <div className="flex flex-col h-[calc(100dvh-14rem)] max-h-[700px] min-h-[400px]">
+    <div className="flex flex-col h-[calc(100svh-12rem)] max-h-[700px] min-h-[280px]">
       <div className="flex items-center justify-end px-4 py-1.5 gap-1">
         <Button size="icon" variant="ghost" className="h-7 w-7" onClick={startNewConversation} title="New chat">
           <Plus className="w-3.5 h-3.5" />
