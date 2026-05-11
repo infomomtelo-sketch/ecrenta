@@ -1,5 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useListings } from "@/contexts/ListingsContext";
+import { useAuth } from "@/contexts/AuthContext";
 import { ArrowLeft, Search, MoreHorizontal, ThumbsUp, Bookmark, Share2, Flag, Link2, Copy } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { toast } from "sonner";
