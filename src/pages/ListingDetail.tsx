@@ -1,5 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useListings } from "@/contexts/ListingsContext";
+import { useAuth } from "@/contexts/AuthContext";
 import { ArrowLeft, Search, MoreHorizontal, ThumbsUp, Bookmark, Share2, Flag, Link2, Copy } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { toast } from "sonner";
@@ -8,6 +9,7 @@ export default function ListingDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { listings, loading } = useListings();
+  const { user } = useAuth();
   const listing = listings.find((l) => l.id === id);
   const [messageText, setMessageText] = useState("Hi, is this available?");
   const [liked, setLiked] = useState(false);
@@ -46,6 +48,11 @@ export default function ListingDetail() {
 
   const handleSendMessage = () => {
     if (!messageText.trim()) return;
+    if (!user) {
+      toast("Sign in to message the landlord");
+      navigate(`/auth?redirect=${encodeURIComponent(`/inbox?property=${listing.id}&msg=${encodeURIComponent(messageText)}`)}`);
+      return;
+    }
     navigate(`/inbox?property=${listing.id}&msg=${encodeURIComponent(messageText)}`);
   };
 
