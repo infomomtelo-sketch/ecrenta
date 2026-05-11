@@ -347,7 +347,7 @@ export default function P8Chat({ mode, onSearchQuery }: P8ChatProps) {
         </div>
       </ScrollArea>
 
-      <div className="border-t border-border px-4 py-3">
+      <div className="border-t border-border px-4 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] bg-background">
         <div className="flex gap-2 items-end">
           <Textarea
             ref={textareaRef}
