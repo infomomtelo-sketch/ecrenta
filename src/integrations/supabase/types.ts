@@ -250,27 +250,39 @@ export type Database = {
         Row: {
           created_at: string
           id: string
+          landlord_user_id: string | null
+          last_message_at: string | null
+          last_message_text: string | null
           listing_id: string
           status: Database["public"]["Enums"]["conversation_status"]
           tenant_name: string
+          tenant_user_id: string | null
           unread: number
           updated_at: string
         }
         Insert: {
           created_at?: string
           id?: string
+          landlord_user_id?: string | null
+          last_message_at?: string | null
+          last_message_text?: string | null
           listing_id: string
           status?: Database["public"]["Enums"]["conversation_status"]
           tenant_name: string
+          tenant_user_id?: string | null
           unread?: number
           updated_at?: string
         }
         Update: {
           created_at?: string
           id?: string
+          landlord_user_id?: string | null
+          last_message_at?: string | null
+          last_message_text?: string | null
           listing_id?: string
           status?: Database["public"]["Enums"]["conversation_status"]
           tenant_name?: string
+          tenant_user_id?: string | null
           unread?: number
           updated_at?: string
         }
@@ -698,7 +710,9 @@ export type Database = {
           conversation_id: string
           created_at: string
           id: string
+          read_at: string | null
           sender_id: string
+          sender_user_id: string | null
           text: string
           type: string
         }
@@ -706,7 +720,9 @@ export type Database = {
           conversation_id: string
           created_at?: string
           id?: string
+          read_at?: string | null
           sender_id: string
+          sender_user_id?: string | null
           text: string
           type?: string
         }
@@ -714,7 +730,9 @@ export type Database = {
           conversation_id?: string
           created_at?: string
           id?: string
+          read_at?: string | null
           sender_id?: string
+          sender_user_id?: string | null
           text?: string
           type?: string
         }
