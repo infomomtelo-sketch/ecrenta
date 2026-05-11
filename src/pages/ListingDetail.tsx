@@ -48,6 +48,11 @@ export default function ListingDetail() {
 
   const handleSendMessage = () => {
     if (!messageText.trim()) return;
+    if (!user) {
+      toast("Sign in to message the landlord");
+      navigate(`/auth?redirect=${encodeURIComponent(`/inbox?property=${listing.id}&msg=${encodeURIComponent(messageText)}`)}`);
+      return;
+    }
     navigate(`/inbox?property=${listing.id}&msg=${encodeURIComponent(messageText)}`);
   };
 
