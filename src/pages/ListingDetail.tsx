@@ -9,6 +9,7 @@ export default function ListingDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { listings, loading } = useListings();
+  const { user } = useAuth();
   const listing = listings.find((l) => l.id === id);
   const [messageText, setMessageText] = useState("Hi, is this available?");
   const [liked, setLiked] = useState(false);
