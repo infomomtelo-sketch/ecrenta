@@ -5,7 +5,7 @@ User-agent: Bingbot
 Allow: /
 
 User-agent: Twitterbot
-Allow: /
+Allow: / 
 
 User-agent: facebookexternalhit
 Allow: /
