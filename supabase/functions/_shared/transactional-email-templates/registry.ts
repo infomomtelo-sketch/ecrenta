@@ -14,6 +14,7 @@ import { template as formSignRequest } from './form-sign-request.tsx'
 import { template as formSignedCopy } from './form-signed-copy.tsx'
 import { template as invoiceReminder } from './invoice-reminder.tsx'
 import { template as newChatMessage } from './new-chat-message.tsx'
+import { template as internalNotification } from './internal-notification.tsx'
 
 export const TEMPLATES: Record<string, TemplateEntry> = {
   'contact-confirmation': contactConfirmation,
@@ -21,4 +22,5 @@ export const TEMPLATES: Record<string, TemplateEntry> = {
   'form-signed-copy': formSignedCopy,
   'invoice-reminder': invoiceReminder,
   'new-chat-message': newChatMessage,
+  'internal-notification': internalNotification,
 }
