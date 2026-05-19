@@ -6,7 +6,7 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
-const ARCHIVE_EMAIL = "p8@ecrenta.space";
+const ARCHIVE_EMAIL = "infomomtelo@gmail.com";
 
 function buildSummary(formType: string, content: any): string[] {
   const lines: string[] = [];
