@@ -113,6 +113,27 @@ Deno.serve(async (req) => {
       })
     }
 
+    // Internal admin copy
+    await admin.functions.invoke('send-transactional-email', {
+      body: {
+        templateName: 'internal-notification',
+        recipientEmail: 'infomomtelo@gmail.com',
+        idempotencyKey: `new-msg-admin-${messageId}`,
+        templateData: {
+          eventType: 'New chat message',
+          title: `${conv.tenant_name || 'A tenant'} → ${listing.title}`,
+          summaryLines: [
+            `Tenant: ${conv.tenant_name || 'Anonymous'}`,
+            `Listing: ${listing.title}`,
+            `Landlord: ${recipientName || recipientEmail}`,
+          ],
+          message: msg.text,
+          actionUrl: chatUrl,
+          actionLabel: 'Open conversation',
+        },
+      },
+    })
+
     return new Response(JSON.stringify({ ok: true }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     })
