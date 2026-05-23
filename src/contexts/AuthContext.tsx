@@ -65,13 +65,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [session]);
 
   useEffect(() => {
+    let lastUserId: string | null = null;
+
     // 1. Set up listener FIRST (catches auth events that fire during getSession)
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, newSession) => {
       setSession(newSession);
       setUser(newSession?.user ?? null);
-      if (newSession?.user) {
-        fetchUserData(newSession.user.id);
+      const newUserId = newSession?.user?.id ?? null;
+      if (newUserId) {
+        // Only re-fetch role/profile when the user actually changes.
+        // Token refresh events fire repeatedly and re-fetching causes
+        // role to briefly flip to null, triggering redirect loops.
+        if (newUserId !== lastUserId) {
+          lastUserId = newUserId;
+          fetchUserData(newUserId);
+        }
       } else {
+        lastUserId = null;
         setRole(null);
         setProfile(null);
         setSubscribed(false);
@@ -85,8 +95,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     supabase.auth.getSession().then(({ data: { session: restoredSession } }) => {
       setSession(restoredSession);
       setUser(restoredSession?.user ?? null);
-      if (restoredSession?.user) {
-        fetchUserData(restoredSession.user.id);
+      const restoredId = restoredSession?.user?.id ?? null;
+      if (restoredId && restoredId !== lastUserId) {
+        lastUserId = restoredId;
+        fetchUserData(restoredId);
       }
       setLoading(false);
     });
