@@ -41,7 +41,7 @@ Deno.serve(async (req) => {
     else if (url.includes('redfin.com')) source = 'redfin'
 
     // Scrape the listing page with structured JSON extraction
-    const scrapeResponse = await fetch('https://api.firecrawl.dev/v1/scrape', {
+    const scrapeResponse = await fetch('https://api.firecrawl.dev/v2/scrape', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${apiKey}`,
