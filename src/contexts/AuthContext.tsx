@@ -107,19 +107,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return () => subscription.unsubscribe();
   }, []);
 
-  // Check subscription when session changes
+  // Check subscription when the user id changes (not on every token refresh)
+  const userId = user?.id ?? null;
   useEffect(() => {
-    if (session) {
-      checkSubscription();
-    }
-  }, [session, checkSubscription]);
-
-  // Auto-refresh subscription every 60 seconds
-  useEffect(() => {
-    if (!session) return;
+    if (!userId) return;
+    checkSubscription();
     const interval = setInterval(checkSubscription, 60000);
     return () => clearInterval(interval);
-  }, [session, checkSubscription]);
+  }, [userId, checkSubscription]);
 
   const signOut = async () => {
     await supabase.auth.signOut();
