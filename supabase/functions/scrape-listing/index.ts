@@ -162,6 +162,7 @@ Deno.serve(async (req) => {
           sqft: extracted.sqft ? Number(extracted.sqft) : 0,
           images: Array.isArray(extracted.images) ? extracted.images.filter((u: string) => u?.startsWith('http')) : [],
           source,
+          strategy,
           source_url: url,
           screenshot,
         },
