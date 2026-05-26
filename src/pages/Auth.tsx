@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
@@ -18,17 +18,21 @@ export default function Auth() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const hasRedirected = useRef(false);
 
   // Redirect if already logged in
   useEffect(() => {
-    if (user) {
-      if (role === "landlord") {
-        navigate("/dashboard", { replace: true });
-      } else if (role === "tenant") {
-        navigate("/listings", { replace: true });
-      } else {
-        navigate("/select-role", { replace: true });
-      }
+    if (!user || hasRedirected.current) return;
+    if (role === "landlord") {
+      hasRedirected.current = true;
+      navigate("/dashboard", { replace: true });
+    } else if (role === "tenant") {
+      hasRedirected.current = true;
+      navigate("/listings", { replace: true });
+    } else if (role === null) {
+      // Only redirect to select-role after we've waited a tick for role fetch
+      hasRedirected.current = true;
+      navigate("/select-role", { replace: true });
     }
   }, [user, role, navigate]);
 

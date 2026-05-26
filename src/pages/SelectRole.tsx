@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
@@ -10,12 +10,14 @@ export default function SelectRole() {
   const { user, role: currentRole } = useAuth();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
+  const hasRedirected = useRef(false);
 
   const getRoleDestination = (role: "landlord" | "tenant") =>
     role === "landlord" ? "/dashboard" : "/listings";
 
   useEffect(() => {
-    if (!currentRole) return;
+    if (!currentRole || hasRedirected.current) return;
+    hasRedirected.current = true;
     navigate(getRoleDestination(currentRole), { replace: true });
   }, [currentRole, navigate]);
 
