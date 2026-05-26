@@ -92,38 +92,49 @@ Deno.serve(async (req) => {
     const strategy = matched?.strategy ?? 'structured'
 
     // Scrape the listing page with structured JSON extraction
+    // Strategy-specific extraction config
+    const jsonSchema = {
+      type: 'object',
+      properties: {
+        title: { type: 'string', description: 'Property title or headline' },
+        price: { type: 'number', description: 'Monthly rent price in dollars (number only, no currency symbols)' },
+        address: { type: 'string', description: 'Full street address including city, state, zip' },
+        bedrooms: { type: 'number', description: 'Number of bedrooms' },
+        bathrooms: { type: 'number', description: 'Number of bathrooms' },
+        sqft: { type: 'number', description: 'Square footage' },
+        description: { type: 'string', description: 'Property description text' },
+        images: { type: 'array', items: { type: 'string' }, description: 'Array of image URLs' },
+        landlord_name: { type: 'string', description: 'Property manager, landlord, or company name' },
+      },
+      required: ['title', 'price', 'address'],
+    }
+
+    const formats: unknown[] = ['markdown', 'screenshot', { type: 'json', schema: jsonSchema }]
+
+    // Classifieds: also pull links (often image gallery / contact); keep full page content.
+    if (strategy === 'classified') {
+      formats.push('links')
+    }
+
+    const scrapePayload: Record<string, unknown> = {
+      url,
+      formats,
+      // Classifieds bury the listing in the main body — don't trim it.
+      onlyMainContent: strategy !== 'classified',
+    }
+
+    // Dynamic sites need to wait for client-side rendering before extraction.
+    if (strategy === 'dynamic') {
+      scrapePayload.waitFor = 3500
+    }
+
     const scrapeResponse = await fetch('https://api.firecrawl.dev/v2/scrape', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${apiKey}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        url,
-        formats: [
-          'markdown',
-          'screenshot',
-          {
-            type: 'json',
-            schema: {
-              type: 'object',
-              properties: {
-                title: { type: 'string', description: 'Property title or headline' },
-                price: { type: 'number', description: 'Monthly rent price in dollars (number only, no currency symbols)' },
-                address: { type: 'string', description: 'Full street address including city, state, zip' },
-                bedrooms: { type: 'number', description: 'Number of bedrooms' },
-                bathrooms: { type: 'number', description: 'Number of bathrooms' },
-                sqft: { type: 'number', description: 'Square footage' },
-                description: { type: 'string', description: 'Property description text' },
-                images: { type: 'array', items: { type: 'string' }, description: 'Array of image URLs' },
-                landlord_name: { type: 'string', description: 'Property manager, landlord, or company name' },
-              },
-              required: ['title', 'price', 'address'],
-            },
-          },
-        ],
-        onlyMainContent: true,
-      }),
+      body: JSON.stringify(scrapePayload),
     })
 
     const scrapeData = await scrapeResponse.json()
