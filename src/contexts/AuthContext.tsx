@@ -48,7 +48,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const checkSubscription = useCallback(async () => {
-    if (!session) return;
     setCheckingSubscription(true);
     try {
       const { data, error } = await supabase.functions.invoke("check-subscription");
@@ -64,7 +63,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     } finally {
       setCheckingSubscription(false);
     }
-  }, [session]);
+  }, []);
 
   useEffect(() => {
     let lastUserId: string | null = null;
