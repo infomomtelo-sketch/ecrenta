@@ -22,8 +22,10 @@ export default function Auth() {
   // Redirect if already logged in
   useEffect(() => {
     if (user) {
-      if (role) {
+      if (role === "landlord") {
         navigate("/dashboard", { replace: true });
+      } else if (role === "tenant") {
+        navigate("/listings", { replace: true });
       } else {
         navigate("/select-role", { replace: true });
       }
@@ -41,9 +43,8 @@ export default function Auth() {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) {
           toast({ title: "Login failed", description: error.message, variant: "destructive" });
-        } else {
-          navigate("/dashboard");
         }
+        // Redirect handled by useEffect based on role
       } else {
         const { data, error } = await supabase.auth.signUp({
           email,
