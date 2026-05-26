@@ -103,8 +103,8 @@ export default function Pricing() {
       name: "Property Management",
       price: "$99",
       period: "/mo per property",
-      savings: "Save $51/mo vs. Ziprent",
-      description: "Hands-off landlording. We handle everything from rent collection to maintenance — you collect the check.",
+      savings: "1st month free · then $51/mo less than Ziprent",
+      description: "Hands-off landlording. Start with a full free month — we handle rent collection, maintenance, and tenant communication.",
       features: [
         "Everything in Tenant Placement",
         "Monthly rent collection",
@@ -126,8 +126,8 @@ export default function Pricing() {
       name: "Premium Guarantee",
       price: "$149",
       period: "/mo per property",
-      savings: "Save $101/mo vs. Ziprent",
-      description: "Total peace of mind. Guaranteed rent, eviction protection, and a dedicated manager — risk-free landlording.",
+      savings: "1st month free · then $101/mo less than Ziprent",
+      description: "Total peace of mind. Try Premium free for 30 days — guaranteed rent, eviction protection, dedicated manager.",
       features: [
         "Everything in Property Management",
         "Rent guarantee — get paid even if tenant doesn't",
@@ -171,7 +171,7 @@ export default function Pricing() {
       <main className="mx-auto max-w-6xl px-4 py-16">
         <div className="text-center">
           <div className="mx-auto mb-4 inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5 text-xs font-semibold text-primary">
-            Save 34–67% vs. Ziprent
+            🎉 First month free on every plan
           </div>
           <h1 className="font-[var(--font-heading)] text-4xl font-extrabold sm:text-5xl">
             Professional Management.<br />Fresno Prices.
