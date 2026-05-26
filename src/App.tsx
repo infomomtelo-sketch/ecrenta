@@ -97,6 +97,13 @@ function ProtectedDashboard() {
   return <DashboardLayout />;
 }
 
+function LandlordOnly({ children }: { children: React.ReactNode }) {
+  const { role, loading } = useAuth();
+  if (loading) return null;
+  if (role !== "landlord") return <Navigate to="/listings" replace />;
+  return <>{children}</>;
+}
+
 const App = () => (
   <HelmetProvider>
   <QueryClientProvider client={queryClient}>
