@@ -97,6 +97,13 @@ function ProtectedDashboard() {
   return <DashboardLayout />;
 }
 
+function LandlordOnly({ children }: { children: React.ReactNode }) {
+  const { role, loading } = useAuth();
+  if (loading) return null;
+  if (role !== "landlord") return <Navigate to="/listings" replace />;
+  return <>{children}</>;
+}
+
 const App = () => (
   <HelmetProvider>
   <QueryClientProvider client={queryClient}>
@@ -142,23 +149,23 @@ const App = () => (
 
               {/* Authenticated dashboard routes with sidebar */}
               <Route element={<ProtectedDashboard />}>
-                <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/outreach" element={<OutreachCRM />} />
-                <Route path="/p8" element={<P8Dashboard />} />
                 <Route path="/inbox" element={<Inbox />} />
-                <Route path="/tenants" element={<Tenants />} />
-                <Route path="/forms" element={<RentalForms />} />
-                <Route path="/invoices" element={<Invoices />} />
-                <Route path="/inspections" element={<Inspections />} />
-                <Route path="/inspections/new" element={<NewInspection />} />
-                <Route path="/inspections/:id" element={<InspectionReport />} />
-                <Route path="/inspections/:id/compare" element={<InspectionCompare />} />
-                <Route path="/maintenance" element={<MaintenanceDashboard />} />
-                <Route path="/add-property" element={<AddProperty />} />
-                <Route path="/import-listing" element={<ImportListing />} />
-                <Route path="/blog/new" element={<BlogEditor />} />
-                <Route path="/admin" element={<AdminDashboard />} />
-                <Route path="/capture-pages" element={<CapturePages />} />
+                <Route path="/dashboard" element={<LandlordOnly><Dashboard /></LandlordOnly>} />
+                <Route path="/outreach" element={<LandlordOnly><OutreachCRM /></LandlordOnly>} />
+                <Route path="/p8" element={<LandlordOnly><P8Dashboard /></LandlordOnly>} />
+                <Route path="/tenants" element={<LandlordOnly><Tenants /></LandlordOnly>} />
+                <Route path="/forms" element={<LandlordOnly><RentalForms /></LandlordOnly>} />
+                <Route path="/invoices" element={<LandlordOnly><Invoices /></LandlordOnly>} />
+                <Route path="/inspections" element={<LandlordOnly><Inspections /></LandlordOnly>} />
+                <Route path="/inspections/new" element={<LandlordOnly><NewInspection /></LandlordOnly>} />
+                <Route path="/inspections/:id" element={<LandlordOnly><InspectionReport /></LandlordOnly>} />
+                <Route path="/inspections/:id/compare" element={<LandlordOnly><InspectionCompare /></LandlordOnly>} />
+                <Route path="/maintenance" element={<LandlordOnly><MaintenanceDashboard /></LandlordOnly>} />
+                <Route path="/add-property" element={<LandlordOnly><AddProperty /></LandlordOnly>} />
+                <Route path="/import-listing" element={<LandlordOnly><ImportListing /></LandlordOnly>} />
+                <Route path="/blog/new" element={<LandlordOnly><BlogEditor /></LandlordOnly>} />
+                <Route path="/admin" element={<LandlordOnly><AdminDashboard /></LandlordOnly>} />
+                <Route path="/capture-pages" element={<LandlordOnly><CapturePages /></LandlordOnly>} />
               </Route>
 
               <Route path="*" element={<NotFound />} />
