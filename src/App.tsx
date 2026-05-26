@@ -27,6 +27,7 @@ import About from "./pages/About";
 import Contact from "./pages/Contact";
 import HowItWorks from "./pages/HowItWorks";
 import ForLandlords from "./pages/ForLandlords";
+import ForTenants from "./pages/ForTenants";
 import Resources from "./pages/Resources";
 import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
@@ -129,6 +130,7 @@ const App = () => (
               <Route path="/contact" element={<Contact />} />
               <Route path="/how-it-works" element={<HowItWorks />} />
               <Route path="/for-landlords" element={<ForLandlords />} />
+              <Route path="/for-tenants" element={<ForTenants />} />
               <Route path="/resources" element={<Resources />} />
               <Route path="/blog" element={<Blog />} />
               <Route path="/blog/:slug" element={<BlogPost />} />
