@@ -88,7 +88,7 @@ export function AppSidebar() {
   return (
     <Sidebar collapsible="icon" className="border-r border-border">
       <SidebarHeader className="px-3 py-4">
-        <NavLink to="/dashboard" className="flex items-center gap-2">
+        <NavLink to={role === "tenant" ? "/tenant-portal" : "/dashboard"} className="flex items-center gap-2">
           {collapsed ? (
             <img src={ecrentaLogo} alt="ecrenta" className="h-8 w-auto" />
           ) : (
