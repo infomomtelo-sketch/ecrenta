@@ -61,6 +61,7 @@ export function AppSidebar() {
   const { signOut, profile, role } = useAuth();
   const mobile = useIsMobile();
   const showAdmin = role === "landlord" || role === "admin" as any;
+  const { mainNav, managementNav, toolsNav } = useNavItems();
 
   const closeMobile = () => {
     if (mobile || isMobile) setOpenMobile(false);
