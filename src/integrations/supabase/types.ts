@@ -1029,10 +1029,14 @@ export type Database = {
       }
       tenants: {
         Row: {
+          accepted_at: string | null
+          auth_user_id: string | null
           created_at: string
           email: string | null
           full_name: string
           id: string
+          invite_token: string | null
+          invited_at: string | null
           lease_end: string | null
           lease_start: string | null
           notes: string | null
@@ -1043,10 +1047,14 @@ export type Database = {
           user_id: string
         }
         Insert: {
+          accepted_at?: string | null
+          auth_user_id?: string | null
           created_at?: string
           email?: string | null
           full_name: string
           id?: string
+          invite_token?: string | null
+          invited_at?: string | null
           lease_end?: string | null
           lease_start?: string | null
           notes?: string | null
@@ -1057,10 +1065,14 @@ export type Database = {
           user_id: string
         }
         Update: {
+          accepted_at?: string | null
+          auth_user_id?: string | null
           created_at?: string
           email?: string | null
           full_name?: string
           id?: string
+          invite_token?: string | null
+          invited_at?: string | null
           lease_end?: string | null
           lease_start?: string | null
           notes?: string | null
@@ -1136,6 +1148,7 @@ export type Database = {
         Args: { payload: Json; queue_name: string }
         Returns: number
       }
+      get_my_tenant_id: { Args: never; Returns: string }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]

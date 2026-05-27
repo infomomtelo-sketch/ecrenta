@@ -10,7 +10,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
-import { Plus, Pencil, Trash2, Users, Mail, Phone, MapPin } from "lucide-react";
+import { Plus, Pencil, Trash2, Users, Mail, Phone, MapPin, Send, Copy, CheckCircle2 } from "lucide-react";
 
 interface Tenant {
   id: string;
@@ -22,6 +22,9 @@ interface Tenant {
   lease_end: string | null;
   rent_amount: number | null;
   notes: string | null;
+  invite_token?: string | null;
+  invited_at?: string | null;
+  accepted_at?: string | null;
 }
 
 export default function Tenants() {
@@ -92,6 +95,22 @@ export default function Tenants() {
     fetchTenants();
   };
 
+  const handleInvite = async (t: Tenant) => {
+    let token = t.invite_token;
+    if (!token || t.accepted_at) {
+      token = crypto.randomUUID().replace(/-/g, "");
+      const { error } = await supabase
+        .from("tenants")
+        .update({ invite_token: token, invited_at: new Date().toISOString(), accepted_at: null, auth_user_id: null })
+        .eq("id", t.id);
+      if (error) { toast({ title: "Could not create invite", description: error.message, variant: "destructive" }); return; }
+    }
+    const url = `${window.location.origin}/tenant/accept-invite/${token}`;
+    await navigator.clipboard.writeText(url).catch(() => {});
+    toast({ title: "Invite link copied", description: t.email ? `Send it to ${t.email}` : "Share with your tenant" });
+    fetchTenants();
+  };
+
   return (
     <div className="p-4 md:p-6 max-w-5xl mx-auto space-y-6">
       <Helmet><title>Tenants | ecrenta</title></Helmet>
@@ -144,14 +163,24 @@ export default function Tenants() {
                   </div>
                 </div>
               </CardHeader>
-              <CardContent className="space-y-1 text-sm">
+              <CardContent className="space-y-2 text-sm">
                 {t.email && <p className="flex items-center gap-2 text-muted-foreground"><Mail className="w-3.5 h-3.5" />{t.email}</p>}
                 {t.phone && <p className="flex items-center gap-2 text-muted-foreground"><Phone className="w-3.5 h-3.5" />{t.phone}</p>}
                 {t.unit_address && <p className="flex items-center gap-2 text-muted-foreground"><MapPin className="w-3.5 h-3.5" />{t.unit_address}</p>}
-                {t.rent_amount && <Badge variant="secondary">${t.rent_amount}/mo</Badge>}
+                <div className="flex flex-wrap gap-1.5">
+                  {t.rent_amount && <Badge variant="secondary">${t.rent_amount}/mo</Badge>}
+                  {t.accepted_at ? (
+                    <Badge className="bg-primary/15 text-primary hover:bg-primary/20"><CheckCircle2 className="w-3 h-3 mr-1" />Portal active</Badge>
+                  ) : t.invited_at ? (
+                    <Badge variant="outline">Invite pending</Badge>
+                  ) : null}
+                </div>
                 {t.lease_start && t.lease_end && (
                   <p className="text-xs text-muted-foreground">Lease: {t.lease_start} → {t.lease_end}</p>
                 )}
+                <Button size="sm" variant="outline" className="w-full mt-2" onClick={() => handleInvite(t)}>
+                  {t.accepted_at ? <><Copy className="w-3.5 h-3.5 mr-1.5" />Reissue invite link</> : t.invited_at ? <><Copy className="w-3.5 h-3.5 mr-1.5" />Copy invite link</> : <><Send className="w-3.5 h-3.5 mr-1.5" />Invite to portal</>}
+                </Button>
               </CardContent>
             </Card>
           ))}

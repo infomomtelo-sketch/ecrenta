@@ -56,6 +56,8 @@ import AdminDashboard from "./pages/AdminDashboard";
 import CapturePage from "./pages/CapturePage";
 import CapturePages from "./pages/CapturePages";
 import RentCollection from "./pages/RentCollection";
+import TenantPortal from "./pages/TenantPortal";
+import AcceptTenantInvite from "./pages/AcceptTenantInvite";
 import { SaasGate } from "@/components/SaasGate";
 
 const queryClient = new QueryClient();
@@ -150,10 +152,12 @@ const App = () => (
               <Route path="/rentals/:slug" element={<MarketLanding />} />
               <Route path="/list-with-us" element={<ListWithUs />} />
               <Route path="/c/:slug" element={<CapturePage />} />
+              <Route path="/tenant/accept-invite/:token" element={<AcceptTenantInvite />} />
 
               {/* Authenticated dashboard routes with sidebar */}
               <Route element={<ProtectedDashboard />}>
                 <Route path="/inbox" element={<Inbox />} />
+                <Route path="/tenant-portal" element={<TenantPortal />} />
                 <Route path="/dashboard" element={<LandlordOnly><Dashboard /></LandlordOnly>} />
                 <Route path="/outreach" element={<LandlordOnly><SaasGate><OutreachCRM /></SaasGate></LandlordOnly>} />
                 <Route path="/p8" element={<LandlordOnly><SaasGate><P8Dashboard /></SaasGate></LandlordOnly>} />
