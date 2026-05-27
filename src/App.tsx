@@ -167,10 +167,10 @@ const App = () => (
                 <Route path="/maintenance" element={<LandlordOnly><MaintenanceDashboard /></LandlordOnly>} />
                 <Route path="/add-property" element={<LandlordOnly><AddProperty /></LandlordOnly>} />
                 <Route path="/import-listing" element={<LandlordOnly><ImportListing /></LandlordOnly>} />
-                <Route path="/blog/new" element={<LandlordOnly><BlogEditor /></LandlordOnly>} />
+                <Route path="/blog/new" element={<LandlordOnly><SaasGate><BlogEditor /></SaasGate></LandlordOnly>} />
                 <Route path="/admin" element={<LandlordOnly><AdminDashboard /></LandlordOnly>} />
-                <Route path="/capture-pages" element={<LandlordOnly><CapturePages /></LandlordOnly>} />
-                <Route path="/rent-collection" element={<LandlordOnly><RentCollection /></LandlordOnly>} />
+                <Route path="/capture-pages" element={<LandlordOnly><SaasGate><CapturePages /></SaasGate></LandlordOnly>} />
+                <Route path="/rent-collection" element={<LandlordOnly><SaasGate><RentCollection /></SaasGate></LandlordOnly>} />
               </Route>
 
               <Route path="*" element={<NotFound />} />
