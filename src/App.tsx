@@ -157,6 +157,7 @@ const App = () => (
               {/* Authenticated dashboard routes with sidebar */}
               <Route element={<ProtectedDashboard />}>
                 <Route path="/inbox" element={<Inbox />} />
+                <Route path="/tenant-portal" element={<TenantPortal />} />
                 <Route path="/dashboard" element={<LandlordOnly><Dashboard /></LandlordOnly>} />
                 <Route path="/outreach" element={<LandlordOnly><SaasGate><OutreachCRM /></SaasGate></LandlordOnly>} />
                 <Route path="/p8" element={<LandlordOnly><SaasGate><P8Dashboard /></SaasGate></LandlordOnly>} />
