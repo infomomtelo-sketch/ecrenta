@@ -90,7 +90,7 @@ export default function Dashboard() {
                   {subscribed ? (
                     <>
                       <p className="text-sm font-semibold text-foreground">
-                        {subscriptionTier === "premium" ? "Premium Guarantee" : "Property Management"} Active
+                        {subscriptionTier === "premium" ? "Premium Service" : "Property Management"} Active
                       </p>
                       {subscriptionEnd && (
                         <p className="text-xs text-muted-foreground">
