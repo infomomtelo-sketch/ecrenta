@@ -10,7 +10,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
-import { Plus, Pencil, Trash2, Users, Mail, Phone, MapPin } from "lucide-react";
+import { Plus, Pencil, Trash2, Users, Mail, Phone, MapPin, Send, Copy, CheckCircle2 } from "lucide-react";
 
 interface Tenant {
   id: string;
@@ -22,6 +22,9 @@ interface Tenant {
   lease_end: string | null;
   rent_amount: number | null;
   notes: string | null;
+  invite_token?: string | null;
+  invited_at?: string | null;
+  accepted_at?: string | null;
 }
 
 export default function Tenants() {
