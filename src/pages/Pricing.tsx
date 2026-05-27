@@ -1,7 +1,7 @@
 import { BrandLogo } from "@/components/BrandLogo";
 import { Link, useSearchParams } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
-import { Check, MapPin, Star, Loader2, Shield, Camera, Home, ArrowRight } from "lucide-react";
+import { Check, MapPin, Star, Loader2, Shield, Camera, Home, ArrowRight, Laptop } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
@@ -98,25 +98,49 @@ export default function Pricing() {
 
   const plans = [
     {
+      key: "saas",
+      icon: <Laptop className="h-6 w-6" />,
+      name: "Self-Manage",
+      price: "$29",
+      period: "/mo flat",
+      savings: "Unlimited properties · cancel anytime",
+      description: "Run your rentals yourself with software built for self-managing landlords. You stay in control of every conversation, every dollar.",
+      features: [
+        "Unlimited properties & listings",
+        "Tenant inbox + screening",
+        "Lease & form templates",
+        "Maintenance request tracking",
+        "Connect your own Stripe to collect rent",
+        "P8 AI assistant (basic)",
+        "One-click data export — no lock-in",
+      ],
+      cta: subscriptionTier === "saas" ? "Current Plan" : "Start Self-Manage",
+      ctaAction: () => handleCheckout(SERVICE_TIERS.saas.price_id, "subscription", "saas"),
+      popular: true,
+      badge: "Most Popular",
+      isCurrentPlan: subscriptionTier === "saas",
+      disabled: subscriptionTier === "saas",
+    },
+    {
       key: "management",
       icon: <Home className="h-6 w-6" />,
       name: "Property Management",
       price: "$99",
       period: "/mo per property",
-      savings: "1st month free · then $51/mo less than Ziprent",
-      description: "Hands-off landlording. Start with a full free month — we handle rent collection, maintenance, and tenant communication.",
+      savings: "Hands-off · $51/mo less than Ziprent",
+      description: "Hand us the keys. We list, screen, collect rent, and handle maintenance while you sit back.",
       features: [
-        "Everything in Tenant Placement",
-        "Monthly rent collection",
+        "Everything in Self-Manage",
+        "We collect & deposit rent",
         "Maintenance coordination & dispatch",
         "Tenant communication management",
         "Monthly financial statements",
         "Lease renewal handling",
         "24/7 emergency support line",
       ],
-      cta: subscriptionTier === "management" ? "Current Plan" : "Start Management",
+      cta: subscriptionTier === "management" ? "Current Plan" : "Have us manage it",
       ctaAction: () => handleCheckout(SERVICE_TIERS.management.price_id, "subscription", "management"),
-      popular: true,
+      popular: false,
       isCurrentPlan: subscriptionTier === "management",
       disabled: subscriptionTier === "management",
     },
@@ -126,16 +150,16 @@ export default function Pricing() {
       name: "Premium Service",
       price: "$149",
       period: "/mo per property",
-      savings: "1st month free · still $101/mo less than Ziprent",
-      description: "Everything in Management plus power tools — AI assistant, dedicated manager, quarterly inspections, and priority support.",
+      savings: "$101/mo less than Ziprent",
+      description: "Full-service management plus power tools — AI assistant, dedicated manager, quarterly inspections, priority support.",
       features: [
         "Everything in Property Management",
-        "P8 AI Assistant — instant answers + tenant triage",
+        "P8 AI Assistant — full + tenant triage",
         "Dedicated account manager",
-        "Quarterly property inspections with photo reports",
-        "Priority vendor network — faster maintenance response",
-        "Tax-ready quarterly financial reports",
-        "Custom branding on tenant communications",
+        "Quarterly property inspections",
+        "Priority vendor network",
+        "Tax-ready quarterly reports",
+        "Custom branding on tenant comms",
       ],
       cta: subscriptionTier === "premium" ? "Current Plan" : "Go Premium",
       ctaAction: () => handleCheckout(SERVICE_TIERS.premium.price_id, "subscription", "premium"),

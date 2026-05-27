@@ -55,6 +55,7 @@ import ListWithUs from "./pages/ListWithUs";
 import AdminDashboard from "./pages/AdminDashboard";
 import CapturePage from "./pages/CapturePage";
 import CapturePages from "./pages/CapturePages";
+import RentCollection from "./pages/RentCollection";
 
 const queryClient = new QueryClient();
 
@@ -168,6 +169,7 @@ const App = () => (
                 <Route path="/blog/new" element={<LandlordOnly><BlogEditor /></LandlordOnly>} />
                 <Route path="/admin" element={<LandlordOnly><AdminDashboard /></LandlordOnly>} />
                 <Route path="/capture-pages" element={<LandlordOnly><CapturePages /></LandlordOnly>} />
+                <Route path="/rent-collection" element={<LandlordOnly><RentCollection /></LandlordOnly>} />
               </Route>
 
               <Route path="*" element={<NotFound />} />
