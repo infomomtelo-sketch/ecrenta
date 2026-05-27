@@ -155,15 +155,15 @@ const App = () => (
               <Route element={<ProtectedDashboard />}>
                 <Route path="/inbox" element={<Inbox />} />
                 <Route path="/dashboard" element={<LandlordOnly><Dashboard /></LandlordOnly>} />
-                <Route path="/outreach" element={<LandlordOnly><OutreachCRM /></LandlordOnly>} />
-                <Route path="/p8" element={<LandlordOnly><P8Dashboard /></LandlordOnly>} />
+                <Route path="/outreach" element={<LandlordOnly><SaasGate><OutreachCRM /></SaasGate></LandlordOnly>} />
+                <Route path="/p8" element={<LandlordOnly><SaasGate><P8Dashboard /></SaasGate></LandlordOnly>} />
                 <Route path="/tenants" element={<LandlordOnly><Tenants /></LandlordOnly>} />
-                <Route path="/forms" element={<LandlordOnly><RentalForms /></LandlordOnly>} />
+                <Route path="/forms" element={<LandlordOnly><SaasGate><RentalForms /></SaasGate></LandlordOnly>} />
                 <Route path="/invoices" element={<LandlordOnly><Invoices /></LandlordOnly>} />
-                <Route path="/inspections" element={<LandlordOnly><Inspections /></LandlordOnly>} />
-                <Route path="/inspections/new" element={<LandlordOnly><NewInspection /></LandlordOnly>} />
-                <Route path="/inspections/:id" element={<LandlordOnly><InspectionReport /></LandlordOnly>} />
-                <Route path="/inspections/:id/compare" element={<LandlordOnly><InspectionCompare /></LandlordOnly>} />
+                <Route path="/inspections" element={<LandlordOnly><SaasGate><Inspections /></SaasGate></LandlordOnly>} />
+                <Route path="/inspections/new" element={<LandlordOnly><SaasGate><NewInspection /></SaasGate></LandlordOnly>} />
+                <Route path="/inspections/:id" element={<LandlordOnly><SaasGate><InspectionReport /></SaasGate></LandlordOnly>} />
+                <Route path="/inspections/:id/compare" element={<LandlordOnly><SaasGate><InspectionCompare /></SaasGate></LandlordOnly>} />
                 <Route path="/maintenance" element={<LandlordOnly><MaintenanceDashboard /></LandlordOnly>} />
                 <Route path="/add-property" element={<LandlordOnly><AddProperty /></LandlordOnly>} />
                 <Route path="/import-listing" element={<LandlordOnly><ImportListing /></LandlordOnly>} />
