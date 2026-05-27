@@ -27,6 +27,21 @@ import { useHasSaas } from "@/components/SaasGate";
 
 function useNavItems() {
   const hasSaas = useHasSaas();
+  const { role } = useAuth();
+
+  if (role === "tenant") {
+    return {
+      mainNav: [
+        { title: "My Rental", url: "/tenant-portal", icon: Home },
+        { title: "Inbox", url: "/inbox", icon: Inbox },
+      ],
+      managementNav: [],
+      toolsNav: [
+        { title: "Report Maintenance", url: "/repair", icon: Wrench },
+      ],
+    };
+  }
+
   return {
     mainNav: [
       { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
