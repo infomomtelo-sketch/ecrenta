@@ -66,12 +66,17 @@ serve(async (req) => {
     const customerId = customers.data[0].id;
     logStep("Found Stripe customer", { customerId });
 
+    // Include trialing + active — both should unlock the product
     const subscriptions = await stripe.subscriptions.list({
       customer: customerId,
-      status: "active",
-      limit: 1,
+      status: "all",
+      limit: 10,
     });
-    const hasActiveSub = subscriptions.data.length > 0;
+    const activeOrTrialing = subscriptions.data.filter(
+      (s) => s.status === "active" || s.status === "trialing"
+    );
+    const hasActiveSub = activeOrTrialing.length > 0;
+    if (hasActiveSub) subscriptions.data = activeOrTrialing;
     let productId = null;
     let priceId = null;
     let subscriptionEnd = null;
