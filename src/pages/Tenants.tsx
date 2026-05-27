@@ -163,14 +163,24 @@ export default function Tenants() {
                   </div>
                 </div>
               </CardHeader>
-              <CardContent className="space-y-1 text-sm">
+              <CardContent className="space-y-2 text-sm">
                 {t.email && <p className="flex items-center gap-2 text-muted-foreground"><Mail className="w-3.5 h-3.5" />{t.email}</p>}
                 {t.phone && <p className="flex items-center gap-2 text-muted-foreground"><Phone className="w-3.5 h-3.5" />{t.phone}</p>}
                 {t.unit_address && <p className="flex items-center gap-2 text-muted-foreground"><MapPin className="w-3.5 h-3.5" />{t.unit_address}</p>}
-                {t.rent_amount && <Badge variant="secondary">${t.rent_amount}/mo</Badge>}
+                <div className="flex flex-wrap gap-1.5">
+                  {t.rent_amount && <Badge variant="secondary">${t.rent_amount}/mo</Badge>}
+                  {t.accepted_at ? (
+                    <Badge className="bg-primary/15 text-primary hover:bg-primary/20"><CheckCircle2 className="w-3 h-3 mr-1" />Portal active</Badge>
+                  ) : t.invited_at ? (
+                    <Badge variant="outline">Invite pending</Badge>
+                  ) : null}
+                </div>
                 {t.lease_start && t.lease_end && (
                   <p className="text-xs text-muted-foreground">Lease: {t.lease_start} → {t.lease_end}</p>
                 )}
+                <Button size="sm" variant="outline" className="w-full mt-2" onClick={() => handleInvite(t)}>
+                  {t.accepted_at ? <><Copy className="w-3.5 h-3.5 mr-1.5" />Reissue invite link</> : t.invited_at ? <><Copy className="w-3.5 h-3.5 mr-1.5" />Copy invite link</> : <><Send className="w-3.5 h-3.5 mr-1.5" />Invite to portal</>}
+                </Button>
               </CardContent>
             </Card>
           ))}
