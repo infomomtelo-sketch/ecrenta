@@ -12,7 +12,7 @@ export const SERVICE_TIERS = {
   premium: {
     product_id: "prod_UNxCsmk1he7wej",
     price_id: "price_1TPBI1AH9qPFLg89kgR4h7CJ",
-    name: "Premium Guarantee",
+    name: "Premium Service",
     price: 149,
     mode: "subscription" as const,
     interval: "month" as const,
