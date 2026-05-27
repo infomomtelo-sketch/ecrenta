@@ -28,7 +28,7 @@ export default function Auth() {
       navigate("/dashboard", { replace: true });
     } else if (role === "tenant") {
       hasRedirected.current = true;
-      navigate("/listings", { replace: true });
+      navigate("/tenant-portal", { replace: true });
     } else if (role === null) {
       // Only redirect to select-role after we've waited a tick for role fetch
       hasRedirected.current = true;
