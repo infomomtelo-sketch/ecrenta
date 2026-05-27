@@ -17,8 +17,8 @@ function ComparisonTable() {
     { feature: "Tenant Screening", ecrenta: "Free", ziprent: "Included", ff: "$44.99" },
     { feature: "Professional Photography", ecrenta: "Included", ziprent: "Included", ff: "N/A" },
     { feature: "On-Demand Showings", ecrenta: "Included", ziprent: "Included", ff: "N/A" },
-    { feature: "Rent Guarantee", ecrenta: "Premium tier", ziprent: "Premium tier", ff: "N/A" },
-    { feature: "Eviction Protection", ecrenta: "Premium tier", ziprent: "Premium tier", ff: "N/A" },
+    { feature: "AI Property Assistant", ecrenta: "Premium tier", ziprent: "N/A", ff: "N/A" },
+    { feature: "Dedicated Account Manager", ecrenta: "Premium tier", ziprent: "Premium tier", ff: "N/A" },
     { feature: "Commissions", ecrenta: "None", ziprent: "None", ff: "None" },
   ];
 
