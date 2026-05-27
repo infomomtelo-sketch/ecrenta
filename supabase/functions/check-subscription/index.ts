@@ -12,6 +12,23 @@ const logStep = (step: string, details?: any) => {
   console.log(`[CHECK-SUBSCRIPTION] ${step}${detailsStr}`);
 };
 
+const toStripeIsoDate = (...values: unknown[]) => {
+  for (const value of values) {
+    const timestamp = typeof value === "number"
+      ? value
+      : typeof value === "string" && value.trim() !== ""
+        ? Number(value)
+        : NaN;
+
+    if (Number.isFinite(timestamp) && timestamp > 0) {
+      const date = new Date(timestamp * 1000);
+      if (Number.isFinite(date.getTime())) return date.toISOString();
+    }
+  }
+
+  return null;
+};
+
 serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -85,14 +102,18 @@ serve(async (req) => {
       const subscription = subscriptions.data[0];
       const item = subscription.items.data[0];
       // In newer Stripe API versions, current_period_end lives on the subscription item
-      const periodEnd =
+      subscriptionEnd = toStripeIsoDate(
         (subscription as any).current_period_end ??
         (item as any).current_period_end ??
         (subscription as any).trial_end ??
-        null;
-      subscriptionEnd = periodEnd ? new Date(periodEnd * 1000).toISOString() : null;
-      productId = item.price.product;
-      priceId = item.price.id;
+        null,
+        (subscription as any).current_period_end,
+        (item as any)?.current_period_end,
+        (subscription as any).trial_end,
+        (item as any)?.current_period_start,
+      );
+      productId = item?.price?.product ?? null;
+      priceId = item?.price?.id ?? null;
       logStep("Active subscription found", { subscriptionId: subscription.id, status: subscription.status, productId, priceId, endDate: subscriptionEnd });
     } else {
       logStep("No active subscription found");
