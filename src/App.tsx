@@ -56,6 +56,7 @@ import AdminDashboard from "./pages/AdminDashboard";
 import CapturePage from "./pages/CapturePage";
 import CapturePages from "./pages/CapturePages";
 import RentCollection from "./pages/RentCollection";
+import { SaasGate } from "@/components/SaasGate";
 
 const queryClient = new QueryClient();
 
