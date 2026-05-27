@@ -1,5 +1,14 @@
 // Stripe product/price IDs for ecrenta service tiers
 export const SERVICE_TIERS = {
+  saas: {
+    product_id: "prod_Uai1kF1YE9ncgn",
+    price_id: "price_1TbWbhAH9qPFLg89XobRcfVH",
+    name: "Self-Manage",
+    price: 29,
+    mode: "subscription" as const,
+    interval: "month" as const,
+    description: "/mo flat — unlimited properties",
+  },
   management: {
     product_id: "prod_UNxB4vjoYawGoz",
     price_id: "price_1TPBGtAH9qPFLg89ej76BgQR",

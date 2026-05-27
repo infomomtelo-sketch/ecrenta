@@ -36,6 +36,7 @@ const managementNav = [
   { title: "Tenants", url: "/tenants", icon: Users },
   { title: "Forms & Signatures", url: "/forms", icon: FileSignature },
   { title: "Invoices", url: "/invoices", icon: DollarSign },
+  { title: "Rent Collection", url: "/rent-collection", icon: DollarSign },
 ];
 
 const toolsNav = [
