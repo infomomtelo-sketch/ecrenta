@@ -95,6 +95,22 @@ export default function Tenants() {
     fetchTenants();
   };
 
+  const handleInvite = async (t: Tenant) => {
+    let token = t.invite_token;
+    if (!token || t.accepted_at) {
+      token = crypto.randomUUID().replace(/-/g, "");
+      const { error } = await supabase
+        .from("tenants")
+        .update({ invite_token: token, invited_at: new Date().toISOString(), accepted_at: null, auth_user_id: null })
+        .eq("id", t.id);
+      if (error) { toast({ title: "Could not create invite", description: error.message, variant: "destructive" }); return; }
+    }
+    const url = `${window.location.origin}/tenant/accept-invite/${token}`;
+    await navigator.clipboard.writeText(url).catch(() => {});
+    toast({ title: "Invite link copied", description: t.email ? `Send it to ${t.email}` : "Share with your tenant" });
+    fetchTenants();
+  };
+
   return (
     <div className="p-4 md:p-6 max-w-5xl mx-auto space-y-6">
       <Helmet><title>Tenants | ecrenta</title></Helmet>
