@@ -109,12 +109,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   // Check subscription when the user id changes (not on every token refresh)
   const userId = user?.id ?? null;
+  const hasSession = !!session?.access_token;
   useEffect(() => {
-    if (!userId) return;
+    if (!userId || !hasSession) return;
     checkSubscription();
     const interval = setInterval(checkSubscription, 60000);
     return () => clearInterval(interval);
-  }, [userId, checkSubscription]);
+  }, [userId, hasSession, checkSubscription]);
 
   const signOut = async () => {
     await supabase.auth.signOut();
