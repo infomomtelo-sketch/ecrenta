@@ -848,6 +848,57 @@ export type Database = {
         }
         Relationships: []
       }
+      rent_payment_requests: {
+        Row: {
+          amount: number
+          created_at: string
+          description: string | null
+          id: string
+          paid_at: string | null
+          status: string
+          stripe_payment_link_id: string | null
+          stripe_payment_link_url: string | null
+          stripe_session_id: string | null
+          tenant_email: string | null
+          tenant_id: string | null
+          tenant_name: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          description?: string | null
+          id?: string
+          paid_at?: string | null
+          status?: string
+          stripe_payment_link_id?: string | null
+          stripe_payment_link_url?: string | null
+          stripe_session_id?: string | null
+          tenant_email?: string | null
+          tenant_id?: string | null
+          tenant_name: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          description?: string | null
+          id?: string
+          paid_at?: string | null
+          status?: string
+          stripe_payment_link_id?: string | null
+          stripe_payment_link_url?: string | null
+          stripe_session_id?: string | null
+          tenant_email?: string | null
+          tenant_id?: string | null
+          tenant_name?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       rental_forms: {
         Row: {
           content: Json
@@ -912,6 +963,45 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      stripe_connect_accounts: {
+        Row: {
+          charges_enabled: boolean
+          country: string | null
+          created_at: string
+          details_submitted: boolean
+          email: string | null
+          id: string
+          payouts_enabled: boolean
+          stripe_account_id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          charges_enabled?: boolean
+          country?: string | null
+          created_at?: string
+          details_submitted?: boolean
+          email?: string | null
+          id?: string
+          payouts_enabled?: boolean
+          stripe_account_id: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          charges_enabled?: boolean
+          country?: string | null
+          created_at?: string
+          details_submitted?: boolean
+          email?: string | null
+          id?: string
+          payouts_enabled?: boolean
+          stripe_account_id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
       }
       suppressed_emails: {
         Row: {
