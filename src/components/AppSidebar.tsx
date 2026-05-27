@@ -23,34 +23,36 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 
-// Set VITE_SHOW_BETA=true to expose P8 Assistant, Inspections, Outreach CRM, Capture Pages, and Blog Editor.
-const SHOW_BETA = import.meta.env.VITE_SHOW_BETA === "true";
+import { useHasSaas } from "@/components/SaasGate";
 
-const mainNav = [
-  { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
-  ...(SHOW_BETA ? [{ title: "P8 Assistant", url: "/p8", icon: Sparkles }] : []),
-  { title: "Inbox", url: "/inbox", icon: Inbox },
-];
-
-const managementNav = [
-  { title: "Tenants", url: "/tenants", icon: Users },
-  { title: "Forms & Signatures", url: "/forms", icon: FileSignature },
-  { title: "Invoices", url: "/invoices", icon: DollarSign },
-  { title: "Rent Collection", url: "/rent-collection", icon: DollarSign },
-];
-
-const toolsNav = [
-  { title: "Maintenance", url: "/maintenance", icon: Wrench },
-  { title: "Add Property", url: "/add-property", icon: Plus },
-  ...(SHOW_BETA
-    ? [
-        { title: "Inspections", url: "/inspections", icon: ClipboardCheck },
-        { title: "Outreach CRM", url: "/outreach", icon: Target },
-        { title: "Capture Pages", url: "/capture-pages", icon: Link2 },
-        { title: "Blog Editor", url: "/blog/new", icon: FileText },
-      ]
-    : []),
-];
+function useNavItems() {
+  const hasSaas = useHasSaas();
+  return {
+    mainNav: [
+      { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
+      ...(hasSaas ? [{ title: "P8 Assistant", url: "/p8", icon: Sparkles }] : []),
+      { title: "Inbox", url: "/inbox", icon: Inbox },
+    ],
+    managementNav: [
+      { title: "Tenants", url: "/tenants", icon: Users },
+      { title: "Forms & Signatures", url: "/forms", icon: FileSignature },
+      { title: "Invoices", url: "/invoices", icon: DollarSign },
+      { title: "Rent Collection", url: "/rent-collection", icon: DollarSign },
+    ],
+    toolsNav: [
+      { title: "Maintenance", url: "/maintenance", icon: Wrench },
+      { title: "Add Property", url: "/add-property", icon: Plus },
+      ...(hasSaas
+        ? [
+            { title: "Inspections", url: "/inspections", icon: ClipboardCheck },
+            { title: "Outreach CRM", url: "/outreach", icon: Target },
+            { title: "Capture Pages", url: "/capture-pages", icon: Link2 },
+            { title: "Blog Editor", url: "/blog/new", icon: FileText },
+          ]
+        : []),
+    ],
+  };
+}
 
 export function AppSidebar() {
   const { state, setOpenMobile, isMobile } = useSidebar();
