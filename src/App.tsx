@@ -56,6 +56,7 @@ import AdminDashboard from "./pages/AdminDashboard";
 import CapturePage from "./pages/CapturePage";
 import CapturePages from "./pages/CapturePages";
 import RentCollection from "./pages/RentCollection";
+import { SaasGate } from "@/components/SaasGate";
 
 const queryClient = new QueryClient();
 
@@ -154,22 +155,22 @@ const App = () => (
               <Route element={<ProtectedDashboard />}>
                 <Route path="/inbox" element={<Inbox />} />
                 <Route path="/dashboard" element={<LandlordOnly><Dashboard /></LandlordOnly>} />
-                <Route path="/outreach" element={<LandlordOnly><OutreachCRM /></LandlordOnly>} />
-                <Route path="/p8" element={<LandlordOnly><P8Dashboard /></LandlordOnly>} />
+                <Route path="/outreach" element={<LandlordOnly><SaasGate><OutreachCRM /></SaasGate></LandlordOnly>} />
+                <Route path="/p8" element={<LandlordOnly><SaasGate><P8Dashboard /></SaasGate></LandlordOnly>} />
                 <Route path="/tenants" element={<LandlordOnly><Tenants /></LandlordOnly>} />
-                <Route path="/forms" element={<LandlordOnly><RentalForms /></LandlordOnly>} />
+                <Route path="/forms" element={<LandlordOnly><SaasGate><RentalForms /></SaasGate></LandlordOnly>} />
                 <Route path="/invoices" element={<LandlordOnly><Invoices /></LandlordOnly>} />
-                <Route path="/inspections" element={<LandlordOnly><Inspections /></LandlordOnly>} />
-                <Route path="/inspections/new" element={<LandlordOnly><NewInspection /></LandlordOnly>} />
-                <Route path="/inspections/:id" element={<LandlordOnly><InspectionReport /></LandlordOnly>} />
-                <Route path="/inspections/:id/compare" element={<LandlordOnly><InspectionCompare /></LandlordOnly>} />
+                <Route path="/inspections" element={<LandlordOnly><SaasGate><Inspections /></SaasGate></LandlordOnly>} />
+                <Route path="/inspections/new" element={<LandlordOnly><SaasGate><NewInspection /></SaasGate></LandlordOnly>} />
+                <Route path="/inspections/:id" element={<LandlordOnly><SaasGate><InspectionReport /></SaasGate></LandlordOnly>} />
+                <Route path="/inspections/:id/compare" element={<LandlordOnly><SaasGate><InspectionCompare /></SaasGate></LandlordOnly>} />
                 <Route path="/maintenance" element={<LandlordOnly><MaintenanceDashboard /></LandlordOnly>} />
                 <Route path="/add-property" element={<LandlordOnly><AddProperty /></LandlordOnly>} />
                 <Route path="/import-listing" element={<LandlordOnly><ImportListing /></LandlordOnly>} />
-                <Route path="/blog/new" element={<LandlordOnly><BlogEditor /></LandlordOnly>} />
+                <Route path="/blog/new" element={<LandlordOnly><SaasGate><BlogEditor /></SaasGate></LandlordOnly>} />
                 <Route path="/admin" element={<LandlordOnly><AdminDashboard /></LandlordOnly>} />
-                <Route path="/capture-pages" element={<LandlordOnly><CapturePages /></LandlordOnly>} />
-                <Route path="/rent-collection" element={<LandlordOnly><RentCollection /></LandlordOnly>} />
+                <Route path="/capture-pages" element={<LandlordOnly><SaasGate><CapturePages /></SaasGate></LandlordOnly>} />
+                <Route path="/rent-collection" element={<LandlordOnly><SaasGate><RentCollection /></SaasGate></LandlordOnly>} />
               </Route>
 
               <Route path="*" element={<NotFound />} />
