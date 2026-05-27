@@ -33,6 +33,7 @@ function useNavItems() {
     return {
       mainNav: [
         { title: "My Rental", url: "/tenant-portal", icon: Home },
+        { title: "Browse Listings", url: "/listings", icon: LayoutDashboard },
         { title: "Inbox", url: "/inbox", icon: Inbox },
       ],
       managementNav: [],
