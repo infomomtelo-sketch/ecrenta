@@ -49,9 +49,9 @@ export default function About() {
             </div>
             <div className="rounded-2xl border border-border bg-card p-6">
               <Shield className="h-8 w-8 text-primary mb-3" />
-              <h3 className="font-[var(--font-heading)] font-bold text-lg">Premium Guarantee</h3>
+              <h3 className="font-[var(--font-heading)] font-bold text-lg">Premium Service</h3>
               <p className="text-2xl font-extrabold mt-1">$149<span className="text-sm font-normal text-muted-foreground">/mo</span></p>
-              <p className="text-sm text-muted-foreground mt-1">Everything in management plus rent guarantee and eviction protection for total peace of mind.</p>
+              <p className="text-sm text-muted-foreground mt-1">Everything in management plus AI assistant, dedicated manager, quarterly inspections, and priority vendors.</p>
             </div>
           </div>
           <div className="rounded-2xl border border-border bg-card/50 p-6">
