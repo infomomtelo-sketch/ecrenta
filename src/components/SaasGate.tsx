@@ -5,8 +5,8 @@ import { useAuth } from "@/contexts/AuthContext";
 export function SaasGate({ children }: { children: React.ReactNode }) {
   const { subscriptionTier, checkingSubscription, user, loading } = useAuth();
 
-  // Wait only while auth is loading or the very first subscription check is in flight.
-  if (loading || (user && checkingSubscription && subscriptionTier === null && !user)) {
+  // Show spinner only while we don't yet have a definitive answer.
+  if (loading || (user && checkingSubscription && !subscriptionTier)) {
     return (
       <div className="flex min-h-[50vh] items-center justify-center">
         <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
