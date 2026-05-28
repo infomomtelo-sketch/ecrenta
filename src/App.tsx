@@ -89,7 +89,7 @@ function RoleGate({ children }: { children: React.ReactNode }) {
 }
 
 function ProtectedDashboard() {
-  const { user, role, loading } = useAuth();
+  const { user, role, loading } = useAuth(); 
   if (loading) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-background">
