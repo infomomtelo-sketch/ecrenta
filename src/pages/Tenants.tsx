@@ -107,7 +107,29 @@ export default function Tenants() {
     }
     const url = `${window.location.origin}/tenant/accept-invite/${token}`;
     await navigator.clipboard.writeText(url).catch(() => {});
-    toast({ title: "Invite link copied", description: t.email ? `Send it to ${t.email}` : "Share with your tenant" });
+
+    if (t.email) {
+      const { data: profile } = await supabase.from("profiles").select("display_name").eq("user_id", user!.id).maybeSingle();
+      const { error: emailError } = await supabase.functions.invoke("send-transactional-email", {
+        body: {
+          templateName: "tenant-invite",
+          recipientEmail: t.email,
+          templateData: {
+            inviteUrl: url,
+            landlordName: profile?.display_name || "Your landlord",
+            recipientName: t.full_name,
+            unitAddress: t.unit_address || undefined,
+          },
+        },
+      });
+      if (emailError) {
+        toast({ title: "Invite link copied", description: `Email failed — share the link with ${t.email}`, variant: "destructive" });
+      } else {
+        toast({ title: "Invite sent", description: `Email sent to ${t.email} (link also copied)` });
+      }
+    } else {
+      toast({ title: "Invite link copied", description: "Share with your tenant" });
+    }
     fetchTenants();
   };
 

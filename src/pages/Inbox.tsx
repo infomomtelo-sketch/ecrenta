@@ -147,6 +147,7 @@ export default function Inbox() {
       );
       if (existing) {
         setActiveConvId(existing.id);
+        if (prefillMsg) setNewMessage(prefillMsg);
         return;
       }
       const { data: newConv, error } = await supabase
