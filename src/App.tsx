@@ -165,18 +165,20 @@ const App = () => (
                 <Route path="/forms" element={<LandlordOnly><SaasGate><RentalForms /></SaasGate></LandlordOnly>} />
                 <Route path="/invoices" element={<LandlordOnly><Invoices /></LandlordOnly>} />
                 <Route path="/inspections" element={<LandlordOnly><SaasGate><Inspections /></SaasGate></LandlordOnly>} />
-                <Route path="/inspections/new" element={<LandlordOnly><SaasGate><NewInspection /></SaasGate></LandlordOnly>} />
-                <Route path="/inspections/:id" element={<LandlordOnly><SaasGate><InspectionReport /></SaasGate></LandlordOnly>} />
-                <Route path="/inspections/:id/compare" element={<LandlordOnly><SaasGate><InspectionCompare /></SaasGate></LandlordOnly>} />
-                <Route path="/maintenance" element={<LandlordOnly><MaintenanceDashboard /></LandlordOnly>} />
+                <Route path="/inspections/new" element={<LandlordOnly><SaasGate><NewInspection /></SaasGate>} />
+                <Route path="/inspections/report/:id" element={<LandlordOnly><SaasGate><InspectionReport /></SaasGate>} />
+                <Route path="/inspections/compare" element={<LandlordOnly><SaasGate><InspectionCompare /></SaasGate>} />
                 <Route path="/add-property" element={<LandlordOnly><AddProperty /></LandlordOnly>} />
                 <Route path="/import-listing" element={<LandlordOnly><ImportListing /></LandlordOnly>} />
-                <Route path="/blog/new" element={<LandlordOnly><SaasGate><BlogEditor /></SaasGate></LandlordOnly>} />
+                <Route path="/blog/edit/:id" element={<LandlordOnly><BlogEditor /></LandlordOnly>} />
+                <Route path="/blog/new" element={<LandlordOnly><BlogEditor /></LandlordOnly>} />
                 <Route path="/admin" element={<LandlordOnly><AdminDashboard /></LandlordOnly>} />
-                <Route path="/capture-pages" element={<LandlordOnly><SaasGate><CapturePages /></SaasGate></LandlordOnly>} />
-                <Route path="/rent-collection" element={<LandlordOnly><SaasGate><RentCollection /></SaasGate></LandlordOnly>} />
+                <Route path="/capture-pages" element={<LandlordOnly><CapturePages /></LandlordOnly>} />
+                <Route path="/rent-collection" element={<LandlordOnly><RentCollection /></LandlordOnly>} />
+                <Route path="/maintenance" element={<LandlordOnly><MaintenanceDashboard /></LandlordOnly>} />
               </Route>
 
+              {/* Catch-all Fallback 404 Route */}
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>
@@ -184,7 +186,7 @@ const App = () => (
       </AuthProvider>
     </TooltipProvider>
   </QueryClientProvider>
-  </HelmetProvider>
+</HelmetProvider>
 );
 
 export default App;
