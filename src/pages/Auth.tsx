@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import { lovable } from "@/integrations/lovable/index";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -35,7 +34,6 @@ export default function Auth() {
       navigate("/select-role", { replace: true });
     }
   }, [user, role, navigate]);
-
 
   const handleEmailAuth = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -76,20 +74,30 @@ export default function Auth() {
   };
 
   const handleGoogleAuth = async () => {
-    const result = await lovable.auth.signInWithOAuth("google", {
-      redirect_uri: window.location.origin,
+    setLoading(true);
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: window.location.origin,
+      },
     });
-    if (result.error) {
-      toast({ title: "Google login failed", description: String(result.error), variant: "destructive" });
+    if (error) {
+      toast({ title: "Google login failed", description: error.message, variant: "destructive" });
+      setLoading(false);
     }
   };
 
   const handleAppleAuth = async () => {
-    const result = await lovable.auth.signInWithOAuth("apple", {
-      redirect_uri: window.location.origin,
+    setLoading(true);
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "apple",
+      options: {
+        redirectTo: window.location.origin,
+      },
     });
-    if (result.error) {
-      toast({ title: "Apple login failed", description: String(result.error), variant: "destructive" });
+    if (error) {
+      toast({ title: "Apple login failed", description: error.message, variant: "destructive" });
+      setLoading(false);
     }
   };
 
@@ -187,23 +195,22 @@ export default function Auth() {
           </Button>
         </form>
 
-        {isLogin && (
-          <p className="text-center">
-            <Link to="/forgot-password" className="text-sm text-muted-foreground hover:text-primary">
-              Forgot your password?
-            </Link>
-          </p>
-        )}
-
-        <p className="text-center text-sm text-muted-foreground">
-          {isLogin ? "Don't have an account?" : "Already have an account?"}{" "}
+        <div className="text-center space-y-2">
+          {isLogin && (
+            <p>
+              <Link to="/forgot-password" className="text-sm text-muted-foreground hover:text-primary">
+                Forgot your password?
+              </Link>
+            </p>
+          )}
           <button
+            type="button"
             onClick={() => setIsLogin(!isLogin)}
-            className="font-semibold text-primary hover:underline"
+            className="text-sm text-primary hover:underline"
           >
-            {isLogin ? "Sign Up" : "Sign In"}
+            {isLogin ? "Don't have an account? Sign up" : "Already have an account? Sign in"}
           </button>
-        </p>
+        </div>
       </div>
     </div>
   );
