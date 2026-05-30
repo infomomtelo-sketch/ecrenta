@@ -6,7 +6,8 @@ import { useListings } from "@/contexts/ListingsContext";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ArrowLeft, Globe, Loader2, Check, AlertTriangle } from "lucide-react";
+import { Textarea } from "@/components/ui/textarea";
+import { ArrowLeft, Globe, Loader2, Check, AlertTriangle, Layers } from "lucide-react";
 
 interface ScrapedListing {
   title: string;
