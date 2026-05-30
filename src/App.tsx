@@ -165,9 +165,9 @@ const App = () => (
                 <Route path="/forms" element={<LandlordOnly><SaasGate><RentalForms /></SaasGate></LandlordOnly>} />
                 <Route path="/invoices" element={<LandlordOnly><Invoices /></LandlordOnly>} />
                 <Route path="/inspections" element={<LandlordOnly><SaasGate><Inspections /></SaasGate></LandlordOnly>} />
-                <Route path="/inspections/new" element={<LandlordOnly><SaasGate><NewInspection /></SaasGate>} />
-                <Route path="/inspections/report/:id" element={<LandlordOnly><SaasGate><InspectionReport /></SaasGate>} />
-                <Route path="/inspections/compare" element={<LandlordOnly><SaasGate><InspectionCompare /></SaasGate>} />
+                <Route path="/inspections/new" element={<LandlordOnly><SaasGate><NewInspection /></SaasGate></LandlordOnly>} />
+                <Route path="/inspections/report/:id" element={<LandlordOnly><SaasGate><InspectionReport /></SaasGate></LandlordOnly>} />
+                <Route path="/inspections/compare" element={<LandlordOnly><SaasGate><InspectionCompare /></SaasGate></LandlordOnly>} />
                 <Route path="/add-property" element={<LandlordOnly><AddProperty /></LandlordOnly>} />
                 <Route path="/import-listing" element={<LandlordOnly><ImportListing /></LandlordOnly>} />
                 <Route path="/blog/edit/:id" element={<LandlordOnly><BlogEditor /></LandlordOnly>} />
