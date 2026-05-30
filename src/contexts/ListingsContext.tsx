@@ -15,12 +15,15 @@ export interface Listing {
   available: boolean;
   created_at: string;
   user_id: string | null;
+  source?: string | null;
+  source_url?: string | null;
 }
 
 interface ListingsContextType {
   listings: Listing[];
   loading: boolean;
   addListing: (listing: Omit<Listing, "id" | "created_at" | "user_id">) => Promise<void>;
+  deleteListing: (id: string) => Promise<{ error: string | null }>;
   refreshListings: () => Promise<void>;
 }
 
@@ -51,8 +54,17 @@ export function ListingsProvider({ children }: { children: ReactNode }) {
     if (!error) await fetchListings();
   };
 
+  const deleteListing = async (id: string) => {
+    const { error } = await supabase.from("listings").delete().eq("id", id);
+    if (!error) {
+      setListings((prev) => prev.filter((l) => l.id !== id));
+      return { error: null };
+    }
+    return { error: error.message };
+  };
+
   return (
-    <ListingsContext.Provider value={{ listings, loading, addListing, refreshListings: fetchListings }}>
+    <ListingsContext.Provider value={{ listings, loading, addListing, deleteListing, refreshListings: fetchListings }}>
       {children}
     </ListingsContext.Provider>
   );
