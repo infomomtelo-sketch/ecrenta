@@ -72,12 +72,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setUser(newSession?.user ?? null);
       const newUserId = newSession?.user?.id ?? null;
       if (newUserId) {
-        // Only re-fetch role/profile when the user actually changes.
-        // Token refresh events fire repeatedly and re-fetching causes
-        // role to briefly flip to null, triggering redirect loops.
         if (newUserId !== lastUserId) {
           lastUserId = newUserId;
-          fetchUserData(newUserId);
+          fetchUserData(newUserId).finally(() => setLoading(false));
+        } else {
+          setLoading(false);
         }
       } else {
         lastUserId = null;
@@ -86,8 +85,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setSubscribed(false);
         setSubscriptionTier(null);
         setSubscriptionEnd(null);
+        setLoading(false);
       }
-      setLoading(false);
     });
 
     // 2. THEN restore session from storage
@@ -97,9 +96,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const restoredId = restoredSession?.user?.id ?? null;
       if (restoredId && restoredId !== lastUserId) {
         lastUserId = restoredId;
-        fetchUserData(restoredId);
+        fetchUserData(restoredId).finally(() => setLoading(false));
+      } else {
+        setLoading(false);
       }
-      setLoading(false);
     });
 
     return () => subscription.unsubscribe();
