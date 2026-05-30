@@ -1,2 +1,3 @@
 /feed.xml   https://powcpedttyqnltinvwdk.supabase.co/functions/v1/listings-feed?format=rss   200
 /feed.json  https://powcpedttyqnltinvwdk.supabase.co/functions/v1/listings-feed?format=json  200
+/*    /index.html   200

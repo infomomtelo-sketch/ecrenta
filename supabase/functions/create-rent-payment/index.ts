@@ -66,7 +66,7 @@ serve(async (req) => {
           },
         ],
         payment_intent_data: {
-          // No application fee — landlord keeps 100%, runp8 takes nothing per transaction
+          // No application fee — landlord keeps 100%, Ecrenta takes nothing per transaction
           application_fee_amount: 0,
         },
         success_url: `${origin}/rent-collection?paid=1`,

@@ -38,7 +38,7 @@ interface Stats {
 }
 
 const PROJECTS = [
-  { name: "Runp8", id: "7f219471-abb9-46a6-b27d-0a04e60d77da" },
+  { name: "Ecrenta", id: "7f219471-abb9-46a6-b27d-0a04e60d77da" },
   { name: "@DropVault", id: "e4172f48-84c3-4a57-a5d3-2e955355545b" },
   { name: "Fluentra AI", id: "f4e17d0c-a51c-4e15-8351-5bddcc1b3970" },
   { name: "Digital Ledger Enhanced", id: "c3a1114d-ad71-4f5a-a5b0-347c6c0d2df2" },
