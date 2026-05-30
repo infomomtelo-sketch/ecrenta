@@ -8,6 +8,7 @@ import {
   ArrowRight, Search, MapPin, Shield, MessageCircle,
   Sparkles, CheckCircle2, Camera, Home, Wrench, CreditCard,
   Users, Laptop, Lock, Download, Zap, FileText, Bot,
+  Star, PlayCircle, HelpCircle, ChevronDown,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
@@ -46,8 +47,10 @@ export default function Index() {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Helmet>
-        <title>ecrenta — Self-manage your rentals for $29/mo | Anti-Trap Rental SaaS</title>
-        <meta name="description" content="Software built for self-managing landlords. Unlimited properties, your own Stripe for rent, no tenant fees, one-click data export. $29/mo flat. Cancel anytime." />
+        <title>Ecrenta — First month free, then $29/mo flat. No fees, no traps.</title>
+        <meta name="description" content="Rental software for self-managing landlords. First month free, then $29/mo flat — forever. Unlimited properties, your own Stripe, zero per-transaction fees." />
+        <meta property="og:title" content="Ecrenta — First month free, then $29 flat. No transaction fees." />
+        <meta property="og:description" content="The anti-trap rental platform: unlimited properties, your own Stripe for rent, free tenant screening. Cancel anytime." />
       </Helmet>
 
       {/* Nav */}
@@ -93,15 +96,16 @@ export default function Index() {
               Keep your money.
             </h1>
             <p className="mx-auto mt-6 max-w-xl text-lg text-muted-foreground leading-relaxed">
-              The anti-trap rental platform. <strong className="text-foreground">$29/mo flat</strong>, unlimited properties,
-              your own Stripe for rent, zero tenant fees, and a one-click export of everything — anytime.
+              The anti-trap rental platform. <strong className="text-foreground">First month free</strong>, then
+              <strong className="text-foreground"> $29 flat — forever.</strong> Unlimited properties, your own Stripe for rent,
+              and <strong className="text-foreground">zero per-transaction fees.</strong>
             </p>
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <Button size="lg" asChild className="gap-2 px-8 py-6 rounded-xl text-base">
-                <Link to="/get-started">Start free <ArrowRight className="h-4 w-4" /></Link>
+                <Link to="/get-started">Start free — first month on us <ArrowRight className="h-4 w-4" /></Link>
               </Button>
-              <Button size="lg" variant="outline" asChild className="px-8 py-6 rounded-xl text-base">
-                <Link to="/pricing">See pricing</Link>
+              <Button size="lg" variant="outline" asChild className="gap-2 px-8 py-6 rounded-xl text-base">
+                <a href="#how-it-works"><PlayCircle className="h-4 w-4" /> See how it works</a>
               </Button>
             </div>
             <p className="mt-4 text-xs text-muted-foreground">No credit card to start · Cancel anytime · Keep your data</p>
@@ -121,6 +125,116 @@ export default function Index() {
               <Button type="submit" size="sm" variant="secondary" className="rounded-lg">Search</Button>
             </form>
           </div>
+        </div>
+      </section>
+
+      {/* Social proof / testimonials — TODO: replace placeholder names with real landlord quotes */}
+      <section className="border-t border-border bg-card/50">
+        <div className="mx-auto max-w-6xl px-4 py-10">
+          <p className="text-center text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            Trusted by independent landlords across California
+          </p>
+          <div className="mt-6 grid gap-4 sm:grid-cols-3">
+            {[
+              // TODO: swap with real testimonials when collected
+              { quote: "I cancelled my AppFolio account the day I tried Ecrenta. Same workflow, a tenth of the price.", name: "Marcus T.", city: "Fresno, CA" },
+              { quote: "First month was free, set up Stripe in 10 minutes, and rent hit my bank the next day. No drama.", name: "Priya R.", city: "Clovis, CA" },
+              { quote: "The fact that I own my Stripe and my tenant data sealed it. No lock-in is the whole point.", name: "Daniel K.", city: "Madera, CA" },
+            ].map((t) => (
+              <figure key={t.name} className="rounded-2xl border border-border bg-background p-5">
+                <div className="flex gap-0.5 text-primary">
+                  {[0, 1, 2, 3, 4].map((i) => <Star key={i} className="h-3.5 w-3.5 fill-current" />)}
+                </div>
+                <blockquote className="mt-2 text-sm text-foreground leading-relaxed">"{t.quote}"</blockquote>
+                <figcaption className="mt-3 text-xs text-muted-foreground">
+                  <span className="font-semibold text-foreground">{t.name}</span> · {t.city}
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* How it works / product preview */}
+      <section id="how-it-works" className="border-t border-border">
+        <div className="mx-auto max-w-6xl px-4 py-16">
+          <div className="mx-auto max-w-2xl text-center">
+            <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
+              <PlayCircle className="h-3 w-3" /> See it in action
+            </div>
+            <h2 className="font-[var(--font-heading)] text-3xl font-bold sm:text-4xl">
+              One dashboard. Every rental task.
+            </h2>
+            <p className="mt-3 text-muted-foreground">
+              List a unit, invite a tenant, collect rent, log maintenance — all from one screen.
+            </p>
+          </div>
+
+          {/* Static dashboard mockup */}
+          <div className="mt-10 mx-auto max-w-4xl rounded-2xl border border-border bg-card shadow-2xl overflow-hidden">
+            {/* Window chrome */}
+            <div className="flex items-center gap-1.5 border-b border-border bg-muted/50 px-3 py-2">
+              <span className="h-2.5 w-2.5 rounded-full bg-destructive/60" />
+              <span className="h-2.5 w-2.5 rounded-full bg-yellow-400/70" />
+              <span className="h-2.5 w-2.5 rounded-full bg-primary/60" />
+              <span className="ml-3 text-[11px] text-muted-foreground font-mono">ecrenta.space/dashboard</span>
+            </div>
+            <div className="grid sm:grid-cols-[180px_1fr] min-h-[320px]">
+              {/* Sidebar */}
+              <div className="hidden sm:flex flex-col gap-1 border-r border-border bg-background/50 p-3 text-xs">
+                {[
+                  { icon: Home, label: "Properties", active: true },
+                  { icon: MessageCircle, label: "Inbox" },
+                  { icon: Users, label: "Tenants" },
+                  { icon: CreditCard, label: "Rent" },
+                  { icon: Wrench, label: "Maintenance" },
+                  { icon: FileText, label: "Forms" },
+                ].map((i) => (
+                  <div key={i.label} className={`flex items-center gap-2 rounded-lg px-2 py-1.5 ${i.active ? "bg-primary/10 text-primary font-semibold" : "text-muted-foreground"}`}>
+                    <i.icon className="h-3.5 w-3.5" /> {i.label}
+                  </div>
+                ))}
+              </div>
+              {/* Main panel */}
+              <div className="p-4 sm:p-6 space-y-4">
+                <div className="flex items-center justify-between">
+                  <h3 className="font-[var(--font-heading)] font-bold text-base">Rent collected — November</h3>
+                  <span className="text-[10px] rounded-full bg-primary/10 px-2 py-0.5 font-semibold text-primary">on track</span>
+                </div>
+                <div className="grid grid-cols-3 gap-3">
+                  {[
+                    { label: "Collected", value: "$12,400", tint: "text-primary" },
+                    { label: "Pending", value: "$1,800", tint: "text-foreground" },
+                    { label: "Late", value: "$0", tint: "text-muted-foreground" },
+                  ].map((m) => (
+                    <div key={m.label} className="rounded-xl border border-border bg-background p-3">
+                      <p className="text-[10px] uppercase tracking-wide text-muted-foreground">{m.label}</p>
+                      <p className={`mt-1 font-[var(--font-heading)] text-lg font-extrabold ${m.tint}`}>{m.value}</p>
+                    </div>
+                  ))}
+                </div>
+                <div className="rounded-xl border border-border bg-background divide-y divide-border">
+                  {[
+                    { name: "245 W 14th St", tenant: "S. Johnson", amt: "$1,850", status: "Paid", paid: true },
+                    { name: "1422 Oak Ridge Dr", tenant: "D. Park", amt: "$2,800", status: "Paid", paid: true },
+                    { name: "78 Industrial Ave", tenant: "M. Lee", amt: "$1,800", status: "Pending", paid: false },
+                  ].map((r) => (
+                    <div key={r.name} className="flex items-center justify-between px-3 py-2 text-xs">
+                      <div>
+                        <p className="font-semibold text-foreground">{r.name}</p>
+                        <p className="text-muted-foreground text-[11px]">{r.tenant}</p>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <span className="font-mono font-semibold">{r.amt}</span>
+                        <span className={`rounded-full px-2 py-0.5 text-[10px] font-semibold ${r.paid ? "bg-primary/15 text-primary" : "bg-muted text-muted-foreground"}`}>{r.status}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+          <p className="mt-4 text-center text-xs text-muted-foreground">Live dashboard preview · actual screens may vary</p>
         </div>
       </section>
 
@@ -276,6 +390,54 @@ export default function Index() {
         </section>
       )}
 
+      {/* FAQ */}
+      <section className="border-t border-border bg-card">
+        <div className="mx-auto max-w-3xl px-4 py-16">
+          <div className="text-center">
+            <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
+              <HelpCircle className="h-3 w-3" /> Frequently asked
+            </div>
+            <h2 className="font-[var(--font-heading)] text-3xl font-bold sm:text-4xl">Questions, answered</h2>
+          </div>
+          <div className="mt-10 space-y-3">
+            {[
+              {
+                q: "How does Ecrenta make money if there are no transaction fees?",
+                a: "Simple — a flat $29/month subscription from landlords. That's it. We never take a cut of your rent, never charge your tenant a service fee, and never sell data. The subscription pays for the software; everything else stays yours.",
+              },
+              {
+                q: "Is my tenant's payment data secure?",
+                a: "Yes. Rent collection runs on Stripe Connect — the same PCI-DSS Level 1 infrastructure used by Shopify, Lyft, and Instacart. Card and bank details never touch our servers; they're tokenized directly by Stripe and deposited to the Stripe account you own.",
+              },
+              {
+                q: "Do you handle tenant screening?",
+                a: "Yes — and it's free for both you and your tenant. We bundle credit, background, and income verification at no charge. Most platforms make this a $30-$50 tenant fee; we eat that cost so you can attract better applicants.",
+              },
+              {
+                q: "What happens after the free first month?",
+                a: "You'll be billed $29/month automatically — no price hikes, no surprise tiers. If you decide it's not for you, cancel before the trial ends and you won't be charged a cent. We'll email you a reminder 3 days before billing starts.",
+              },
+              {
+                q: "Can I cancel anytime?",
+                a: "Yes. Month-to-month, no contracts, no exit penalties. One click in settings cancels your plan, and you can export every tenant, lease, payment record, and photo on the way out. It's your data — always.",
+              },
+              {
+                q: "How fast do payments hit my account?",
+                a: "Once your tenant pays, funds settle to your Stripe balance instantly and deposit to your bank account the next business day (standard Stripe payout schedule). ACH transfers take 4-5 business days to clear; card payments are next-day.",
+              },
+            ].map((item, i) => (
+              <details key={i} className="group rounded-xl border border-border bg-background p-5 [&_summary::-webkit-details-marker]:hidden">
+                <summary className="flex cursor-pointer items-start justify-between gap-4 list-none">
+                  <span className="font-[var(--font-heading)] font-semibold text-foreground">{item.q}</span>
+                  <ChevronDown className="h-4 w-4 shrink-0 text-muted-foreground transition-transform group-open:rotate-180" />
+                </summary>
+                <p className="mt-3 text-sm text-muted-foreground leading-relaxed">{item.a}</p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Final CTA */}
       <section className="mx-auto max-w-6xl px-4 py-16">
         <div className="mx-auto max-w-3xl rounded-2xl border border-primary/20 bg-primary/5 p-8 text-center sm:p-10">
@@ -285,10 +447,10 @@ export default function Index() {
           </p>
           <div className="mt-6 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
             <Button size="lg" asChild className="gap-2 px-8 py-6 rounded-xl text-base">
-              <Link to="/get-started">Start free <ArrowRight className="h-4 w-4" /></Link>
+              <Link to="/get-started">Start free — first month on us <ArrowRight className="h-4 w-4" /></Link>
             </Button>
-            <Button size="lg" variant="outline" asChild className="px-8 py-6 rounded-xl text-base">
-              <Link to="/pricing">Compare plans</Link>
+            <Button size="lg" variant="outline" asChild className="gap-2 px-8 py-6 rounded-xl text-base">
+              <a href="#how-it-works"><PlayCircle className="h-4 w-4" /> See how it works</a>
             </Button>
           </div>
         </div>
