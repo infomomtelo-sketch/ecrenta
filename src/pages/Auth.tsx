@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
+import { lovable } from "@/integrations/lovable";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -75,28 +76,22 @@ export default function Auth() {
 
   const handleGoogleAuth = async () => {
     setLoading(true);
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: {
-        redirectTo: window.location.origin,
-      },
+    const result = await lovable.auth.signInWithOAuth("google", {
+      redirect_uri: window.location.origin,
     });
-    if (error) {
-      toast({ title: "Google login failed", description: error.message, variant: "destructive" });
+    if (result.error) {
+      toast({ title: "Google login failed", description: result.error.message, variant: "destructive" });
       setLoading(false);
     }
   };
 
   const handleAppleAuth = async () => {
     setLoading(true);
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: "apple",
-      options: {
-        redirectTo: window.location.origin,
-      },
+    const result = await lovable.auth.signInWithOAuth("apple", {
+      redirect_uri: window.location.origin,
     });
-    if (error) {
-      toast({ title: "Apple login failed", description: error.message, variant: "destructive" });
+    if (result.error) {
+      toast({ title: "Apple login failed", description: result.error.message, variant: "destructive" });
       setLoading(false);
     }
   };
