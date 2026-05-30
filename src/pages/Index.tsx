@@ -47,8 +47,10 @@ export default function Index() {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Helmet>
-        <title>ecrenta — Self-manage your rentals for $29/mo | Anti-Trap Rental SaaS</title>
-        <meta name="description" content="Software built for self-managing landlords. Unlimited properties, your own Stripe for rent, no tenant fees, one-click data export. $29/mo flat. Cancel anytime." />
+        <title>Ecrenta — First month free, then $29/mo flat. No fees, no traps.</title>
+        <meta name="description" content="Rental software for self-managing landlords. First month free, then $29/mo flat — forever. Unlimited properties, your own Stripe, zero per-transaction fees." />
+        <meta property="og:title" content="Ecrenta — First month free, then $29 flat. No transaction fees." />
+        <meta property="og:description" content="The anti-trap rental platform: unlimited properties, your own Stripe for rent, free tenant screening. Cancel anytime." />
       </Helmet>
 
       {/* Nav */}
