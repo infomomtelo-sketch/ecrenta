@@ -445,10 +445,10 @@ export default function Index() {
           </p>
           <div className="mt-6 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
             <Button size="lg" asChild className="gap-2 px-8 py-6 rounded-xl text-base">
-              <Link to="/get-started">Start free <ArrowRight className="h-4 w-4" /></Link>
+              <Link to="/get-started">Start free — first month on us <ArrowRight className="h-4 w-4" /></Link>
             </Button>
-            <Button size="lg" variant="outline" asChild className="px-8 py-6 rounded-xl text-base">
-              <Link to="/pricing">Compare plans</Link>
+            <Button size="lg" variant="outline" asChild className="gap-2 px-8 py-6 rounded-xl text-base">
+              <a href="#how-it-works"><PlayCircle className="h-4 w-4" /> See how it works</a>
             </Button>
           </div>
         </div>
