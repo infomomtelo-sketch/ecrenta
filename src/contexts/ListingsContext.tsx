@@ -15,12 +15,15 @@ export interface Listing {
   available: boolean;
   created_at: string;
   user_id: string | null;
+  source?: string | null;
+  source_url?: string | null;
 }
 
 interface ListingsContextType {
   listings: Listing[];
   loading: boolean;
   addListing: (listing: Omit<Listing, "id" | "created_at" | "user_id">) => Promise<void>;
+  deleteListing: (id: string) => Promise<{ error: string | null }>;
   refreshListings: () => Promise<void>;
 }
 
