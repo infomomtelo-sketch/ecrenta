@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { Mail, Lock, Eye, EyeOff } from "lucide-react";
+import { BrandLogo } from "@/components/BrandLogo";
 
 export default function Auth() {
   const navigate = useNavigate();
