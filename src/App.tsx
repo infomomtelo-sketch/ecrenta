@@ -58,6 +58,7 @@ import CapturePages from "./pages/CapturePages";
 import RentCollection from "./pages/RentCollection";
 import TenantPortal from "./pages/TenantPortal";
 import AcceptTenantInvite from "./pages/AcceptTenantInvite";
+import ShareListing from "./pages/ShareListing";
 import { SaasGate } from "@/components/SaasGate";
 
 const queryClient = new QueryClient();
@@ -176,6 +177,7 @@ const App = () => (
                 <Route path="/capture-pages" element={<LandlordOnly><CapturePages /></LandlordOnly>} />
                 <Route path="/rent-collection" element={<LandlordOnly><RentCollection /></LandlordOnly>} />
                 <Route path="/maintenance" element={<LandlordOnly><MaintenanceDashboard /></LandlordOnly>} />
+                <Route path="/share" element={<LandlordOnly><ShareListing /></LandlordOnly>} />
               </Route>
 
               {/* Catch-all Fallback 404 Route */}
