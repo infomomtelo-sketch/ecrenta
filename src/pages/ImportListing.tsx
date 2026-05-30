@@ -97,6 +97,63 @@ export default function ImportListing() {
     }
   };
 
+  const handleBulkImport = async () => {
+    if (!user) return;
+    const urls = bulkUrls
+      .split(/\s+/)
+      .map((u) => u.trim())
+      .filter((u) => /^https?:\/\//i.test(u));
+    if (urls.length === 0) {
+      toast({ title: "No valid URLs found", description: "Paste one URL per line.", variant: "destructive" });
+      return;
+    }
+
+    setBulkRunning(true);
+    setBulkLog([]);
+    setBulkProgress({ done: 0, total: urls.length, ok: 0, failed: 0 });
+
+    let ok = 0;
+    let failed = 0;
+    for (let i = 0; i < urls.length; i++) {
+      const u = urls[i];
+      try {
+        const { data, error: fnError } = await supabase.functions.invoke("scrape-listing", { body: { url: u } });
+        if (fnError) throw new Error(fnError.message);
+        if (!data?.success) throw new Error(data?.error || "Scrape failed");
+        const d = data.data as ScrapedListing;
+        const { error: insertError } = await supabase.from("listings").insert({
+          title: d.title,
+          price: d.price,
+          address: d.address,
+          bedrooms: d.bedrooms,
+          bathrooms: d.bathrooms,
+          sqft: d.sqft,
+          description: d.description || "",
+          images: d.images?.length > 0 ? d.images : [],
+          landlord_name: d.landlord_name || "Imported Listing",
+          available: true,
+          user_id: user.id,
+          source: d.source,
+          source_url: d.source_url,
+        } as any);
+        if (insertError) throw insertError;
+        ok++;
+        setBulkLog((l) => [...l, { url: u, ok: true, message: d.title }]);
+      } catch (err: any) {
+        failed++;
+        setBulkLog((l) => [...l, { url: u, ok: false, message: err.message || "Failed" }]);
+      }
+      setBulkProgress({ done: i + 1, total: urls.length, ok, failed });
+    }
+
+    await refreshListings();
+    setBulkRunning(false);
+    toast({
+      title: "Bulk import complete",
+      description: `${ok} imported, ${failed} failed`,
+    });
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <header className="sticky top-0 z-50 flex items-center gap-3 border-b border-border bg-card px-4 py-3">
