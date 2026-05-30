@@ -31,13 +31,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [checkingSubscription, setCheckingSubscription] = useState(false);
 
   const fetchUserData = (userId: string) => {
-    // Fire-and-forget — no await inside auth callbacks
-    Promise.all([
+    return Promise.all([
       supabase.from("user_roles").select("role").eq("user_id", userId),
       supabase.from("profiles").select("display_name, avatar_url").eq("user_id", userId).maybeSingle(),
     ]).then(([{ data: roles }, { data: prof }]) => {
       if (roles && roles.length > 0) {
-        // Prefer landlord when a user has both roles (deterministic)
         const hasLandlord = roles.some((r) => r.role === "landlord");
         setRole(hasLandlord ? "landlord" : (roles[0].role as "landlord" | "tenant"));
       } else {
@@ -74,12 +72,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setUser(newSession?.user ?? null);
       const newUserId = newSession?.user?.id ?? null;
       if (newUserId) {
-        // Only re-fetch role/profile when the user actually changes.
-        // Token refresh events fire repeatedly and re-fetching causes
-        // role to briefly flip to null, triggering redirect loops.
         if (newUserId !== lastUserId) {
           lastUserId = newUserId;
-          fetchUserData(newUserId);
+          fetchUserData(newUserId).finally(() => setLoading(false));
+        } else {
+          setLoading(false);
         }
       } else {
         lastUserId = null;
@@ -88,8 +85,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setSubscribed(false);
         setSubscriptionTier(null);
         setSubscriptionEnd(null);
+        setLoading(false);
       }
-      setLoading(false);
     });
 
     // 2. THEN restore session from storage
@@ -99,9 +96,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const restoredId = restoredSession?.user?.id ?? null;
       if (restoredId && restoredId !== lastUserId) {
         lastUserId = restoredId;
-        fetchUserData(restoredId);
+        fetchUserData(restoredId).finally(() => setLoading(false));
+      } else {
+        setLoading(false);
       }
-      setLoading(false);
     });
 
     return () => subscription.unsubscribe();
