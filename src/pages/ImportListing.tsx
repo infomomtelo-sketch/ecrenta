@@ -36,6 +36,12 @@ export default function ImportListing() {
   const [preview, setPreview] = useState<ScrapedListing | null>(null);
   const [error, setError] = useState("");
 
+  // Bulk import state
+  const [bulkUrls, setBulkUrls] = useState("");
+  const [bulkRunning, setBulkRunning] = useState(false);
+  const [bulkProgress, setBulkProgress] = useState<{ done: number; total: number; ok: number; failed: number } | null>(null);
+  const [bulkLog, setBulkLog] = useState<{ url: string; ok: boolean; message: string }[]>([]);
+
   const handleScrape = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
