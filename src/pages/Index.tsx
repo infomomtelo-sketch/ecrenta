@@ -388,6 +388,54 @@ export default function Index() {
         </section>
       )}
 
+      {/* FAQ */}
+      <section className="border-t border-border bg-card">
+        <div className="mx-auto max-w-3xl px-4 py-16">
+          <div className="text-center">
+            <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
+              <HelpCircle className="h-3 w-3" /> Frequently asked
+            </div>
+            <h2 className="font-[var(--font-heading)] text-3xl font-bold sm:text-4xl">Questions, answered</h2>
+          </div>
+          <div className="mt-10 space-y-3">
+            {[
+              {
+                q: "How does Ecrenta make money if there are no transaction fees?",
+                a: "Simple — a flat $29/month subscription from landlords. That's it. We never take a cut of your rent, never charge your tenant a service fee, and never sell data. The subscription pays for the software; everything else stays yours.",
+              },
+              {
+                q: "Is my tenant's payment data secure?",
+                a: "Yes. Rent collection runs on Stripe Connect — the same PCI-DSS Level 1 infrastructure used by Shopify, Lyft, and Instacart. Card and bank details never touch our servers; they're tokenized directly by Stripe and deposited to the Stripe account you own.",
+              },
+              {
+                q: "Do you handle tenant screening?",
+                a: "Yes — and it's free for both you and your tenant. We bundle credit, background, and income verification at no charge. Most platforms make this a $30-$50 tenant fee; we eat that cost so you can attract better applicants.",
+              },
+              {
+                q: "What happens after the free first month?",
+                a: "You'll be billed $29/month automatically — no price hikes, no surprise tiers. If you decide it's not for you, cancel before the trial ends and you won't be charged a cent. We'll email you a reminder 3 days before billing starts.",
+              },
+              {
+                q: "Can I cancel anytime?",
+                a: "Yes. Month-to-month, no contracts, no exit penalties. One click in settings cancels your plan, and you can export every tenant, lease, payment record, and photo on the way out. It's your data — always.",
+              },
+              {
+                q: "How fast do payments hit my account?",
+                a: "Once your tenant pays, funds settle to your Stripe balance instantly and deposit to your bank account the next business day (standard Stripe payout schedule). ACH transfers take 4-5 business days to clear; card payments are next-day.",
+              },
+            ].map((item, i) => (
+              <details key={i} className="group rounded-xl border border-border bg-background p-5 [&_summary::-webkit-details-marker]:hidden">
+                <summary className="flex cursor-pointer items-start justify-between gap-4 list-none">
+                  <span className="font-[var(--font-heading)] font-semibold text-foreground">{item.q}</span>
+                  <ChevronDown className="h-4 w-4 shrink-0 text-muted-foreground transition-transform group-open:rotate-180" />
+                </summary>
+                <p className="mt-3 text-sm text-muted-foreground leading-relaxed">{item.a}</p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Final CTA */}
       <section className="mx-auto max-w-6xl px-4 py-16">
         <div className="mx-auto max-w-3xl rounded-2xl border border-primary/20 bg-primary/5 p-8 text-center sm:p-10">
