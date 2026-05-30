@@ -179,14 +179,14 @@ export default function Index() {
               <div className="flex items-center gap-3 mb-4">
                 <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center"><Lock className="h-5 w-5 text-primary" /></div>
                 <div>
-                  <p className="font-semibold text-sm">runp8 fee per transaction</p>
+                  <p className="font-semibold text-sm">Ecrenta fee per transaction</p>
                   <p className="font-[var(--font-heading)] text-3xl font-extrabold text-primary">$0.00</p>
                 </div>
               </div>
               <div className="space-y-2 text-sm border-t border-border pt-4">
                 <div className="flex justify-between"><span className="text-muted-foreground">Monthly rent</span><span className="font-medium">$1,800.00</span></div>
                 <div className="flex justify-between"><span className="text-muted-foreground">Stripe processing</span><span className="font-medium">paid to Stripe</span></div>
-                <div className="flex justify-between"><span className="text-muted-foreground">runp8 cut</span><span className="font-medium text-primary">$0</span></div>
+                <div className="flex justify-between"><span className="text-muted-foreground">Ecrenta cut</span><span className="font-medium text-primary">$0</span></div>
                 <div className="flex justify-between border-t border-border pt-2 mt-2"><span className="font-semibold">You receive</span><span className="font-bold">100% (minus Stripe)</span></div>
               </div>
             </div>
