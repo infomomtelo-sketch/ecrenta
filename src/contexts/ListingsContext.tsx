@@ -54,8 +54,17 @@ export function ListingsProvider({ children }: { children: ReactNode }) {
     if (!error) await fetchListings();
   };
 
+  const deleteListing = async (id: string) => {
+    const { error } = await supabase.from("listings").delete().eq("id", id);
+    if (!error) {
+      setListings((prev) => prev.filter((l) => l.id !== id));
+      return { error: null };
+    }
+    return { error: error.message };
+  };
+
   return (
-    <ListingsContext.Provider value={{ listings, loading, addListing, refreshListings: fetchListings }}>
+    <ListingsContext.Provider value={{ listings, loading, addListing, deleteListing, refreshListings: fetchListings }}>
       {children}
     </ListingsContext.Provider>
   );
