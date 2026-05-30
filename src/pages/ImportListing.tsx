@@ -253,6 +253,70 @@ export default function ImportListing() {
             </Button>
           </div>
         )}
+
+        {/* Bulk import */}
+        <div className="space-y-3 rounded-lg border border-border bg-card p-4">
+          <div className="flex items-center gap-2">
+            <Layers className="h-5 w-5 text-primary" />
+            <h2 className="text-base font-semibold text-foreground">Bulk Import</h2>
+          </div>
+          <p className="text-xs text-muted-foreground">
+            Paste multiple URLs (one per line). Each will be scraped and added automatically.
+          </p>
+          <Textarea
+            value={bulkUrls}
+            onChange={(e) => setBulkUrls(e.target.value)}
+            placeholder={"https://zillow.com/listing1\nhttps://idealista.pt/listing2\nhttps://olx.pt/listing3"}
+            className="min-h-[120px] font-mono text-xs"
+            disabled={bulkRunning}
+          />
+          <Button onClick={handleBulkImport} disabled={bulkRunning || !bulkUrls.trim()} className="w-full">
+            {bulkRunning ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Importing {bulkProgress?.done}/{bulkProgress?.total}…
+              </>
+            ) : (
+              <>
+                <Layers className="mr-2 h-4 w-4" />
+                Import all
+              </>
+            )}
+          </Button>
+
+          {bulkProgress && (
+            <div className="space-y-1 text-xs">
+              <div className="flex justify-between text-muted-foreground">
+                <span>{bulkProgress.done} / {bulkProgress.total} processed</span>
+                <span>
+                  <span className="text-primary">{bulkProgress.ok} ok</span>
+                  {bulkProgress.failed > 0 && <span className="text-destructive"> · {bulkProgress.failed} failed</span>}
+                </span>
+              </div>
+              <div className="h-1.5 w-full overflow-hidden rounded-full bg-muted">
+                <div
+                  className="h-full bg-primary transition-all"
+                  style={{ width: `${(bulkProgress.done / bulkProgress.total) * 100}%` }}
+                />
+              </div>
+            </div>
+          )}
+
+          {bulkLog.length > 0 && (
+            <div className="max-h-48 space-y-1 overflow-y-auto rounded-md bg-muted/50 p-2 text-xs">
+              {bulkLog.map((entry, i) => (
+                <div key={i} className="flex items-start gap-2">
+                  {entry.ok ? (
+                    <Check className="mt-0.5 h-3 w-3 shrink-0 text-primary" />
+                  ) : (
+                    <AlertTriangle className="mt-0.5 h-3 w-3 shrink-0 text-destructive" />
+                  )}
+                  <span className={entry.ok ? "text-foreground" : "text-destructive"}>{entry.message}</span>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       </main>
     </div>
   );
