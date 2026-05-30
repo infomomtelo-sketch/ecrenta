@@ -64,14 +64,14 @@ export function ListingCard({ listing }: Props) {
             loading="lazy"
           />
           {listing.created_at && isRecent(listing.created_at) && (
-            <span className="absolute bottom-2 left-2 rounded bg-card/90 px-2 py-0.5 text-xs font-semibold text-foreground">
+            <span className="absolute bottom-2 left-2 rounded-md bg-card/95 px-2 py-0.5 text-[11px] font-semibold text-foreground shadow-sm">
               Just listed
             </span>
           )}
           {hasExternalSource && (
-            <span className="absolute top-2 left-2 flex items-center gap-1 rounded bg-foreground/80 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-background backdrop-blur">
+            <span className="absolute top-2 left-2 inline-flex items-center gap-1.5 rounded-md bg-foreground/85 px-2 py-1 text-[11px] font-medium text-background backdrop-blur">
               <ExternalLink className="h-3 w-3" />
-              {listing.source || "external"}
+              <span>via {prettySource(listing.source)}</span>
             </span>
           )}
           {isOwner && (
