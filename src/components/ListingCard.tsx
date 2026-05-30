@@ -125,3 +125,9 @@ function isRecent(dateStr: string): boolean {
   const diff = Date.now() - new Date(dateStr).getTime();
   return diff < 7 * 24 * 60 * 60 * 1000; // 7 days
 }
+
+function prettySource(src?: string | null): string {
+  if (!src) return "external";
+  const s = src.trim();
+  return s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
+}
