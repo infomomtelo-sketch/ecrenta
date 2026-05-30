@@ -8,6 +8,7 @@ import {
   ArrowRight, Search, MapPin, Shield, MessageCircle,
   Sparkles, CheckCircle2, Camera, Home, Wrench, CreditCard,
   Users, Laptop, Lock, Download, Zap, FileText, Bot,
+  Star, PlayCircle, HelpCircle, ChevronDown,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
@@ -93,15 +94,16 @@ export default function Index() {
               Keep your money.
             </h1>
             <p className="mx-auto mt-6 max-w-xl text-lg text-muted-foreground leading-relaxed">
-              The anti-trap rental platform. <strong className="text-foreground">$29/mo flat</strong>, unlimited properties,
-              your own Stripe for rent, zero tenant fees, and a one-click export of everything — anytime.
+              The anti-trap rental platform. <strong className="text-foreground">First month free</strong>, then
+              <strong className="text-foreground"> $29 flat — forever.</strong> Unlimited properties, your own Stripe for rent,
+              and <strong className="text-foreground">zero per-transaction fees.</strong>
             </p>
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <Button size="lg" asChild className="gap-2 px-8 py-6 rounded-xl text-base">
-                <Link to="/get-started">Start free <ArrowRight className="h-4 w-4" /></Link>
+                <Link to="/get-started">Start free — first month on us <ArrowRight className="h-4 w-4" /></Link>
               </Button>
-              <Button size="lg" variant="outline" asChild className="px-8 py-6 rounded-xl text-base">
-                <Link to="/pricing">See pricing</Link>
+              <Button size="lg" variant="outline" asChild className="gap-2 px-8 py-6 rounded-xl text-base">
+                <a href="#how-it-works"><PlayCircle className="h-4 w-4" /> See how it works</a>
               </Button>
             </div>
             <p className="mt-4 text-xs text-muted-foreground">No credit card to start · Cancel anytime · Keep your data</p>
