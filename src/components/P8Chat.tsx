@@ -237,7 +237,7 @@ export default function P8Chat({ mode, onSearchQuery }: P8ChatProps) {
       );
     },
     pre: ({ children }) => (
-      <pre className="my-2 max-w-full overflow-x-auto rounded-lg bg-background/60 p-3 text-xs leading-relaxed whitespace-pre">
+      <pre className="my-2 max-w-full overflow-x-hidden rounded-lg bg-background/60 p-3 text-xs leading-relaxed whitespace-pre-wrap break-words [overflow-wrap:anywhere]">
         {children}
       </pre>
     ),
@@ -272,7 +272,7 @@ export default function P8Chat({ mode, onSearchQuery }: P8ChatProps) {
             <Button size="sm" variant="ghost" onClick={() => setShowHistory(false)}>Back</Button>
           </div>
         </div>
-        <ScrollArea className="flex-1 px-4 py-2">
+        <ScrollArea className="flex-1 min-w-0 max-w-full overflow-x-hidden px-4 py-2">
           {conversations.length === 0 ? (
             <p className="text-sm text-muted-foreground text-center py-8">No conversations yet</p>
           ) : (
@@ -305,7 +305,7 @@ export default function P8Chat({ mode, onSearchQuery }: P8ChatProps) {
         </Button>
       </div>
 
-      <ScrollArea className="flex-1 px-4 py-3" ref={scrollRef as any}>
+      <ScrollArea className="flex-1 min-w-0 max-w-full overflow-x-hidden px-4 py-3" ref={scrollRef as any}>
         {messages.length === 0 && (
           <div className="flex flex-col items-center justify-center h-full text-center py-12 gap-3">
             <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center">
@@ -322,21 +322,21 @@ export default function P8Chat({ mode, onSearchQuery }: P8ChatProps) {
           </div>
         )}
 
-        <div className="space-y-4">
+        <div className="min-w-0 max-w-full space-y-4 overflow-x-hidden">
           {messages.map((msg, i) => (
-            <div key={i} className={`flex gap-3 w-full ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
+            <div key={i} className={`flex min-w-0 w-full gap-2 sm:gap-3 ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
               {msg.role === "assistant" && (
                 <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0 mt-1">
                   <Bot className="w-4 h-4 text-primary" />
                 </div>
               )}
-              <div className={`min-w-0 max-w-[80%] rounded-2xl px-4 py-3 overflow-hidden ${
+              <div className={`min-w-0 max-w-[calc(100%-2.5rem)] sm:max-w-[80%] rounded-2xl px-4 py-3 overflow-hidden ${
                 msg.role === "user"
                   ? "bg-primary text-primary-foreground"
                   : "bg-muted text-foreground"
               }`}>
                 {msg.role === "assistant" ? (
-                  <div className="prose prose-sm dark:prose-invert max-w-none [&>*:first-child]:mt-0 [&>*:last-child]:mb-0 break-words [overflow-wrap:anywhere]">
+                  <div className="prose prose-sm dark:prose-invert max-w-none [&_*]:max-w-full [&>*:first-child]:mt-0 [&>*:last-child]:mb-0 break-words [overflow-wrap:anywhere] [&_p]:break-words [&_p]:[overflow-wrap:anywhere] [&_li]:break-words [&_li]:[overflow-wrap:anywhere] [&_strong]:break-words [&_strong]:[overflow-wrap:anywhere]">
                     <ReactMarkdown components={markdownComponents}>{msg.content}</ReactMarkdown>
                   </div>
                 ) : (
