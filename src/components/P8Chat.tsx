@@ -18,6 +18,12 @@ interface P8ChatProps {
 
 const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/p8-chat`;
 
+const normalizeMarkdownContent = (content: string) =>
+  content
+    .split("\n")
+    .map((line) => (line.startsWith("    ") && !line.startsWith("      -") ? line.trimStart() : line))
+    .join("\n");
+
 export default function P8Chat({ mode, onSearchQuery }: P8ChatProps) {
   const { session } = useAuth();
   const [messages, setMessages] = useState<Msg[]>([]);
@@ -244,10 +250,10 @@ export default function P8Chat({ mode, onSearchQuery }: P8ChatProps) {
     code: ({ className, children, ...props }) => {
       const isBlock = /language-/.test(className || "");
       if (isBlock) {
-        return <code className={className} {...props}>{children}</code>;
+        return <code className={`${className || ""} whitespace-pre-wrap break-words [overflow-wrap:anywhere]`} {...props}>{children}</code>;
       }
       return (
-        <code className="rounded bg-background/60 px-1 py-0.5 text-[0.85em] break-words" {...props}>
+        <code className="rounded bg-background/60 px-1 py-0.5 text-[0.85em] break-words [overflow-wrap:anywhere]" {...props}>
           {children}
         </code>
       );
@@ -262,7 +268,7 @@ export default function P8Chat({ mode, onSearchQuery }: P8ChatProps) {
 
   if (showHistory) {
     return (
-      <div className="flex flex-col h-[calc(100svh-12rem)] max-h-[700px] min-h-[280px]">
+      <div className="flex min-w-0 max-w-full flex-col overflow-hidden h-[calc(100svh-12rem)] max-h-[700px] min-h-[280px]">
         <div className="flex items-center justify-between px-4 py-3 border-b border-border">
           <h3 className="text-sm font-semibold">Chat History</h3>
           <div className="flex gap-2">
@@ -295,7 +301,7 @@ export default function P8Chat({ mode, onSearchQuery }: P8ChatProps) {
   }
 
   return (
-    <div className="flex flex-col h-[calc(100svh-12rem)] max-h-[700px] min-h-[280px]">
+    <div className="flex min-w-0 max-w-full flex-col overflow-hidden h-[calc(100svh-12rem)] max-h-[700px] min-h-[280px]">
       <div className="flex items-center justify-end px-4 py-1.5 gap-1">
         <Button size="icon" variant="ghost" className="h-7 w-7" onClick={startNewConversation} title="New chat">
           <Plus className="w-3.5 h-3.5" />
@@ -337,7 +343,7 @@ export default function P8Chat({ mode, onSearchQuery }: P8ChatProps) {
               }`}>
                 {msg.role === "assistant" ? (
                   <div className="prose prose-sm dark:prose-invert max-w-none [&_*]:max-w-full [&>*:first-child]:mt-0 [&>*:last-child]:mb-0 break-words [overflow-wrap:anywhere] [&_p]:break-words [&_p]:[overflow-wrap:anywhere] [&_li]:break-words [&_li]:[overflow-wrap:anywhere] [&_strong]:break-words [&_strong]:[overflow-wrap:anywhere]">
-                    <ReactMarkdown components={markdownComponents}>{msg.content}</ReactMarkdown>
+                    <ReactMarkdown components={markdownComponents}>{normalizeMarkdownContent(msg.content)}</ReactMarkdown>
                   </div>
                 ) : (
                   <p className="text-sm whitespace-pre-wrap break-words [overflow-wrap:anywhere]">{msg.content}</p>
