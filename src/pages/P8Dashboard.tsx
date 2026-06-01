@@ -35,11 +35,11 @@ export default function P8Dashboard() {
         <meta name="description" content="P8 — your AI property management assistant for inspections, operations, and growth." />
       </Helmet>
 
-      <div className="min-h-full bg-background">
-        <div className="container mx-auto px-4 py-6 max-w-6xl">
-          <Tabs value={mode} onValueChange={(v) => setMode(v as P8Mode)} className="space-y-4">
-            <div className="flex items-center gap-2">
-              <TabsList className="grid w-full grid-cols-3 h-12">
+      <div className="min-h-full overflow-x-hidden bg-background">
+        <div className="container mx-auto max-w-6xl px-4 py-6 min-w-0 overflow-x-hidden">
+          <Tabs value={mode} onValueChange={(v) => setMode(v as P8Mode)} className="min-w-0 space-y-4 overflow-x-hidden">
+            <div className="flex min-w-0 items-center gap-2">
+              <TabsList className="grid min-w-0 w-full grid-cols-3 h-12">
                 <TabsTrigger value="va" className="gap-2 text-xs sm:text-sm">
                   <Bot className="w-4 h-4" />
                   <span className="hidden sm:inline">Assistant</span>
@@ -78,7 +78,7 @@ export default function P8Dashboard() {
                 </ResizablePanel>
               </ResizablePanelGroup>
             ) : showPanel && isMobile ? (
-              <div className="space-y-4">
+              <div className="min-w-0 space-y-4 overflow-x-hidden">
                 <QuickLaunchPanel onClose={() => setShowPanel(false)} externalQuery={cleanQuery} />
                 <ChatCard mode={mode} onSearchQuery={handleSearchQuery} />
               </div>
@@ -94,7 +94,7 @@ export default function P8Dashboard() {
 
 function ChatCard({ mode, onSearchQuery }: { mode: P8Mode; onSearchQuery: (q: string) => void }) {
   return (
-    <Card className="border-border/50 shadow-lg h-full">
+    <Card className="border-border/50 shadow-lg h-full min-w-0 max-w-full overflow-hidden">
       {mode === "va" && (
         <>
           <CardHeader className="pb-2">
@@ -103,7 +103,7 @@ function ChatCard({ mode, onSearchQuery }: { mode: P8Mode; onSearchQuery: (q: st
             </CardTitle>
             <CardDescription>Draft notices, manage tenants, translate, answer anything</CardDescription>
           </CardHeader>
-          <CardContent className="p-0">
+          <CardContent className="min-w-0 overflow-hidden p-0">
             <P8Chat mode="va" onSearchQuery={onSearchQuery} />
           </CardContent>
         </>
@@ -116,7 +116,7 @@ function ChatCard({ mode, onSearchQuery }: { mode: P8Mode; onSearchQuery: (q: st
             </CardTitle>
             <CardDescription>Plan inspections, assess damage, estimate repairs</CardDescription>
           </CardHeader>
-          <CardContent className="p-0">
+          <CardContent className="min-w-0 overflow-hidden p-0">
             <P8Chat mode="inspector" onSearchQuery={onSearchQuery} />
           </CardContent>
         </>
@@ -129,7 +129,7 @@ function ChatCard({ mode, onSearchQuery }: { mode: P8Mode; onSearchQuery: (q: st
             </CardTitle>
             <CardDescription>Listing ads, social media, vacancy marketing, growth strategy</CardDescription>
           </CardHeader>
-          <CardContent className="p-0">
+          <CardContent className="min-w-0 overflow-hidden p-0">
             <P8Chat mode="growth" onSearchQuery={onSearchQuery} />
           </CardContent>
         </>
