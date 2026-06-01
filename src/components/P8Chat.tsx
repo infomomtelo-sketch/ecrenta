@@ -18,11 +18,20 @@ interface P8ChatProps {
 
 const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/p8-chat`;
 
-const normalizeMarkdownContent = (content: string) =>
-  content
-    .split("\n")
-    .map((line) => (line.startsWith("    ") && !line.startsWith("      -") ? line.trimStart() : line))
+const normalizeMarkdownContent = (content: string) => {
+  const lines = content.replace(/\t/g, "  ").split("\n");
+  const indents = lines
+    .filter((line) => line.trim().length > 0)
+    .map((line) => line.match(/^\s*/)?.[0].length ?? 0);
+  const sharedIndent = indents.length ? Math.min(...indents) : 0;
+
+  return lines
+    .map((line) => {
+      const dedented = sharedIndent > 0 ? line.slice(sharedIndent) : line;
+      return /^ {4,}\S/.test(dedented) ? dedented.trimStart() : dedented;
+    })
     .join("\n");
+};
 
 export default function P8Chat({ mode, onSearchQuery }: P8ChatProps) {
   const { session } = useAuth();
@@ -243,7 +252,7 @@ export default function P8Chat({ mode, onSearchQuery }: P8ChatProps) {
       );
     },
     pre: ({ children }) => (
-      <pre className="my-2 max-w-full overflow-x-hidden rounded-lg bg-background/60 p-3 text-xs leading-relaxed whitespace-pre-wrap break-words [overflow-wrap:anywhere]">
+      <pre className="my-2 max-w-full overflow-x-hidden rounded-lg bg-background/60 p-3 text-xs leading-relaxed whitespace-normal break-words [overflow-wrap:anywhere]">
         {children}
       </pre>
     ),
