@@ -223,7 +223,7 @@ export default function P8Chat({ mode, onSearchQuery }: P8ChatProps) {
         return (
           <button
             onClick={() => onSearchQuery?.(query)}
-            className="inline-flex items-center gap-1 text-primary underline underline-offset-2 decoration-primary/40 hover:decoration-primary font-medium cursor-pointer bg-primary/5 hover:bg-primary/10 px-1.5 py-0.5 rounded-md transition-colors"
+            className="inline-flex items-center gap-1 text-primary underline underline-offset-2 decoration-primary/40 hover:decoration-primary font-medium cursor-pointer bg-primary/5 hover:bg-primary/10 px-1.5 py-0.5 rounded-md transition-colors break-all"
           >
             {children}
             <ExternalLink className="w-3 h-3 inline flex-shrink-0" />
@@ -231,9 +231,25 @@ export default function P8Chat({ mode, onSearchQuery }: P8ChatProps) {
         );
       }
       return (
-        <a href={href} target="_blank" rel="noopener noreferrer" className="text-primary underline" {...props}>
+        <a href={href} target="_blank" rel="noopener noreferrer" className="text-primary underline break-all" {...props}>
           {children}
         </a>
+      );
+    },
+    pre: ({ children }) => (
+      <pre className="my-2 max-w-full overflow-x-auto rounded-lg bg-background/60 p-3 text-xs leading-relaxed whitespace-pre">
+        {children}
+      </pre>
+    ),
+    code: ({ className, children, ...props }) => {
+      const isBlock = /language-/.test(className || "");
+      if (isBlock) {
+        return <code className={className} {...props}>{children}</code>;
+      }
+      return (
+        <code className="rounded bg-background/60 px-1 py-0.5 text-[0.85em] break-words" {...props}>
+          {children}
+        </code>
       );
     },
   };
