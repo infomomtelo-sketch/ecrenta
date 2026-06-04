@@ -58,6 +58,7 @@ import CapturePages from "./pages/CapturePages";
 import RentCollection from "./pages/RentCollection";
 import TenantPortal from "./pages/TenantPortal";
 import AcceptTenantInvite from "./pages/AcceptTenantInvite";
+import DomainStatus from "./pages/DomainStatus";
 import { SaasGate } from "@/components/SaasGate";
 
 const queryClient = new QueryClient();
