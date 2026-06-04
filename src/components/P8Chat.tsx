@@ -17,10 +17,6 @@ interface P8ChatProps {
 }
 
 const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/p8-chat`;
-const normalizeMarkdownContent = (content: string) =>
-  content
-    .split("\n")
-    .map((line) => (line.startsWith("    ") && !line.startsWith("      -") ? line.trimStart() : line))
 const normalizeMarkdownContent = (content: string) => {
   const lines = content.replace(/\t/g, "  ").split("\n");
   const indents = lines
