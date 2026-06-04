@@ -58,6 +58,7 @@ import CapturePages from "./pages/CapturePages";
 import RentCollection from "./pages/RentCollection";
 import TenantPortal from "./pages/TenantPortal";
 import AcceptTenantInvite from "./pages/AcceptTenantInvite";
+import DomainStatus from "./pages/DomainStatus";
 import { SaasGate } from "@/components/SaasGate";
 
 const queryClient = new QueryClient();
@@ -153,6 +154,7 @@ const App = () => (
               <Route path="/list-with-us" element={<ListWithUs />} />
               <Route path="/c/:slug" element={<CapturePage />} />
               <Route path="/tenant/accept-invite/:token" element={<AcceptTenantInvite />} />
+              <Route path="/domain-status" element={<DomainStatus />} />
 
               {/* Authenticated dashboard routes with sidebar */}
               <Route element={<ProtectedDashboard />}>
