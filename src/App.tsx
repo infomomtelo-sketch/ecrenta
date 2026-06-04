@@ -154,6 +154,7 @@ const App = () => (
               <Route path="/list-with-us" element={<ListWithUs />} />
               <Route path="/c/:slug" element={<CapturePage />} />
               <Route path="/tenant/accept-invite/:token" element={<AcceptTenantInvite />} />
+              <Route path="/domain-status" element={<DomainStatus />} />
 
               {/* Authenticated dashboard routes with sidebar */}
               <Route element={<ProtectedDashboard />}>
