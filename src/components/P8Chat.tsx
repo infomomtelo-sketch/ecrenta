@@ -250,7 +250,6 @@ export default function P8Chat({ mode, onSearchQuery }: P8ChatProps) {
     },
     pre: ({ children }) => (
       <pre className="my-2 max-w-full overflow-x-hidden rounded-lg bg-background/60 p-3 text-xs leading-relaxed whitespace-pre-wrap break-words [overflow-wrap:anywhere]">
-      <pre className="my-2 max-w-full overflow-x-hidden rounded-lg bg-background/60 p-3 text-xs leading-relaxed whitespace-normal break-words [overflow-wrap:anywhere]">
         {children}
       </pre>
     ),
