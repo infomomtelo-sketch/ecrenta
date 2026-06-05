@@ -132,7 +132,7 @@ export default function RepairRequest() {
   if (submitted) {
     return (
       <div className="min-h-screen bg-background">
-        <Helmet><title>Request Submitted | ecrenta</title></Helmet>
+        <Helmet><title>Request Submitted | myrental</title></Helmet>
         <header className="border-b border-border bg-card/80 backdrop-blur-sm sticky top-0 z-50">
           <div className="container mx-auto px-4 py-4 flex items-center gap-3">
             <Link to="/" className="flex items-center gap-2">
@@ -191,7 +191,7 @@ export default function RepairRequest() {
   return (
     <div className="min-h-screen bg-background">
       <Helmet>
-        <title>Report a Repair | ecrenta</title>
+        <title>Report a Repair | myrental</title>
         <meta name="description" content="Submit a maintenance or repair request for your rental property. P8 AI will triage and respond instantly." />
       </Helmet>
 

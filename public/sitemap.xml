@@ -1,98 +1,98 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://ecrenta.space/</loc>
+    <loc>https://myrental.space/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://ecrenta.space/listings</loc>
+    <loc>https://myrental.space/listings</loc>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://ecrenta.space/pricing</loc>
+    <loc>https://myrental.space/pricing</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://ecrenta.space/how-it-works</loc>
+    <loc>https://myrental.space/how-it-works</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://ecrenta.space/for-landlords</loc>
+    <loc>https://myrental.space/for-landlords</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://ecrenta.space/about</loc>
+    <loc>https://myrental.space/about</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://ecrenta.space/contact</loc>
+    <loc>https://myrental.space/contact</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://ecrenta.space/blog</loc>
+    <loc>https://myrental.space/blog</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://ecrenta.space/resources</loc>
+    <loc>https://myrental.space/resources</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://ecrenta.space/privacy</loc>
+    <loc>https://myrental.space/privacy</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://ecrenta.space/terms</loc>
+    <loc>https://myrental.space/terms</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://ecrenta.space/auth</loc>
+    <loc>https://myrental.space/auth</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://ecrenta.space/socials</loc>
+    <loc>https://myrental.space/socials</loc>
     <changefreq>monthly</changefreq>
     <priority>0.3</priority>
   </url>
   <!-- Geo-specific market landing pages -->
   <url>
-    <loc>https://ecrenta.space/rentals/fresno</loc>
+    <loc>https://myrental.space/rentals/fresno</loc>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://ecrenta.space/rentals/clovis</loc>
+    <loc>https://myrental.space/rentals/clovis</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://ecrenta.space/rentals/madera</loc>
+    <loc>https://myrental.space/rentals/madera</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://ecrenta.space/rentals/sanger</loc>
+    <loc>https://myrental.space/rentals/sanger</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://ecrenta.space/rentals/selma</loc>
+    <loc>https://myrental.space/rentals/selma</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://ecrenta.space/rentals/reedley</loc>
+    <loc>https://myrental.space/rentals/reedley</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>

@@ -53,7 +53,7 @@ export default function Contact() {
       console.error("Contact form error:", err);
       toast({
         title: "Something went wrong",
-        description: "Please try again or email us directly at support@ecrenta.space",
+        description: "Please try again or email us directly at support@myrental.space",
         variant: "destructive",
       });
     } finally {
@@ -63,7 +63,7 @@ export default function Contact() {
 
   return (
     <div className="min-h-screen bg-background">
-      <SEOHead title="Contact Us" description="Get in touch with ecrenta. Questions about furnished rentals in Fresno County? We're here to help tenants and landlords." />
+      <SEOHead title="Contact Us" description="Get in touch with myrental. Questions about furnished rentals in Fresno County? We're here to help tenants and landlords." />
       <header className="sticky top-0 z-50 border-b border-border bg-card/90 backdrop-blur-md">
         <div className="mx-auto flex max-w-6xl items-center gap-3 px-4 py-3">
           <Link to="/" className="rounded-full p-2 hover:bg-secondary transition-colors">
@@ -78,7 +78,7 @@ export default function Contact() {
       <main className="mx-auto max-w-4xl px-4 py-16">
         <h1 className="font-[var(--font-heading)] text-3xl font-extrabold sm:text-4xl text-center">Contact Us</h1>
         <p className="mx-auto mt-3 max-w-lg text-center text-muted-foreground">
-          Have questions about ecrenta? We're here to help landlords and tenants in the Fresno County area.
+          Have questions about myrental? We're here to help landlords and tenants in the Fresno County area.
         </p>
 
         <div className="mt-12 grid gap-8 lg:grid-cols-2">
@@ -87,7 +87,7 @@ export default function Contact() {
               <Mail className="mt-0.5 h-5 w-5 text-primary shrink-0" />
               <div>
                 <h3 className="font-[var(--font-heading)] font-semibold">Email</h3>
-                <p className="text-sm text-muted-foreground">support@ecrenta.space</p>
+                <p className="text-sm text-muted-foreground">support@myrental.space</p>
               </div>
             </div>
             <div className="flex items-start gap-4 rounded-xl border border-border bg-card p-5">
@@ -127,7 +127,7 @@ export default function Contact() {
       </main>
 
       <footer className="border-t border-border py-6 text-center text-xs text-muted-foreground">
-        © {new Date().getFullYear()} ecrenta. All rights reserved.
+        © {new Date().getFullYear()} myrental. All rights reserved.
       </footer>
     </div>
   );

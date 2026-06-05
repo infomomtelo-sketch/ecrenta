@@ -97,7 +97,7 @@ Deno.serve(async (req) => {
       }
     }
 
-    const origin = req.headers.get('origin') || 'https://ecrenta.space'
+    const origin = req.headers.get('origin') || 'https://myrental.space'
     const chatUrl = `${origin}/inbox?conv=${conversationId}`
 
     const { error: invokeErr } = await admin.functions.invoke('send-transactional-email', {

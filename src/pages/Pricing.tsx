@@ -11,15 +11,15 @@ import SEOHead from "@/components/SEOHead";
 
 function ComparisonTable() {
   const rows = [
-    { feature: "Tenant Placement Fee", ecrenta: "$499", ziprent: "$1,500", ff: "N/A" },
-    { feature: "Monthly Management", ecrenta: "$99/mo", ziprent: "$150/mo", ff: "N/A" },
-    { feature: "Premium w/ Guarantees", ecrenta: "$149/mo", ziprent: "$250/mo", ff: "N/A" },
-    { feature: "Tenant Screening", ecrenta: "Free", ziprent: "Included", ff: "$44.99" },
-    { feature: "Professional Photography", ecrenta: "Included", ziprent: "Included", ff: "N/A" },
-    { feature: "On-Demand Showings", ecrenta: "Included", ziprent: "Included", ff: "N/A" },
-    { feature: "AI Property Assistant", ecrenta: "Premium tier", ziprent: "N/A", ff: "N/A" },
-    { feature: "Dedicated Account Manager", ecrenta: "Premium tier", ziprent: "Premium tier", ff: "N/A" },
-    { feature: "Commissions", ecrenta: "None", ziprent: "None", ff: "None" },
+    { feature: "Tenant Placement Fee", myrental: "$499", ziprent: "$1,500", ff: "N/A" },
+    { feature: "Monthly Management", myrental: "$99/mo", ziprent: "$150/mo", ff: "N/A" },
+    { feature: "Premium w/ Guarantees", myrental: "$149/mo", ziprent: "$250/mo", ff: "N/A" },
+    { feature: "Tenant Screening", myrental: "Free", ziprent: "Included", ff: "$44.99" },
+    { feature: "Professional Photography", myrental: "Included", ziprent: "Included", ff: "N/A" },
+    { feature: "On-Demand Showings", myrental: "Included", ziprent: "Included", ff: "N/A" },
+    { feature: "AI Property Assistant", myrental: "Premium tier", ziprent: "N/A", ff: "N/A" },
+    { feature: "Dedicated Account Manager", myrental: "Premium tier", ziprent: "Premium tier", ff: "N/A" },
+    { feature: "Commissions", myrental: "None", ziprent: "None", ff: "None" },
   ];
 
   return (
@@ -28,7 +28,7 @@ function ComparisonTable() {
         <thead>
           <tr className="border-b border-border">
             <th className="py-3 px-4 text-left font-semibold">Feature</th>
-            <th className="py-3 px-4 text-center font-semibold text-primary">ecrenta</th>
+            <th className="py-3 px-4 text-center font-semibold text-primary">myrental</th>
             <th className="py-3 px-4 text-center font-semibold text-muted-foreground">Ziprent</th>
             <th className="py-3 px-4 text-center font-semibold text-muted-foreground">FurnishedFinder</th>
           </tr>
@@ -37,7 +37,7 @@ function ComparisonTable() {
           {rows.map((row) => (
             <tr key={row.feature} className="border-b border-border/50">
               <td className="py-3 px-4">{row.feature}</td>
-              <td className="py-3 px-4 text-center font-medium text-primary">{row.ecrenta}</td>
+              <td className="py-3 px-4 text-center font-medium text-primary">{row.myrental}</td>
               <td className="py-3 px-4 text-center text-muted-foreground">{row.ziprent}</td>
               <td className="py-3 px-4 text-center text-muted-foreground">{row.ff}</td>
             </tr>
@@ -173,7 +173,7 @@ export default function Pricing() {
   return (
     <div className="min-h-screen bg-background">
       <SEOHead
-        title="Pricing – Property Management from $99/mo | ecrenta"
+        title="Pricing – Property Management from $99/mo | myrental"
         description="Professional property management starting at $99/mo — 34% cheaper than Ziprent. Tenant placement for $499 one-time. Free tenant screening. No commissions."
       />
 
@@ -350,7 +350,7 @@ export default function Pricing() {
         {/* CTA */}
         <div className="mx-auto mt-16 max-w-lg text-center">
           <h2 className="font-[var(--font-heading)] text-2xl font-bold">Ready to stop overpaying?</h2>
-          <p className="mt-2 text-muted-foreground">Join Fresno County landlords saving thousands with ecrenta.</p>
+          <p className="mt-2 text-muted-foreground">Join Fresno County landlords saving thousands with myrental.</p>
           <Button size="lg" className="mt-6 rounded-xl px-8 py-6" asChild>
             <Link to={user ? "/post-property" : "/auth"}>
               Get Started <ArrowRight className="ml-2 h-4 w-4" />
@@ -365,7 +365,7 @@ export default function Pricing() {
           <Link to="/terms" className="hover:text-foreground">Terms</Link>
           <Link to="/contact" className="hover:text-foreground">Contact</Link>
         </div>
-        <p className="mt-2">© {new Date().getFullYear()} ecrenta. All rights reserved.</p>
+        <p className="mt-2">© {new Date().getFullYear()} myrental. All rights reserved.</p>
       </footer>
     </div>
   );

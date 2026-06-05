@@ -1,4 +1,4 @@
-import ecrentaLogo from "@/assets/ecrenta-logo.png";
+import myrentalLogo from "@/assets/myrental-logo.png";
 
 interface BrandLogoProps {
   size?: "sm" | "md" | "lg";
@@ -12,18 +12,18 @@ export function BrandLogo({ size = "md", showText = true, className = "" }: Bran
   return (
     <div className={`flex items-center gap-2 ${className}`}>
       <img
-        src={ecrentaLogo}
-        alt="E.Crenta — easy to rent a space"
+        src={myrentalLogo}
+        alt="MyRental — easy to rent a space"
         className={`${heights[size]} w-auto`}
       />
       {showText && (
         <span className="font-[var(--font-heading)] font-bold text-foreground tracking-tight"
           style={{ fontSize: size === "sm" ? "1rem" : size === "lg" ? "1.5rem" : "1.25rem" }}>
-          E.Crenta
+          MyRental
         </span>
       )}
     </div>
   );
 }
 
-export { ecrentaLogo };
+export { myrentalLogo };

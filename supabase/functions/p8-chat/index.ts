@@ -220,7 +220,7 @@ serve(async (req) => {
 
     // Determine site URL from referer or env
     const referer = req.headers.get("referer") || req.headers.get("origin") || "";
-    const siteUrl = referer ? new URL(referer).origin : "https://ecrenta.lovable.app";
+    const siteUrl = referer ? new URL(referer).origin : "https://myrental.lovable.app";
 
     // Fetch user's property data for context
     const [{ data: listings }, { data: inspections }, { data: maintenance }, { data: profile }, { data: tenants }] = await Promise.all([
@@ -264,7 +264,7 @@ ${tenantContext}
 `;
 
     const systemPrompts: Record<string, string> = {
-      va: `You are P8, an AI virtual assistant for ${userName}, a property manager using ecrenta (ecrenta.space). You specialize in rental property management but can help with anything.
+      va: `You are P8, an AI virtual assistant for ${userName}, a property manager using myrental (myrental.space). You specialize in rental property management but can help with anything.
 
 **RESPONSE LENGTH: Keep responses SHORT and scannable.** Max 3-5 bullet points or a short paragraph. No walls of text. Only expand when the user explicitly asks for detail or a full document draft. Get to the point fast.
 
@@ -302,7 +302,7 @@ ${maintenanceContext}
 
 Be professional, concise, and reference specific properties by address when relevant. For legal documents, include proper California legal language. Format responses with markdown.`,
 
-      inspector: `You are P8 Inspector, an AI property inspection assistant for ${userName} on ecrenta (ecrenta.space).
+      inspector: `You are P8 Inspector, an AI property inspection assistant for ${userName} on myrental (myrental.space).
 
 **RESPONSE LENGTH: Keep responses SHORT and scannable.** Max 3-5 bullet points or a short paragraph. Only expand for full checklists or detailed estimates when asked.
 
@@ -324,7 +324,7 @@ ${inspectionContext}
 
 Be thorough and precise. Always cite California Civil Code when relevant. Format responses with markdown.`,
 
-      growth: `You are P8 Growth, an AI marketing and growth assistant for ${userName} on ecrenta (ecrenta.space).
+      growth: `You are P8 Growth, an AI marketing and growth assistant for ${userName} on myrental (myrental.space).
 
 **RESPONSE LENGTH: Keep responses SHORT and scannable.** Max 3-5 bullet points or a short paragraph. Only expand for full ad copy or content drafts when asked.
 

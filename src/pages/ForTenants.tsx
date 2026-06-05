@@ -91,7 +91,7 @@ const testimonials = [
   },
   {
     quote:
-      "I'd been quoted $44 per application elsewhere. ecrenta screened me once for free and I had three landlord replies the same week.",
+      "I'd been quoted $44 per application elsewhere. myrental screened me once for free and I had three landlord replies the same week.",
     name: "Devon R.",
     detail: "Travel PT, Clovis",
     stars: 5,
@@ -107,11 +107,11 @@ const testimonials = [
 
 const faqs = [
   {
-    q: "Is ecrenta really free for tenants?",
+    q: "Is myrental really free for tenants?",
     a: "Yes. Browsing, messaging, and background checks cost nothing. Landlords pay a small subscription so you don't have to.",
   },
   {
-    q: "Who are the typical landlords on ecrenta?",
+    q: "Who are the typical landlords on myrental?",
     a: "Local Fresno County property owners renting furnished homes, guest houses, casitas, and ADUs — most of them experienced with traveling healthcare professionals.",
   },
   {
@@ -127,7 +127,7 @@ const faqs = [
     a: "Complete one quick screening on your profile. Verified landlords see your status instantly — no paying $40+ for every application.",
   },
   {
-    q: "Do I need a travel assignment to use ecrenta?",
+    q: "Do I need a travel assignment to use myrental?",
     a: "Not at all. Anyone needing a furnished mid-term rental in the Central Valley can book — relocation, remote workers, family stays, all welcome.",
   },
 ];
@@ -349,7 +349,7 @@ export default function ForTenants() {
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-4 py-8 sm:flex-row">
           <BrandLogo size="sm" />
           <p className="text-xs text-muted-foreground">
-            © {new Date().getFullYear()} ecrenta. Furnished rentals for the Central Valley.
+            © {new Date().getFullYear()} myrental. Furnished rentals for the Central Valley.
           </p>
           <div className="flex gap-4 text-xs text-muted-foreground">
             <Link to="/for-landlords" className="hover:text-foreground">For Landlords</Link>

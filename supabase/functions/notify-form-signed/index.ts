@@ -54,7 +54,7 @@ serve(async (req) => {
 
     const tenantEmail: string | null = form.recipient_email ?? null;
     const summaryLines = buildSummary(form.form_type, form.content || {});
-    const baseUrl = Deno.env.get("PUBLIC_APP_URL") || "https://ecrenta.space";
+    const baseUrl = Deno.env.get("PUBLIC_APP_URL") || "https://myrental.space";
     const documentUrl = form.sign_token ? `${baseUrl}/sign/${form.sign_token}` : undefined;
 
     const sharedData = {

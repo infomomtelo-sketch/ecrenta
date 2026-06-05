@@ -79,7 +79,7 @@ export default function Unsubscribe() {
             <MailX className="mx-auto h-12 w-12 text-muted-foreground" />
             <h1 className="font-[var(--font-heading)] text-xl font-bold">Unsubscribe</h1>
             <p className="text-sm text-muted-foreground">
-              You'll no longer receive app emails from ecrenta.
+              You'll no longer receive app emails from myrental.
             </p>
             <Button
               onClick={handleUnsubscribe}
@@ -97,7 +97,7 @@ export default function Unsubscribe() {
             <CheckCircle className="mx-auto h-12 w-12 text-primary" />
             <h1 className="font-[var(--font-heading)] text-xl font-bold">You're unsubscribed</h1>
             <p className="text-sm text-muted-foreground">
-              You won't receive any more app emails from ecrenta.
+              You won't receive any more app emails from myrental.
             </p>
           </div>
         )}
@@ -121,7 +121,7 @@ export default function Unsubscribe() {
             <p className="text-sm text-muted-foreground">
               {status === "invalid"
                 ? "This unsubscribe link is invalid or has expired."
-                : "Please try again later or contact support@ecrenta.space."}
+                : "Please try again later or contact support@myrental.space."}
             </p>
           </div>
         )}

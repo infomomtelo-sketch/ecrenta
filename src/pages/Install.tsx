@@ -111,7 +111,7 @@ const Install = () => {
         </div>
 
         <Link to="/" className="inline-block text-sm text-muted-foreground hover:text-foreground transition-colors">
-          ← Back to ecrenta.space
+          ← Back to myrental.space
         </Link>
       </div>
     </div>

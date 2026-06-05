@@ -64,12 +64,12 @@ const benefits = [
 ];
 
 const comparisonData = [
-  { feature: "Monthly Plan", ecrenta: "$9.99/mo", competitor: "$16.58/mo" },
-  { feature: "Annual Plan", ecrenta: "$99/yr", competitor: "$199/yr" },
-  { feature: "Commission Fees", ecrenta: "0%", competitor: "0–10%" },
-  { feature: "Tenant Screening Cost", ecrenta: "Free (we pay)", competitor: "$44.99/tenant" },
-  { feature: "Direct Messaging", ecrenta: "Included", competitor: "Included" },
-  { feature: "Fresno County Focus", ecrenta: "Specialized", competitor: "Generic" },
+  { feature: "Monthly Plan", myrental: "$9.99/mo", competitor: "$16.58/mo" },
+  { feature: "Annual Plan", myrental: "$99/yr", competitor: "$199/yr" },
+  { feature: "Commission Fees", myrental: "0%", competitor: "0–10%" },
+  { feature: "Tenant Screening Cost", myrental: "Free (we pay)", competitor: "$44.99/tenant" },
+  { feature: "Direct Messaging", myrental: "Included", competitor: "Included" },
+  { feature: "Fresno County Focus", myrental: "Specialized", competitor: "Generic" },
 ];
 
 const testimonials = [
@@ -121,7 +121,7 @@ const steps = [
 
 const faqs = [
   {
-    q: "How is ecrenta different from FurnishedFinder?",
+    q: "How is myrental different from FurnishedFinder?",
     a: "We're cheaper ($99/yr vs $199/yr), we cover tenant screening for free (they charge $44.99), and we specialize in Fresno County so your listing reaches the right local audience.",
   },
   {
@@ -254,7 +254,7 @@ export default function ForLandlords() {
             Everything You Need to Rent Furnished
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-muted-foreground">
-            We built ecrenta for landlords who are tired of overpaying platforms that underdeliver.
+            We built myrental for landlords who are tired of overpaying platforms that underdeliver.
           </p>
         </div>
         <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -300,7 +300,7 @@ export default function ForLandlords() {
       <section id="comparison" className="mx-auto max-w-6xl px-4 py-20 scroll-mt-20">
         <div className="text-center">
           <h2 className="font-[var(--font-heading)] text-3xl font-bold sm:text-4xl">
-            ecrenta vs. FurnishedFinder
+            myrental vs. FurnishedFinder
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-muted-foreground">
             Same tenant pool. Better price. Better tools.
@@ -311,12 +311,12 @@ export default function ForLandlords() {
             <thead>
               <tr className="border-b border-border bg-primary/5">
                 <th className="px-5 py-4 text-left font-semibold" />
-                <th className="px-5 py-4 text-center font-[var(--font-heading)] font-bold text-primary text-lg">ecrenta</th>
+                <th className="px-5 py-4 text-center font-[var(--font-heading)] font-bold text-primary text-lg">myrental</th>
                 <th className="px-5 py-4 text-center font-semibold text-muted-foreground">Others</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
-              {comparisonData.map(({ feature, ecrenta: ours, competitor }) => (
+              {comparisonData.map(({ feature, myrental: ours, competitor }) => (
                 <tr key={feature} className="bg-card">
                   <td className="px-5 py-4 font-medium">{feature}</td>
                   <td className="px-5 py-4 text-center font-semibold text-primary">{ours}</td>
@@ -383,7 +383,7 @@ export default function ForLandlords() {
                 <div className="space-y-4">
                   {[
                     { label: "Avg. monthly rent for private room", value: "$1,100" },
-                    { label: "Your ecrenta subscription", value: "−$9.99/mo" },
+                    { label: "Your myrental subscription", value: "−$9.99/mo" },
                     { label: "Commission fees", value: "$0" },
                     { label: "Tenant screening cost", value: "$0" },
                   ].map((row) => (
@@ -410,7 +410,7 @@ export default function ForLandlords() {
       <section className="border-y border-border bg-card">
         <div className="mx-auto max-w-6xl px-4 py-20">
           <h2 className="font-[var(--font-heading)] text-center text-3xl font-bold sm:text-4xl">
-            Landlords Love ecrenta
+            Landlords Love myrental
           </h2>
           <div className="mt-12 grid gap-6 sm:grid-cols-3">
             {testimonials.map((t) => (
@@ -496,7 +496,7 @@ export default function ForLandlords() {
             </div>
           </div>
           <p className="mt-6 text-center text-xs text-muted-foreground">
-            © {new Date().getFullYear()} ecrenta. All rights reserved. Fresno County, California.
+            © {new Date().getFullYear()} myrental. All rights reserved. Fresno County, California.
           </p>
         </div>
       </footer>

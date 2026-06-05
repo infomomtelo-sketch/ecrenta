@@ -124,7 +124,7 @@ export default function AcceptTenantInvite() {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-background p-4">
-      <Helmet><title>Accept Tenant Invite | ecrenta</title></Helmet>
+      <Helmet><title>Accept Tenant Invite | myrental</title></Helmet>
       <Card className="max-w-md w-full">
         <CardHeader className="text-center">
           <div className="mx-auto w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-2">

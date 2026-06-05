@@ -134,15 +134,15 @@ export default function RentCollection() {
   return (
     <div className="min-h-screen bg-background">
       <Helmet>
-        <title>Rent Collection — Your Stripe, Your Money | ecrenta</title>
-        <meta name="description" content="Connect your own Stripe account and collect rent directly. ecrenta never touches your money — no tenant fees, no per-transaction cuts." />
+        <title>Rent Collection — Your Stripe, Your Money | myrental</title>
+        <meta name="description" content="Connect your own Stripe account and collect rent directly. myrental never touches your money — no tenant fees, no per-transaction cuts." />
       </Helmet>
 
       <div className="mx-auto max-w-4xl px-4 py-10">
         <div className="mb-8">
           <h1 className="font-[var(--font-heading)] text-3xl font-extrabold">Rent Collection</h1>
           <p className="mt-2 text-muted-foreground">
-            Your tenants pay <strong className="text-foreground">directly into your Stripe account</strong>. ecrenta never touches your money.
+            Your tenants pay <strong className="text-foreground">directly into your Stripe account</strong>. myrental never touches your money.
           </p>
         </div>
 
@@ -166,7 +166,7 @@ export default function RentCollection() {
               <ul className="mb-5 space-y-2 text-sm">
                 <li className="flex items-start gap-2"><CheckCircle2 className="mt-0.5 h-4 w-4 text-primary shrink-0" /> Tenants pay via card or bank transfer</li>
                 <li className="flex items-start gap-2"><CheckCircle2 className="mt-0.5 h-4 w-4 text-primary shrink-0" /> Funds deposited straight to your bank — usually next business day</li>
-                <li className="flex items-start gap-2"><CheckCircle2 className="mt-0.5 h-4 w-4 text-primary shrink-0" /> Zero per-transaction fees from ecrenta</li>
+                <li className="flex items-start gap-2"><CheckCircle2 className="mt-0.5 h-4 w-4 text-primary shrink-0" /> Zero per-transaction fees from myrental</li>
                 <li className="flex items-start gap-2"><CheckCircle2 className="mt-0.5 h-4 w-4 text-primary shrink-0" /> You own the Stripe account — disconnect anytime</li>
               </ul>
               <Button onClick={startOnboarding} disabled={onboarding} size="lg" className="rounded-xl">

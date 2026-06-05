@@ -2,7 +2,7 @@ import {
   LayoutDashboard, Inbox, ClipboardCheck, Wrench,
   Plus, FileText, LogOut, Sparkles, Users, FileSignature, DollarSign, Target, Shield, Link2, Home,
 } from "lucide-react";
-import { ecrentaLogo } from "@/components/BrandLogo";
+import { myrentalLogo } from "@/components/BrandLogo";
 import { NavLink } from "@/components/NavLink";
 import { useLocation } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
@@ -90,9 +90,9 @@ export function AppSidebar() {
       <SidebarHeader className="px-3 py-4">
         <NavLink to={role === "tenant" ? "/tenant-portal" : "/dashboard"} className="flex items-center gap-2">
           {collapsed ? (
-            <img src={ecrentaLogo} alt="ecrenta" className="h-8 w-auto" />
+            <img src={myrentalLogo} alt="myrental" className="h-8 w-auto" />
           ) : (
-            <img src={ecrentaLogo} alt="ecrenta" className="h-8 w-auto" />
+            <img src={myrentalLogo} alt="myrental" className="h-8 w-auto" />
           )}
         </NavLink>
       </SidebarHeader>

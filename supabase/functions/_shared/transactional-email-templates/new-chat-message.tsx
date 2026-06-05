@@ -5,7 +5,7 @@ import {
 } from 'npm:@react-email/components@0.0.22'
 import type { TemplateEntry } from './registry.ts'
 
-const SITE_NAME = "ecrenta"
+const SITE_NAME = "myrental"
 
 interface NewChatMessageProps {
   recipientName?: string
@@ -22,7 +22,7 @@ const NewChatMessageEmail = ({
   senderRole = 'tenant',
   listingTitle = 'your listing',
   messageText = '',
-  chatUrl = 'https://ecrenta.space/inbox',
+  chatUrl = 'https://myrental.space/inbox',
 }: NewChatMessageProps) => {
   const preview = `${senderName}: ${messageText.slice(0, 80)}`
   const greeting = recipientName ? `Hi ${recipientName},` : 'Hi there,'
@@ -71,7 +71,7 @@ export const template = {
     senderRole: 'tenant',
     listingTitle: 'Sunny 2BR in Mission District',
     messageText: "Hi! Is this place still available? I'd love to schedule a viewing this weekend.",
-    chatUrl: 'https://ecrenta.space/inbox',
+    chatUrl: 'https://myrental.space/inbox',
   },
 } satisfies TemplateEntry
 

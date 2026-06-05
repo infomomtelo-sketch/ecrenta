@@ -69,7 +69,7 @@ export default function GetStarted() {
   return (
     <div className="min-h-screen bg-background">
       <SEOHead
-        title="Get Started — Property Management from $99/mo | ecrenta"
+        title="Get Started — Property Management from $99/mo | myrental"
         description="Submit your property address and get immediate access to professional property management. No commitment guarantee. Flat monthly fee, no commissions."
       />
 
@@ -288,7 +288,7 @@ export default function GetStarted() {
           <Link to="/terms" className="hover:text-foreground">Terms</Link>
           <Link to="/contact" className="hover:text-foreground">Contact</Link>
         </div>
-        <p className="mt-2">© {new Date().getFullYear()} ecrenta. All rights reserved.</p>
+        <p className="mt-2">© {new Date().getFullYear()} myrental. All rights reserved.</p>
       </footer>
     </div>
   );
