@@ -46,7 +46,7 @@ export default function Index() {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Helmet>
-        <title>ecrenta — Self-manage your rentals for $29/mo | Anti-Trap Rental SaaS</title>
+        <title>myrental — Self-manage your rentals for $29/mo | Anti-Trap Rental SaaS</title>
         <meta name="description" content="Software built for self-managing landlords. Unlimited properties, your own Stripe for rent, no tenant fees, one-click data export. $29/mo flat. Cancel anytime." />
       </Helmet>
 
@@ -330,7 +330,7 @@ export default function Index() {
             </div>
           </div>
           <div className="mt-10 border-t border-border pt-6 text-center text-xs text-muted-foreground">
-            <p>© {new Date().getFullYear()} ecrenta. All rights reserved.</p>
+            <p>© {new Date().getFullYear()} myrental. All rights reserved.</p>
           </div>
         </div>
       </footer>

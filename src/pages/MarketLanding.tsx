@@ -23,9 +23,9 @@ export default function MarketLanding() {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
-    "name": `ecrenta – Furnished Rentals in ${market.name}, ${market.state}`,
+    "name": `myrental – Furnished Rentals in ${market.name}, ${market.state}`,
     "description": `Affordable furnished mid-term rentals in ${market.name}, ${market.county} County, ${market.state}. Built for traveling nurses & healthcare professionals.`,
-    "url": `https://ecrenta.space/rentals/${market.slug}`,
+    "url": `https://myrental.space/rentals/${market.slug}`,
     "areaServed": {
       "@type": "City",
       "name": market.name,
@@ -41,7 +41,7 @@ export default function MarketLanding() {
       "addressCountry": "US",
     },
     "priceRange": "$$",
-    "image": "https://ecrenta.space/og-image.png",
+    "image": "https://myrental.space/og-image.png",
   };
 
   return (
@@ -49,7 +49,7 @@ export default function MarketLanding() {
       <SEOHead
         title={`Furnished Rentals in ${market.name}, CA – Mid-Term Housing`}
         description={`Browse affordable furnished rentals in ${market.name}, ${market.county} County. Perfect for traveling nurses. No commissions, free screening.`}
-        canonical={`https://ecrenta.space/rentals/${market.slug}`}
+        canonical={`https://myrental.space/rentals/${market.slug}`}
         jsonLd={jsonLd}
       />
 

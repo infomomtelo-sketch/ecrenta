@@ -1,4 +1,4 @@
-// Stripe product/price IDs for ecrenta service tiers
+// Stripe product/price IDs for myrental service tiers
 export const SERVICE_TIERS = {
   saas: {
     product_id: "prod_Uai1kF1YE9ncgn",

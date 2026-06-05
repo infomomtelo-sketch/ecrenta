@@ -2,11 +2,11 @@ import { ExternalLink, ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const socialLinks = [
-  { name: "Instagram", url: "https://instagram.com/ecrenta", icon: "📸", color: "from-pink-500 to-purple-500" },
-  { name: "Twitter / X", url: "https://x.com/ecrenta", icon: "𝕏", color: "from-sky-400 to-blue-500" },
-  { name: "Facebook", url: "https://facebook.com/ecrenta", icon: "📘", color: "from-blue-500 to-blue-700" },
-  { name: "YouTube", url: "https://youtube.com/@ecrenta", icon: "▶️", color: "from-red-500 to-red-700" },
-  { name: "TikTok", url: "https://tiktok.com/@ecrenta", icon: "🎵", color: "from-gray-700 to-gray-900" },
+  { name: "Instagram", url: "https://instagram.com/myrental", icon: "📸", color: "from-pink-500 to-purple-500" },
+  { name: "Twitter / X", url: "https://x.com/myrental", icon: "𝕏", color: "from-sky-400 to-blue-500" },
+  { name: "Facebook", url: "https://facebook.com/myrental", icon: "📘", color: "from-blue-500 to-blue-700" },
+  { name: "YouTube", url: "https://youtube.com/@myrental", icon: "▶️", color: "from-red-500 to-red-700" },
+  { name: "TikTok", url: "https://tiktok.com/@myrental", icon: "🎵", color: "from-gray-700 to-gray-900" },
 ];
 
 export default function SocialLinks() {
@@ -17,14 +17,14 @@ export default function SocialLinks() {
         className="mb-8 flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
       >
         <ArrowLeft className="h-4 w-4" />
-        Back to ecrenta
+        Back to myrental
       </Link>
 
       <div className="mb-6 flex flex-col items-center gap-3">
         <div className="flex h-20 w-20 items-center justify-center rounded-full bg-primary text-primary-foreground font-heading text-2xl font-bold">
           r8
         </div>
-        <h1 className="font-heading text-2xl font-bold text-foreground">ecrenta</h1>
+        <h1 className="font-heading text-2xl font-bold text-foreground">myrental</h1>
         <p className="text-center text-sm text-muted-foreground max-w-xs">
           Find your next rental. Follow us everywhere.
         </p>
@@ -49,7 +49,7 @@ export default function SocialLinks() {
       </div>
 
       <p className="mt-12 text-xs text-muted-foreground">
-        © {new Date().getFullYear()} ecrenta — All rights reserved
+        © {new Date().getFullYear()} myrental — All rights reserved
       </p>
     </div>
   );

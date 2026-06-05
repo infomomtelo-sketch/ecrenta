@@ -9,8 +9,8 @@ interface SEOHeadProps {
 }
 
 export default function SEOHead({ title, description, canonical, type = "website", jsonLd }: SEOHeadProps) {
-  const fullTitle = title.includes("ecrenta") ? title : `${title} | ecrenta`;
-  const url = canonical || `https://ecrenta.space${window.location.pathname}`;
+  const fullTitle = title.includes("myrental") ? title : `${title} | myrental`;
+  const url = canonical || `https://myrental.space${window.location.pathname}`;
 
   return (
     <Helmet>

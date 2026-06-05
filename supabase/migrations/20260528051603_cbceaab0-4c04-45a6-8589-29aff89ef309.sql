@@ -1,1 +1,1 @@
-ALTER TABLE public.blog_posts ALTER COLUMN author_name SET DEFAULT 'ecrenta Team';
+ALTER TABLE public.blog_posts ALTER COLUMN author_name SET DEFAULT 'myrental Team';

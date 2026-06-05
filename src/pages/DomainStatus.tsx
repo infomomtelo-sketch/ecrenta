@@ -7,7 +7,7 @@ import { CheckCircle2, XCircle, Loader2, RefreshCw, Globe, Lock, AlertCircle } f
 import SEOHead from "@/components/SEOHead";
 
 const LOVABLE_IP = "185.158.133.1";
-const DOMAINS = ["ecrenta.space", "www.ecrenta.space"] as const;
+const DOMAINS = ["myrental.space", "www.myrental.space"] as const;
 
 type Check = {
   domain: string;
@@ -71,14 +71,14 @@ export default function DomainStatus() {
   return (
     <div className="min-h-screen bg-background">
       <SEOHead
-        title="Domain Status — ecrenta.space"
-        description="Live DNS and TLS verification status for the ecrenta.space custom domain."
+        title="Domain Status — myrental.space"
+        description="Live DNS and TLS verification status for the myrental.space custom domain."
       />
       <div className="container max-w-3xl mx-auto px-4 py-12">
         <div className="flex items-center justify-between mb-8">
           <div>
             <h1 className="text-3xl font-bold tracking-tight">Custom Domain Status</h1>
-            <p className="text-muted-foreground mt-1">Live DNS & TLS checks for ecrenta.space</p>
+            <p className="text-muted-foreground mt-1">Live DNS & TLS checks for myrental.space</p>
           </div>
           <Button onClick={runChecks} disabled={anyChecking} variant="outline" size="sm">
             <RefreshCw className={`h-4 w-4 ${anyChecking ? "animate-spin" : ""}`} />

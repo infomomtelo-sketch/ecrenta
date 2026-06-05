@@ -87,7 +87,7 @@ export default function CapturePage() {
 
   return (
     <>
-      <SEOHead title={`${page.title} — ecrenta`} description={page.description || "Get in touch"} />
+      <SEOHead title={`${page.title} — myrental`} description={page.description || "Get in touch"} />
       <div className="min-h-screen bg-background">
         {/* Simple header */}
         <header className="border-b border-border bg-card/95 backdrop-blur px-4 py-3">

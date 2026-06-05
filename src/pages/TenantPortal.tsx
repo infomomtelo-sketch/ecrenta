@@ -85,7 +85,7 @@ export default function TenantPortal() {
 
   return (
     <div className="p-4 md:p-6 max-w-4xl mx-auto space-y-6">
-      <Helmet><title>My Rental | ecrenta</title></Helmet>
+      <Helmet><title>My Rental | myrental</title></Helmet>
 
       <div>
         <h1 className="text-2xl font-bold font-heading">Welcome, {tenant.full_name}</h1>

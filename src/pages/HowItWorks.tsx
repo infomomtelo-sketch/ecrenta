@@ -8,7 +8,7 @@ const steps = [
   {
     step: 1,
     title: "Submit Your Property",
-    description: "Getting started with ecrenta is as easy as typing out your address and hitting enter. You'll get immediate access to your property dashboard where you can get a feel for our platform. We don't charge you a dime to see our platform. We want you to get to know us first!",
+    description: "Getting started with myrental is as easy as typing out your address and hitting enter. You'll get immediate access to your property dashboard where you can get a feel for our platform. We don't charge you a dime to see our platform. We want you to get to know us first!",
     cta: { text: "Get Started", href: "/get-started" },
     side: "left" as const,
   },
@@ -48,7 +48,7 @@ export default function HowItWorks() {
   return (
     <div className="min-h-screen bg-background">
       <SEOHead
-        title="How Property Management Works — ecrenta"
+        title="How Property Management Works — myrental"
         description="Submit your property, get a concierge team, find a tenant, and we handle the rest. 4 simple steps to stress-free property management in Fresno County."
       />
 
@@ -155,7 +155,7 @@ export default function HowItWorks() {
           <Link to="/terms" className="hover:text-foreground">Terms</Link>
           <Link to="/contact" className="hover:text-foreground">Contact</Link>
         </div>
-        <p className="mt-2">© {new Date().getFullYear()} ecrenta. All rights reserved.</p>
+        <p className="mt-2">© {new Date().getFullYear()} myrental. All rights reserved.</p>
       </footer>
     </div>
   );

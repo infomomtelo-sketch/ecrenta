@@ -23,7 +23,7 @@ const steps = [
 export default function ListWithUs() {
   return (
     <>
-      <SEOHead title="List Your Property — ecrenta" description="List your furnished rental on ecrenta and earn 20-40% more. Pre-screened travel nurses, fast leasing, and powerful management tools." />
+      <SEOHead title="List Your Property — myrental" description="List your furnished rental on myrental and earn 20-40% more. Pre-screened travel nurses, fast leasing, and powerful management tools." />
       <div className="min-h-screen bg-background">
         {/* Nav */}
         <header className="sticky top-0 z-50 border-b border-border bg-card/95 backdrop-blur px-4 py-3">
@@ -45,7 +45,7 @@ export default function ListWithUs() {
               Your Property. <span className="text-primary">Premium Tenants.</span> More Income.
             </h1>
             <p className="text-lg text-muted-foreground max-w-xl mx-auto">
-              List your furnished rental on ecrenta and connect with pre-screened travel nurses, healthcare professionals, and relocating tenants in the Central Valley.
+              List your furnished rental on myrental and connect with pre-screened travel nurses, healthcare professionals, and relocating tenants in the Central Valley.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <Link to="/get-started">
@@ -76,7 +76,7 @@ export default function ListWithUs() {
         <section className="py-16 px-4">
           <div className="mx-auto max-w-4xl space-y-10">
             <div className="text-center">
-              <h2 className="text-3xl font-bold text-foreground">Why Landlords Choose ecrenta</h2>
+              <h2 className="text-3xl font-bold text-foreground">Why Landlords Choose myrental</h2>
             </div>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {benefits.map((b, i) => (
@@ -116,7 +116,7 @@ export default function ListWithUs() {
             <h2 className="text-2xl font-bold text-foreground text-center">What's Included</h2>
             <div className="grid sm:grid-cols-2 gap-3">
               {[
-                "Listing on ecrenta marketplace",
+                "Listing on myrental marketplace",
                 "AI-powered maintenance triage",
                 "Digital lease & e-signatures",
                 "Tenant messaging inbox",
@@ -147,7 +147,7 @@ export default function ListWithUs() {
 
         {/* Footer */}
         <footer className="border-t border-border py-8 px-4 text-center text-sm text-muted-foreground">
-          <p>© {new Date().getFullYear()} ecrenta. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} myrental. All rights reserved.</p>
         </footer>
       </div>
     </>

@@ -53,13 +53,13 @@ export default function Privacy() {
 
           <section>
             <h2 className="font-[var(--font-heading)] text-lg font-semibold text-foreground mb-2">7. Contact Us</h2>
-            <p>For privacy questions, contact us at <a href="mailto:privacy@ecrenta.space" className="text-primary hover:underline">privacy@ecrenta.space</a></p>
+            <p>For privacy questions, contact us at <a href="mailto:privacy@myrental.space" className="text-primary hover:underline">privacy@myrental.space</a></p>
           </section>
         </div>
       </main>
 
       <footer className="border-t border-border py-6 text-center text-xs text-muted-foreground">
-        © {new Date().getFullYear()} ecrenta. All rights reserved.
+        © {new Date().getFullYear()} myrental. All rights reserved.
       </footer>
     </div>
   );

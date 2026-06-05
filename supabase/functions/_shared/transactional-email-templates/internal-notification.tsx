@@ -15,7 +15,7 @@ interface InternalNotificationProps {
 
 const InternalNotificationEmail = ({
   eventType = 'Notification',
-  title = 'New activity on ecrenta',
+  title = 'New activity on myrental',
   summaryLines = [],
   message,
   actionUrl,
@@ -46,7 +46,7 @@ const InternalNotificationEmail = ({
           </Text>
         )}
         <Hr style={hr} />
-        <Text style={footer}>ecrenta · Internal notification</Text>
+        <Text style={footer}>myrental · Internal notification</Text>
       </Container>
     </Body>
   </Html>
@@ -55,14 +55,14 @@ const InternalNotificationEmail = ({
 export const template = {
   component: InternalNotificationEmail,
   subject: (d: Record<string, any>) =>
-    `[ecrenta] ${d.eventType || 'Notification'}: ${d.title || 'New activity'}`,
+    `[myrental] ${d.eventType || 'Notification'}: ${d.title || 'New activity'}`,
   displayName: 'Internal notification',
   previewData: {
     eventType: 'Contact form',
     title: 'New message from Jane Doe',
     summaryLines: ['From: jane@example.com', 'Phone: —'],
     message: 'Hi, I have a question about the apartment on Main St.',
-    actionUrl: 'https://ecrenta.space/admin',
+    actionUrl: 'https://myrental.space/admin',
     actionLabel: 'Open admin',
   },
 } satisfies TemplateEntry

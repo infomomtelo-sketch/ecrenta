@@ -7,7 +7,7 @@ import SEOHead from "@/components/SEOHead";
 export default function About() {
   return (
     <div className="min-h-screen bg-background">
-      <SEOHead title="About ecrenta — Affordable Property Management in Fresno County" description="ecrenta is a full-service property management platform connecting Fresno County landlords with qualified tenants. Tenant placement from $499, management from $99/mo." />
+      <SEOHead title="About myrental — Affordable Property Management in Fresno County" description="myrental is a full-service property management platform connecting Fresno County landlords with qualified tenants. Tenant placement from $499, management from $99/mo." />
       <header className="sticky top-0 z-50 border-b border-border bg-card/90 backdrop-blur-md">
         <div className="mx-auto flex max-w-6xl items-center gap-3 px-4 py-3">
           <Link to="/" className="rounded-full p-2 hover:bg-secondary transition-colors">
@@ -25,7 +25,7 @@ export default function About() {
             Full-Service Property Management,<br className="hidden sm:block" /> Half the Price
           </h1>
           <p className="mx-auto mt-4 max-w-2xl text-lg text-muted-foreground">
-            ecrenta is a two-sided rental platform built for Fresno County. Landlords get professional property management at a fraction of Bay Area prices. Tenants browse, apply, and get screened — completely free.
+            myrental is a two-sided rental platform built for Fresno County. Landlords get professional property management at a fraction of Bay Area prices. Tenants browse, apply, and get screened — completely free.
           </p>
         </div>
 
@@ -55,7 +55,7 @@ export default function About() {
             </div>
           </div>
           <div className="rounded-2xl border border-border bg-card/50 p-6">
-            <h3 className="font-[var(--font-heading)] font-semibold mb-3">Why landlords choose ecrenta</h3>
+            <h3 className="font-[var(--font-heading)] font-semibold mb-3">Why landlords choose myrental</h3>
             <ul className="space-y-2">
               {[
                 "No commissions on any rental — ever",
@@ -81,7 +81,7 @@ export default function About() {
           <div className="rounded-2xl border border-border bg-card p-8">
             <p className="text-3xl font-extrabold text-primary mb-2">100% Free</p>
             <p className="text-muted-foreground leading-relaxed">
-              Tenants never pay a dime to use ecrenta. Browse all available rentals in Fresno, Clovis, Madera, Sanger, Selma, and Reedley. Apply online. Get screened for free — no $45 application fees. Message landlords directly through our built-in chat.
+              Tenants never pay a dime to use myrental. Browse all available rentals in Fresno, Clovis, Madera, Sanger, Selma, and Reedley. Apply online. Get screened for free — no $45 application fees. Message landlords directly through our built-in chat.
             </p>
             <ul className="mt-4 space-y-2">
               {[
@@ -106,7 +106,7 @@ export default function About() {
           </h2>
           <div className="rounded-2xl border border-border bg-card p-8">
             <p className="text-muted-foreground leading-relaxed">
-              Fresno County has a growing rental market but has been underserved by tech-forward property management. National platforms charge premium prices designed for San Francisco and LA. ecrenta was built from the ground up for the Central Valley — serving Fresno, Clovis, Madera, Sanger, Selma, Reedley, and surrounding communities. We combine local market expertise with modern tools like AI maintenance triage, digital inspections, and automated lease management.
+              Fresno County has a growing rental market but has been underserved by tech-forward property management. National platforms charge premium prices designed for San Francisco and LA. myrental was built from the ground up for the Central Valley — serving Fresno, Clovis, Madera, Sanger, Selma, Reedley, and surrounding communities. We combine local market expertise with modern tools like AI maintenance triage, digital inspections, and automated lease management.
             </p>
           </div>
         </div>
@@ -133,7 +133,7 @@ export default function About() {
           <Link to="/terms" className="hover:text-foreground">Terms</Link>
           <Link to="/contact" className="hover:text-foreground">Contact</Link>
         </div>
-        <p className="mt-2">© {new Date().getFullYear()} ecrenta. All rights reserved.</p>
+        <p className="mt-2">© {new Date().getFullYear()} myrental. All rights reserved.</p>
       </footer>
     </div>
   );
