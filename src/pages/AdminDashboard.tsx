@@ -109,6 +109,18 @@ export default function AdminDashboard() {
     }
   };
 
+  const toggleAccess = async (userId: string, granted: boolean) => {
+    const { error } = await (supabase.from("profiles") as any)
+      .update({ access_granted: !granted })
+      .eq("user_id", userId);
+    if (error) {
+      toast.error("Failed to update access");
+    } else {
+      toast.success(granted ? "Access revoked" : "Access granted");
+      fetchAll();
+    }
+  };
+
   if (loading) {
     return (
       <div className="flex min-h-[60vh] items-center justify-center">
