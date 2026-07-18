@@ -64,12 +64,21 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-background pb-20">
+    <div className="relative min-h-screen bg-background pb-20 overflow-hidden">
+      {/* Ambient drifting orbs */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="absolute -top-32 -left-20 h-72 w-72 rounded-full bg-primary/20 blur-3xl animate-drift" />
+        <div className="absolute top-40 -right-24 h-80 w-80 rounded-full bg-accent/20 blur-3xl animate-drift" style={{ animationDelay: "-6s" }} />
+        <div className="absolute bottom-20 left-1/3 h-64 w-64 rounded-full bg-primary/10 blur-3xl animate-float" />
+      </div>
+
       {/* Header */}
-      <header className="border-b border-border bg-card px-4 pb-4 pt-6">
+      <header className="relative border-b border-border/50 bg-card/40 backdrop-blur-xl px-4 pb-4 pt-6">
         <p className="text-sm text-muted-foreground">Welcome back</p>
-        <h1 className="mt-1 text-2xl font-bold text-foreground">Dashboard</h1>
+        <h1 className="mt-1 text-3xl font-bold font-display tracking-tight bg-gradient-to-r from-foreground via-primary to-accent bg-clip-text text-transparent">Dashboard</h1>
       </header>
+
+
 
       <main className="px-4 py-4 space-y-4">
         {/* Subscription status banner */}
