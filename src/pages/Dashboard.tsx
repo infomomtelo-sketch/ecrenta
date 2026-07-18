@@ -303,16 +303,18 @@ function StatCard({ icon, label, value, sub, highlight }: {
   highlight?: boolean;
 }) {
   return (
-    <div className={`rounded-xl border p-4 ${highlight ? "border-primary/30 bg-primary/5" : "border-border bg-card"}`}>
-      <div className="flex items-center gap-2">
+    <div className={`group relative overflow-hidden rounded-2xl border p-4 transition-all hover:-translate-y-0.5 hover:shadow-glow ${highlight ? "border-primary/40 bg-gradient-to-br from-primary/15 to-primary/5" : "border-border/60 bg-card/60 backdrop-blur-sm"}`}>
+      <div className="absolute -right-6 -top-6 h-20 w-20 rounded-full bg-primary/10 blur-2xl opacity-0 transition-opacity group-hover:opacity-100" />
+      <div className="relative flex items-center gap-2">
         {icon}
         <span className="text-xs text-muted-foreground">{label}</span>
       </div>
-      <p className="mt-2 text-2xl font-bold text-foreground">{value}</p>
-      {sub && <p className="mt-0.5 text-[11px] text-muted-foreground">{sub}</p>}
+      <p className="relative mt-2 text-2xl font-bold font-display text-foreground">{value}</p>
+      {sub && <p className="relative mt-0.5 text-[11px] text-muted-foreground">{sub}</p>}
     </div>
   );
 }
+
 
 function QuickAction({ to, icon, label, badge }: {
   to: string;
