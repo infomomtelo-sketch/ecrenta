@@ -161,12 +161,14 @@ export default function Dashboard() {
         </div>
 
         {/* Revenue banner */}
-        <div className="rounded-xl bg-primary/10 border border-primary/20 p-4">
-          <p className="text-xs font-medium text-primary">Potential Monthly Revenue</p>
-          <p className="mt-1 text-2xl font-bold text-foreground">
+        <div className="group relative overflow-hidden rounded-2xl border border-primary/30 bg-gradient-to-br from-primary/20 via-primary/5 to-accent/10 p-4 shadow-glow transition-transform hover:-translate-y-0.5">
+          <div className="absolute -right-8 -top-8 h-32 w-32 rounded-full bg-primary/30 blur-2xl animate-pulse-glow" />
+          <p className="relative text-xs font-medium text-primary uppercase tracking-wider">Potential Monthly Revenue</p>
+          <p className="relative mt-1 text-3xl font-bold font-display text-foreground">
             ${totalRevenue.toLocaleString()}<span className="text-sm font-normal text-muted-foreground">/mo</span>
           </p>
         </div>
+
 
         {/* Quick actions */}
         <div>
