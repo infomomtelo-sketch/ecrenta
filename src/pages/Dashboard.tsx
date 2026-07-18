@@ -64,14 +64,23 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-background pb-20">
+    <div className="relative min-h-screen bg-background pb-20 overflow-hidden">
+      {/* Ambient drifting orbs */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="absolute -top-32 -left-20 h-72 w-72 rounded-full bg-primary/20 blur-3xl animate-drift" />
+        <div className="absolute top-40 -right-24 h-80 w-80 rounded-full bg-accent/20 blur-3xl animate-drift" style={{ animationDelay: "-6s" }} />
+        <div className="absolute bottom-20 left-1/3 h-64 w-64 rounded-full bg-primary/10 blur-3xl animate-float" />
+      </div>
+
       {/* Header */}
-      <header className="border-b border-border bg-card px-4 pb-4 pt-6">
+      <header className="relative border-b border-border/50 bg-card/40 backdrop-blur-xl px-4 pb-4 pt-6">
         <p className="text-sm text-muted-foreground">Welcome back</p>
-        <h1 className="mt-1 text-2xl font-bold text-foreground">Dashboard</h1>
+        <h1 className="mt-1 text-3xl font-bold font-display tracking-tight bg-gradient-to-r from-foreground via-primary to-accent bg-clip-text text-transparent">Dashboard</h1>
       </header>
 
-      <main className="px-4 py-4 space-y-4">
+
+
+      <main className="relative px-4 py-4 space-y-4">
         {/* Subscription status banner */}
         {role === "landlord" && (
           <div className={`rounded-xl border p-4 ${
@@ -152,12 +161,14 @@ export default function Dashboard() {
         </div>
 
         {/* Revenue banner */}
-        <div className="rounded-xl bg-primary/10 border border-primary/20 p-4">
-          <p className="text-xs font-medium text-primary">Potential Monthly Revenue</p>
-          <p className="mt-1 text-2xl font-bold text-foreground">
+        <div className="group relative overflow-hidden rounded-2xl border border-primary/30 bg-gradient-to-br from-primary/20 via-primary/5 to-accent/10 p-4 shadow-glow transition-transform hover:-translate-y-0.5">
+          <div className="absolute -right-8 -top-8 h-32 w-32 rounded-full bg-primary/30 blur-2xl animate-pulse-glow" />
+          <p className="relative text-xs font-medium text-primary uppercase tracking-wider">Potential Monthly Revenue</p>
+          <p className="relative mt-1 text-3xl font-bold font-display text-foreground">
             ${totalRevenue.toLocaleString()}<span className="text-sm font-normal text-muted-foreground">/mo</span>
           </p>
         </div>
+
 
         {/* Quick actions */}
         <div>
@@ -292,16 +303,18 @@ function StatCard({ icon, label, value, sub, highlight }: {
   highlight?: boolean;
 }) {
   return (
-    <div className={`rounded-xl border p-4 ${highlight ? "border-primary/30 bg-primary/5" : "border-border bg-card"}`}>
-      <div className="flex items-center gap-2">
+    <div className={`group relative overflow-hidden rounded-2xl border p-4 transition-all hover:-translate-y-0.5 hover:shadow-glow ${highlight ? "border-primary/40 bg-gradient-to-br from-primary/15 to-primary/5" : "border-border/60 bg-card/60 backdrop-blur-sm"}`}>
+      <div className="absolute -right-6 -top-6 h-20 w-20 rounded-full bg-primary/10 blur-2xl opacity-0 transition-opacity group-hover:opacity-100" />
+      <div className="relative flex items-center gap-2">
         {icon}
         <span className="text-xs text-muted-foreground">{label}</span>
       </div>
-      <p className="mt-2 text-2xl font-bold text-foreground">{value}</p>
-      {sub && <p className="mt-0.5 text-[11px] text-muted-foreground">{sub}</p>}
+      <p className="relative mt-2 text-2xl font-bold font-display text-foreground">{value}</p>
+      {sub && <p className="relative mt-0.5 text-[11px] text-muted-foreground">{sub}</p>}
     </div>
   );
 }
+
 
 function QuickAction({ to, icon, label, badge }: {
   to: string;
@@ -312,16 +325,18 @@ function QuickAction({ to, icon, label, badge }: {
   return (
     <Link
       to={to}
-      className="flex items-center gap-3 rounded-xl bg-card border border-border px-4 py-3 transition-colors hover:bg-secondary/50"
+      className="group relative flex items-center gap-3 overflow-hidden rounded-2xl border border-border/60 bg-card/60 backdrop-blur-sm px-4 py-3 transition-all hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-glow"
     >
-      <span className="text-muted-foreground">{icon}</span>
+      <span className="absolute inset-y-0 left-0 w-1 bg-gradient-to-b from-primary to-accent scale-y-0 transition-transform group-hover:scale-y-100" />
+      <span className="text-primary/80 transition-transform group-hover:scale-110">{icon}</span>
       <span className="flex-1 text-sm font-medium text-foreground">{label}</span>
       {badge !== undefined && (
-        <span className="flex h-5 min-w-[20px] items-center justify-center rounded-full bg-primary px-1.5 text-[11px] font-bold text-primary-foreground">
+        <span className="flex h-5 min-w-[20px] items-center justify-center rounded-full bg-primary px-1.5 text-[11px] font-bold text-primary-foreground shadow-glow animate-pulse-glow">
           {badge}
         </span>
       )}
-      <ChevronRight className="h-4 w-4 text-muted-foreground" />
+      <ChevronRight className="h-4 w-4 text-muted-foreground transition-transform group-hover:translate-x-0.5" />
     </Link>
   );
 }
+
