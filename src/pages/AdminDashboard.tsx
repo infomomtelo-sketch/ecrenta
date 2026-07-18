@@ -16,6 +16,7 @@ interface UserRow {
   avatar_url: string | null;
   created_at: string;
   role?: string;
+  access_granted?: boolean;
 }
 
 interface ListingRow {
