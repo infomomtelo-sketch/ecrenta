@@ -18,6 +18,7 @@ import SelectRole from "./pages/SelectRole";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import NotFound from "./pages/NotFound";
+import AccessPending from "./pages/AccessPending";
 import ImportListing from "./pages/ImportListing";
 import SocialLinks from "./pages/SocialLinks";
 import Pricing from "./pages/Pricing";
