@@ -68,7 +68,7 @@ export default function AdminDashboard() {
   async function fetchAll() {
     setLoading(true);
     const [profilesRes, listingsRes, convsRes, inspRes, maintRes, rolesRes] = await Promise.all([
-      supabase.from("profiles").select("user_id, display_name, avatar_url, created_at"),
+      supabase.from("profiles").select("user_id, display_name, avatar_url, created_at, access_granted"),
       supabase.from("listings").select("id, title, address, price, available, created_at, user_id").order("created_at", { ascending: false }),
       supabase.from("conversations").select("id", { count: "exact", head: true }),
       supabase.from("inspections").select("id", { count: "exact", head: true }),
