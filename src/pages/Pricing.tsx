@@ -171,13 +171,19 @@ export default function Pricing() {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="relative min-h-screen bg-background overflow-hidden">
       <SEOHead
         title="Pricing – Property Management from $99/mo | myrental"
         description="Professional property management starting at $99/mo — 34% cheaper than Ziprent. Tenant placement for $499 one-time. Free tenant screening. No commissions."
       />
 
-      <header className="sticky top-0 z-50 border-b border-border bg-card/90 backdrop-blur-md">
+      {/* Ambient orbs */}
+      <div className="pointer-events-none absolute inset-0 -z-10" style={{ background: 'var(--gradient-hero)' }} />
+      <div className="orb animate-drift -top-32 -left-24 h-96 w-96 bg-primary/30" />
+      <div className="orb animate-drift -top-10 right-0 h-[28rem] w-[28rem] bg-accent/25" style={{ animationDelay: '-6s' }} />
+      <div className="orb animate-float-slow bottom-40 left-1/3 h-80 w-80 bg-primary-glow/20" />
+
+      <header className="sticky top-0 z-50 border-b border-border/60 glass">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
           <Link to="/" className="flex items-center gap-2.5">
             <BrandLogo size="md" />
@@ -192,15 +198,20 @@ export default function Pricing() {
         </div>
       </header>
 
-      <main className="mx-auto max-w-6xl px-4 py-16">
-        <div className="text-center">
-          <div className="mx-auto mb-4 inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5 text-xs font-semibold text-primary">
-            🎉 First month free on every plan
+      <main className="relative mx-auto max-w-6xl px-4 py-16">
+        <div className="text-center animate-fade-up">
+          <div className="mx-auto mb-4 inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5 text-xs font-semibold text-primary backdrop-blur">
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-60" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
+            </span>
+            First month free on every plan
           </div>
-          <h1 className="font-[var(--font-heading)] text-4xl font-extrabold sm:text-5xl">
-            Professional Management.<br />Fresno Prices.
+          <h1 className="font-[var(--font-heading)] text-4xl font-extrabold sm:text-6xl leading-[1.05]">
+            Professional Management.<br />
+            <span className="text-gradient">Fresno Prices.</span>
           </h1>
-          <p className="mx-auto mt-4 max-w-2xl text-lg text-muted-foreground">
+          <p className="mx-auto mt-5 max-w-2xl text-lg text-muted-foreground">
             Same full-service property management as the big guys — professional photography, tenant screening, rent collection, maintenance, guarantees — at a fraction of the cost. Built for Fresno County landlords.
           </p>
         </div>
