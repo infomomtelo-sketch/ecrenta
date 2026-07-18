@@ -130,7 +130,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   return (
     <AuthContext.Provider value={{
       user, session, loading, role, profile,
-      accessGranted: profile?.access_granted === true,
+      accessGranted: (profile as any)?.access_granted === true,
       subscribed, subscriptionTier, subscriptionEnd, checkingSubscription,
       refreshSubscription: checkSubscription,
       signOut,
