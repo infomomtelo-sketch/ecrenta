@@ -367,14 +367,20 @@ export default function Pricing() {
         </div>
 
         {/* CTA */}
-        <div className="mx-auto mt-16 max-w-lg text-center">
-          <h2 className="font-[var(--font-heading)] text-2xl font-bold">Ready to stop overpaying?</h2>
-          <p className="mt-2 text-muted-foreground">Join Fresno County landlords saving thousands with myrental.</p>
-          <Button size="lg" className="mt-6 rounded-xl px-8 py-6" asChild>
-            <Link to={user ? "/post-property" : "/auth"}>
-              Get Started <ArrowRight className="ml-2 h-4 w-4" />
-            </Link>
-          </Button>
+        <div className="mx-auto mt-20 max-w-2xl">
+          <div className="relative overflow-hidden rounded-3xl border border-primary/30 bg-gradient-to-br from-primary/10 via-accent/5 to-primary/10 p-10 text-center">
+            <div className="orb animate-drift -top-16 -left-16 h-64 w-64 bg-primary/40" />
+            <div className="orb animate-drift bottom-0 right-0 h-64 w-64 bg-accent/40" style={{ animationDelay: '-4s' }} />
+            <div className="relative">
+              <h2 className="font-[var(--font-heading)] text-3xl font-bold">Ready to stop <span className="text-gradient">overpaying?</span></h2>
+              <p className="mt-3 text-muted-foreground">Join Fresno County landlords saving thousands with myrental.</p>
+              <Button size="lg" className="mt-6 rounded-xl px-8 py-6 animate-pulse-glow" asChild>
+                <Link to={user ? "/post-property" : "/auth"}>
+                  Get Started <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
+            </div>
+          </div>
         </div>
       </main>
 
