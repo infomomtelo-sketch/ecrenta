@@ -34,7 +34,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const fetchUserData = (userId: string) => {
     return Promise.all([
       supabase.from("user_roles").select("role").eq("user_id", userId),
-      supabase.from("profiles").select("display_name, avatar_url").eq("user_id", userId).maybeSingle(),
+      supabase.from("profiles").select("display_name, avatar_url, access_granted").eq("user_id", userId).maybeSingle(),
     ]).then(([{ data: roles }, { data: prof }]) => {
       if (roles && roles.length > 0) {
         const hasLandlord = roles.some((r) => r.role === "landlord");
