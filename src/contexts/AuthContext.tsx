@@ -8,7 +8,8 @@ interface AuthContextType {
   session: Session | null;
   loading: boolean;
   role: "landlord" | "tenant" | null;
-  profile: { display_name: string | null; avatar_url: string | null } | null;
+  profile: { display_name: string | null; avatar_url: string | null; access_granted?: boolean } | null;
+  accessGranted: boolean;
   subscribed: boolean;
   subscriptionTier: SubscriptionTier;
   subscriptionEnd: string | null;
