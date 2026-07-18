@@ -208,6 +208,14 @@ export default function AdminDashboard() {
                         <Badge variant={u.role === "admin" ? "default" : u.role === "landlord" ? "secondary" : "outline"} className="text-[10px]">
                           {u.role || "none"}
                         </Badge>
+                        <Button
+                          size="sm"
+                          variant={u.access_granted ? "outline" : "default"}
+                          className="text-[10px] h-7 px-2"
+                          onClick={() => toggleAccess(u.user_id, !!u.access_granted)}
+                        >
+                          {u.access_granted ? "Revoke" : "Grant"}
+                        </Button>
                       </div>
                     ))}
                   </div>
