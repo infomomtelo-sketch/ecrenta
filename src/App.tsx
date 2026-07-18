@@ -18,6 +18,7 @@ import SelectRole from "./pages/SelectRole";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import NotFound from "./pages/NotFound";
+import AccessPending from "./pages/AccessPending";
 import ImportListing from "./pages/ImportListing";
 import SocialLinks from "./pages/SocialLinks";
 import Pricing from "./pages/Pricing";
@@ -126,6 +127,7 @@ const App = () => (
               <Route path="/listing/:id" element={<ListingDetail />} />
               <Route path="/auth" element={<Auth />} />
               <Route path="/socials" element={<SocialLinks />} />
+              <Route path="/access-pending" element={<AccessPending />} />
               <Route path="/forgot-password" element={<ForgotPassword />} />
               <Route path="/reset-password" element={<ResetPassword />} />
               <Route path="/pricing" element={<Pricing />} />

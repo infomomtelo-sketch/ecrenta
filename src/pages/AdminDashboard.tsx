@@ -16,6 +16,7 @@ interface UserRow {
   avatar_url: string | null;
   created_at: string;
   role?: string;
+  access_granted?: boolean;
 }
 
 interface ListingRow {
@@ -67,7 +68,7 @@ export default function AdminDashboard() {
   async function fetchAll() {
     setLoading(true);
     const [profilesRes, listingsRes, convsRes, inspRes, maintRes, rolesRes] = await Promise.all([
-      supabase.from("profiles").select("user_id, display_name, avatar_url, created_at"),
+      supabase.from("profiles").select("user_id, display_name, avatar_url, created_at, access_granted"),
       supabase.from("listings").select("id, title, address, price, available, created_at, user_id").order("created_at", { ascending: false }),
       supabase.from("conversations").select("id", { count: "exact", head: true }),
       supabase.from("inspections").select("id", { count: "exact", head: true }),
@@ -104,6 +105,18 @@ export default function AdminDashboard() {
       toast.error("Failed to update listing");
     } else {
       toast.success(available ? "Listing deactivated" : "Listing activated");
+      fetchAll();
+    }
+  };
+
+  const toggleAccess = async (userId: string, granted: boolean) => {
+    const { error } = await (supabase.from("profiles") as any)
+      .update({ access_granted: !granted })
+      .eq("user_id", userId);
+    if (error) {
+      toast.error("Failed to update access");
+    } else {
+      toast.success(granted ? "Access revoked" : "Access granted");
       fetchAll();
     }
   };
@@ -195,6 +208,14 @@ export default function AdminDashboard() {
                         <Badge variant={u.role === "admin" ? "default" : u.role === "landlord" ? "secondary" : "outline"} className="text-[10px]">
                           {u.role || "none"}
                         </Badge>
+                        <Button
+                          size="sm"
+                          variant={u.access_granted ? "outline" : "default"}
+                          className="text-[10px] h-7 px-2"
+                          onClick={() => toggleAccess(u.user_id, !!u.access_granted)}
+                        >
+                          {u.access_granted ? "Revoke" : "Grant"}
+                        </Button>
                       </div>
                     ))}
                   </div>
