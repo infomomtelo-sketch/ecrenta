@@ -325,16 +325,18 @@ function QuickAction({ to, icon, label, badge }: {
   return (
     <Link
       to={to}
-      className="flex items-center gap-3 rounded-xl bg-card border border-border px-4 py-3 transition-colors hover:bg-secondary/50"
+      className="group relative flex items-center gap-3 overflow-hidden rounded-2xl border border-border/60 bg-card/60 backdrop-blur-sm px-4 py-3 transition-all hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-glow"
     >
-      <span className="text-muted-foreground">{icon}</span>
+      <span className="absolute inset-y-0 left-0 w-1 bg-gradient-to-b from-primary to-accent scale-y-0 transition-transform group-hover:scale-y-100" />
+      <span className="text-primary/80 transition-transform group-hover:scale-110">{icon}</span>
       <span className="flex-1 text-sm font-medium text-foreground">{label}</span>
       {badge !== undefined && (
-        <span className="flex h-5 min-w-[20px] items-center justify-center rounded-full bg-primary px-1.5 text-[11px] font-bold text-primary-foreground">
+        <span className="flex h-5 min-w-[20px] items-center justify-center rounded-full bg-primary px-1.5 text-[11px] font-bold text-primary-foreground shadow-glow animate-pulse-glow">
           {badge}
         </span>
       )}
-      <ChevronRight className="h-4 w-4 text-muted-foreground" />
+      <ChevronRight className="h-4 w-4 text-muted-foreground transition-transform group-hover:translate-x-0.5" />
     </Link>
   );
 }
+
