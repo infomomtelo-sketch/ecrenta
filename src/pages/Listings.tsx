@@ -56,13 +56,18 @@ export default function Listings() {
   const activeFilterCount = (priceRange > 0 ? 1 : 0) + (minBeds > 0 ? 1 : 0) + (selectedArea ? 1 : 0);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="relative min-h-screen bg-background overflow-hidden">
+      <div aria-hidden className="pointer-events-none fixed inset-0 -z-10">
+        <div className="absolute -top-32 -left-20 h-72 w-72 rounded-full bg-primary/15 blur-3xl animate-drift" />
+        <div className="absolute top-1/3 -right-24 h-80 w-80 rounded-full bg-accent/15 blur-3xl animate-drift" style={{ animationDelay: "-8s" }} />
+      </div>
       <SEOHead
         title="Browse Furnished Rentals in Fresno County"
         description="Search affordable furnished mid-term rentals in Fresno, Clovis, Madera and more. Filter by price, bedrooms, and area. No commissions."
       />
-      <header className="sticky top-0 z-50 bg-card border-b border-border">
+      <header className="sticky top-0 z-50 bg-card/70 backdrop-blur-xl border-b border-border/50">
         <div className="flex items-center gap-2 px-3 py-2">
+
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <input
