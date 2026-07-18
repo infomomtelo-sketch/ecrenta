@@ -240,40 +240,48 @@ export default function Pricing() {
         )}
 
         <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {plans.map((plan) => (
+          {plans.map((plan, idx) => (
             <div
               key={plan.key}
-              className={`relative rounded-2xl border p-8 transition-all ${
+              style={{ animationDelay: `${idx * 120}ms` }}
+              className={`group relative rounded-3xl border p-8 transition-all duration-500 animate-fade-up hover:-translate-y-2 ${
                 plan.isCurrentPlan
                   ? "border-primary bg-primary/5 shadow-[var(--shadow-elevated)]"
                   : plan.popular
-                  ? "border-primary bg-card shadow-[var(--shadow-elevated)] scale-[1.02]"
-                  : "border-border bg-card"
+                  ? "border-primary/60 bg-card shadow-[var(--shadow-elevated)] lg:scale-[1.03]"
+                  : "border-border bg-card hover:border-primary/40 hover:shadow-[var(--shadow-elevated)]"
               }`}
             >
+              {/* Shine sweep on hover */}
+              <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-3xl opacity-0 transition-opacity duration-500 group-hover:opacity-100">
+                <div className="absolute -inset-x-1/2 -top-1/2 h-[200%] w-[50%] rotate-12 bg-gradient-to-r from-transparent via-primary/10 to-transparent blur-2xl transition-transform duration-1000 group-hover:translate-x-[400%]" />
+              </div>
+
               {plan.isCurrentPlan && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-primary px-4 py-1 text-xs font-semibold text-primary-foreground">
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-primary px-4 py-1 text-xs font-semibold text-primary-foreground shadow-lg">
                   Your Plan
                 </div>
               )}
               {!plan.isCurrentPlan && plan.popular && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2 flex items-center gap-1 rounded-full bg-primary px-4 py-1 text-xs font-semibold text-primary-foreground">
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2 flex items-center gap-1 rounded-full bg-gradient-to-r from-primary to-accent px-4 py-1 text-xs font-semibold text-primary-foreground shadow-lg animate-pulse-glow">
                   <Star className="h-3 w-3" /> Most Popular
                 </div>
               )}
               {!plan.isCurrentPlan && !plan.popular && plan.badge && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-accent px-4 py-1 text-xs font-semibold text-accent-foreground">
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-accent px-4 py-1 text-xs font-semibold text-accent-foreground shadow-lg">
                   {plan.badge}
                 </div>
               )}
 
               <div className="flex items-center gap-3 text-primary">
-                {plan.icon}
+                <div className="rounded-xl bg-primary/10 p-2 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-6">
+                  {plan.icon}
+                </div>
                 <h3 className="font-[var(--font-heading)] text-xl font-bold text-foreground">{plan.name}</h3>
               </div>
 
-              <div className="mt-4 flex items-baseline gap-1">
-                <span className="font-[var(--font-heading)] text-4xl font-extrabold">{plan.price}</span>
+              <div className="mt-5 flex items-baseline gap-1">
+                <span className="font-[var(--font-heading)] text-5xl font-extrabold tracking-tight">{plan.price}</span>
                 <span className="text-muted-foreground">{plan.period}</span>
               </div>
 
@@ -294,7 +302,7 @@ export default function Pricing() {
 
               {plan.ctaAction && (
                 <Button
-                  className="mt-8 w-full rounded-xl py-6 text-sm font-semibold"
+                  className={`mt-8 w-full rounded-xl py-6 text-sm font-semibold transition-all ${plan.popular && !plan.isCurrentPlan ? "animate-pulse-glow" : ""}`}
                   variant={plan.isCurrentPlan ? "secondary" : plan.popular ? "default" : "outline"}
                   size="lg"
                   onClick={plan.ctaAction}
@@ -302,7 +310,7 @@ export default function Pricing() {
                 >
                   {loadingPlan === plan.key && <Loader2 className="h-4 w-4 animate-spin mr-2" />}
                   {plan.cta}
-                  {!plan.isCurrentPlan && <ArrowRight className="ml-2 h-4 w-4" />}
+                  {!plan.isCurrentPlan && <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />}
                 </Button>
               )}
             </div>
@@ -310,17 +318,17 @@ export default function Pricing() {
         </div>
 
         {/* How It Works */}
-        <div className="mx-auto mt-20 max-w-3xl text-center">
-          <h2 className="font-[var(--font-heading)] text-2xl font-bold mb-8">How It Works</h2>
+        <div className="mx-auto mt-24 max-w-3xl text-center">
+          <h2 className="font-[var(--font-heading)] text-3xl font-bold mb-10">How It <span className="text-gradient">Works</span></h2>
           <div className="grid gap-6 sm:grid-cols-4">
             {[
               { step: "1", title: "Tell Us About Your Property", desc: "Enter your address and property details." },
               { step: "2", title: "We Prep & List It", desc: "Professional photos, optimized listing, syndicated everywhere." },
               { step: "3", title: "We Screen & Place", desc: "Background checks, showings, and lease signing handled." },
               { step: "4", title: "You Collect Rent", desc: "Sit back while we manage the rest." },
-            ].map((s) => (
-              <div key={s.step} className="text-center">
-                <div className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-primary text-sm font-bold text-primary-foreground">
+            ].map((s, i) => (
+              <div key={s.step} className="group text-center animate-fade-up" style={{ animationDelay: `${i * 100}ms` }}>
+                <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-accent text-base font-bold text-primary-foreground shadow-lg transition-transform duration-500 group-hover:scale-110 group-hover:rotate-6">
                   {s.step}
                 </div>
                 <h3 className="font-[var(--font-heading)] text-sm font-semibold">{s.title}</h3>
