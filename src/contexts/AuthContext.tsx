@@ -42,7 +42,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       } else {
         setRole(null);
       }
-      setProfile(prof || null);
+      setProfile((prof as any) || null);
     });
   };
 
