@@ -80,7 +80,7 @@ export default function Dashboard() {
 
 
 
-      <main className="px-4 py-4 space-y-4">
+      <main className="relative px-4 py-4 space-y-4">
         {/* Subscription status banner */}
         {role === "landlord" && (
           <div className={`rounded-xl border p-4 ${
