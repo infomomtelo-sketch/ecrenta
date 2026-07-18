@@ -13,8 +13,8 @@ export default {
       },
     },
     fontFamily: {
-      heading: ['Outfit', 'sans-serif'],
-      body: ['Plus Jakarta Sans', 'sans-serif'],
+      heading: ['Sora', 'sans-serif'],
+      body: ['Manrope', 'sans-serif'],
     },
     extend: {
       colors: {
