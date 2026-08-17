@@ -14,6 +14,36 @@ export type Database = {
   }
   public: {
     Tables: {
+      ai_usage: {
+        Row: {
+          call_count: number
+          created_at: string
+          feature: string
+          id: string
+          period_month: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          call_count?: number
+          created_at?: string
+          feature: string
+          id?: string
+          period_month?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          call_count?: number
+          created_at?: string
+          feature?: string
+          id?: string
+          period_month?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       applications: {
         Row: {
           conversation_id: string | null
@@ -219,6 +249,63 @@ export type Database = {
           },
         ]
       }
+      commissions: {
+        Row: {
+          amount_cents: number
+          base_amount_cents: number
+          created_at: string
+          id: string
+          paid_at: string | null
+          partner_id: string
+          payout_reference: string | null
+          period_month: string
+          referral_id: string
+          status: Database["public"]["Enums"]["commission_status"]
+          updated_at: string
+        }
+        Insert: {
+          amount_cents?: number
+          base_amount_cents?: number
+          created_at?: string
+          id?: string
+          paid_at?: string | null
+          partner_id: string
+          payout_reference?: string | null
+          period_month: string
+          referral_id: string
+          status?: Database["public"]["Enums"]["commission_status"]
+          updated_at?: string
+        }
+        Update: {
+          amount_cents?: number
+          base_amount_cents?: number
+          created_at?: string
+          id?: string
+          paid_at?: string | null
+          partner_id?: string
+          payout_reference?: string | null
+          period_month?: string
+          referral_id?: string
+          status?: Database["public"]["Enums"]["commission_status"]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "commissions_partner_id_fkey"
+            columns: ["partner_id"]
+            isOneToOne: false
+            referencedRelation: "partners"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "commissions_referral_id_fkey"
+            columns: ["referral_id"]
+            isOneToOne: false
+            referencedRelation: "referrals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       contact_messages: {
         Row: {
           created_at: string
@@ -380,6 +467,48 @@ export type Database = {
           id?: string
           token?: string
           used_at?: string | null
+        }
+        Relationships: []
+      }
+      harvest_sources: {
+        Row: {
+          active: boolean
+          auto_send_claim_links: boolean
+          city: string | null
+          created_at: string
+          id: string
+          interval_hours: number
+          last_run_at: string | null
+          last_status: string | null
+          limit_per_run: number
+          updated_at: string
+          url: string
+        }
+        Insert: {
+          active?: boolean
+          auto_send_claim_links?: boolean
+          city?: string | null
+          created_at?: string
+          id?: string
+          interval_hours?: number
+          last_run_at?: string | null
+          last_status?: string | null
+          limit_per_run?: number
+          updated_at?: string
+          url: string
+        }
+        Update: {
+          active?: boolean
+          auto_send_claim_links?: boolean
+          city?: string | null
+          created_at?: string
+          id?: string
+          interval_hours?: number
+          last_run_at?: string | null
+          last_status?: string | null
+          limit_per_run?: number
+          updated_at?: string
+          url?: string
         }
         Relationships: []
       }
@@ -568,18 +697,159 @@ export type Database = {
           },
         ]
       }
+      landlord_verifications: {
+        Row: {
+          attestation_accepted: boolean
+          attested_at: string | null
+          business_address: string
+          business_name: string | null
+          created_at: string
+          document_paths: string[]
+          entity_type: Database["public"]["Enums"]["legal_entity_type"]
+          id: string
+          legal_name: string
+          phone: string
+          proof_type: string
+          property_addresses: string[]
+          registration_number: string | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          reviewer_notes: string | null
+          status: Database["public"]["Enums"]["verification_status"]
+          submitted_at: string | null
+          tax_id_last4: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          attestation_accepted?: boolean
+          attested_at?: string | null
+          business_address: string
+          business_name?: string | null
+          created_at?: string
+          document_paths?: string[]
+          entity_type?: Database["public"]["Enums"]["legal_entity_type"]
+          id?: string
+          legal_name: string
+          phone: string
+          proof_type?: string
+          property_addresses?: string[]
+          registration_number?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          reviewer_notes?: string | null
+          status?: Database["public"]["Enums"]["verification_status"]
+          submitted_at?: string | null
+          tax_id_last4?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          attestation_accepted?: boolean
+          attested_at?: string | null
+          business_address?: string
+          business_name?: string | null
+          created_at?: string
+          document_paths?: string[]
+          entity_type?: Database["public"]["Enums"]["legal_entity_type"]
+          id?: string
+          legal_name?: string
+          phone?: string
+          proof_type?: string
+          property_addresses?: string[]
+          registration_number?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          reviewer_notes?: string | null
+          status?: Database["public"]["Enums"]["verification_status"]
+          submitted_at?: string | null
+          tax_id_last4?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      lead_contacts: {
+        Row: {
+          city: string | null
+          contact_type: string
+          created_at: string
+          email: string | null
+          id: string
+          last_contacted_at: string | null
+          listing_id: string | null
+          name: string | null
+          notes: string | null
+          phone: string | null
+          source: string | null
+          source_url: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          city?: string | null
+          contact_type?: string
+          created_at?: string
+          email?: string | null
+          id?: string
+          last_contacted_at?: string | null
+          listing_id?: string | null
+          name?: string | null
+          notes?: string | null
+          phone?: string | null
+          source?: string | null
+          source_url?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          city?: string | null
+          contact_type?: string
+          created_at?: string
+          email?: string | null
+          id?: string
+          last_contacted_at?: string | null
+          listing_id?: string | null
+          name?: string | null
+          notes?: string | null
+          phone?: string | null
+          source?: string | null
+          source_url?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lead_contacts_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "listings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       listings: {
         Row: {
           address: string
           available: boolean
           bathrooms: number
           bedrooms: number
+          claim_token: string | null
+          claimed_at: string | null
+          classified_reason: string | null
+          contact_email: string | null
+          contact_phone: string | null
+          contact_type: string
           created_at: string
           description: string
           external_id: string | null
+          harvested_at: string | null
           id: string
           images: string[]
+          is_claimable: boolean
           landlord_name: string
+          latitude: number | null
+          longitude: number | null
           price: number
           source: string | null
           source_url: string | null
@@ -593,12 +863,22 @@ export type Database = {
           available?: boolean
           bathrooms?: number
           bedrooms?: number
+          claim_token?: string | null
+          claimed_at?: string | null
+          classified_reason?: string | null
+          contact_email?: string | null
+          contact_phone?: string | null
+          contact_type?: string
           created_at?: string
           description?: string
           external_id?: string | null
+          harvested_at?: string | null
           id?: string
           images?: string[]
+          is_claimable?: boolean
           landlord_name?: string
+          latitude?: number | null
+          longitude?: number | null
           price: number
           source?: string | null
           source_url?: string | null
@@ -612,12 +892,22 @@ export type Database = {
           available?: boolean
           bathrooms?: number
           bedrooms?: number
+          claim_token?: string | null
+          claimed_at?: string | null
+          classified_reason?: string | null
+          contact_email?: string | null
+          contact_phone?: string | null
+          contact_type?: string
           created_at?: string
           description?: string
           external_id?: string | null
+          harvested_at?: string | null
           id?: string
           images?: string[]
+          is_claimable?: boolean
           landlord_name?: string
+          latitude?: number | null
+          longitude?: number | null
           price?: number
           source?: string | null
           source_url?: string | null
@@ -776,6 +1066,66 @@ export type Database = {
         }
         Relationships: []
       }
+      partners: {
+        Row: {
+          approved_at: string | null
+          bio: string | null
+          code: string
+          commission_rate: number
+          contact_email: string | null
+          created_at: string
+          display_name: string
+          id: string
+          organization: string | null
+          partner_type: Database["public"]["Enums"]["partner_type"]
+          payout_handle: string | null
+          payout_method: string
+          status: Database["public"]["Enums"]["partner_status"]
+          student_discount_pct: number
+          updated_at: string
+          user_id: string
+          website: string | null
+        }
+        Insert: {
+          approved_at?: string | null
+          bio?: string | null
+          code: string
+          commission_rate?: number
+          contact_email?: string | null
+          created_at?: string
+          display_name: string
+          id?: string
+          organization?: string | null
+          partner_type?: Database["public"]["Enums"]["partner_type"]
+          payout_handle?: string | null
+          payout_method?: string
+          status?: Database["public"]["Enums"]["partner_status"]
+          student_discount_pct?: number
+          updated_at?: string
+          user_id: string
+          website?: string | null
+        }
+        Update: {
+          approved_at?: string | null
+          bio?: string | null
+          code?: string
+          commission_rate?: number
+          contact_email?: string | null
+          created_at?: string
+          display_name?: string
+          id?: string
+          organization?: string | null
+          partner_type?: Database["public"]["Enums"]["partner_type"]
+          payout_handle?: string | null
+          payout_method?: string
+          status?: Database["public"]["Enums"]["partner_status"]
+          student_discount_pct?: number
+          updated_at?: string
+          user_id?: string
+          website?: string | null
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           access_granted: boolean
@@ -850,6 +1200,56 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      referrals: {
+        Row: {
+          converted_at: string | null
+          created_at: string
+          id: string
+          landing_path: string | null
+          monthly_amount_cents: number
+          partner_id: string
+          plan_name: string | null
+          referred_email: string | null
+          referred_user_id: string | null
+          status: Database["public"]["Enums"]["referral_status"]
+          updated_at: string
+        }
+        Insert: {
+          converted_at?: string | null
+          created_at?: string
+          id?: string
+          landing_path?: string | null
+          monthly_amount_cents?: number
+          partner_id: string
+          plan_name?: string | null
+          referred_email?: string | null
+          referred_user_id?: string | null
+          status?: Database["public"]["Enums"]["referral_status"]
+          updated_at?: string
+        }
+        Update: {
+          converted_at?: string | null
+          created_at?: string
+          id?: string
+          landing_path?: string | null
+          monthly_amount_cents?: number
+          partner_id?: string
+          plan_name?: string | null
+          referred_email?: string | null
+          referred_user_id?: string | null
+          status?: Database["public"]["Enums"]["referral_status"]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "referrals_partner_id_fkey"
+            columns: ["partner_id"]
+            isOneToOne: false
+            referencedRelation: "partners"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       rent_payment_requests: {
         Row: {
@@ -1143,6 +1543,46 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      accept_tenant_invite: {
+        Args: { _token: string }
+        Returns: {
+          accepted_at: string | null
+          auth_user_id: string | null
+          created_at: string
+          email: string | null
+          full_name: string
+          id: string
+          invite_token: string | null
+          invited_at: string | null
+          lease_end: string | null
+          lease_start: string | null
+          notes: string | null
+          phone: string | null
+          rent_amount: number | null
+          unit_address: string | null
+          updated_at: string
+          user_id: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "tenants"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
+      attach_referral: {
+        Args: { _code: string; _landing_path?: string }
+        Returns: boolean
+      }
+      claim_listing: { Args: { _token: string }; Returns: string }
+      consume_ai_call: {
+        Args: { _feature: string; _user_id: string }
+        Returns: {
+          allowed: boolean
+          quota: number
+          used: number
+        }[]
+      }
       delete_email: {
         Args: { message_id: number; queue_name: string }
         Returns: boolean
@@ -1152,7 +1592,97 @@ export type Database = {
         Args: { payload: Json; queue_name: string }
         Returns: number
       }
+      get_ai_quota: { Args: { _user_id: string }; Returns: number }
+      get_claimable_listing: {
+        Args: { _token: string }
+        Returns: {
+          address: string
+          bathrooms: number
+          bedrooms: number
+          description: string
+          id: string
+          images: string[]
+          landlord_name: string
+          price: number
+          source: string
+          source_url: string
+          sqft: number
+          title: string
+        }[]
+      }
+      get_form_by_token: {
+        Args: { _token: string }
+        Returns: {
+          content: Json
+          created_at: string
+          form_type: string
+          id: string
+          recipient_email: string | null
+          sent_at: string | null
+          sign_token: string | null
+          signature_data: string | null
+          signed_at: string | null
+          signer_ip: string | null
+          signer_name: string | null
+          status: string
+          tenant_id: string | null
+          title: string
+          updated_at: string
+          user_id: string
+        }[]
+        SetofOptions: {
+          from: "*"
+          to: "rental_forms"
+          isOneToOne: false
+          isSetofReturn: true
+        }
+      }
       get_my_tenant_id: { Args: never; Returns: string }
+      get_partner_by_code: {
+        Args: { _code: string }
+        Returns: {
+          code: string
+          display_name: string
+          organization: string
+          partner_type: Database["public"]["Enums"]["partner_type"]
+          student_discount_pct: number
+        }[]
+      }
+      get_shared_inspection: {
+        Args: { _token: string }
+        Returns: {
+          ai_report: Json | null
+          checklist_data: Json
+          comparison_id: string | null
+          created_at: string
+          id: string
+          inspection_type: string
+          listing_id: string | null
+          notes: string | null
+          photos: string[]
+          property_address: string
+          share_token: string | null
+          status: string
+          template_type: string
+          updated_at: string
+          user_id: string
+        }[]
+        SetofOptions: {
+          from: "*"
+          to: "inspections"
+          isOneToOne: false
+          isSetofReturn: true
+        }
+      }
+      get_tenant_by_invite: {
+        Args: { _token: string }
+        Returns: {
+          email: string
+          full_name: string
+          id: string
+          unit_address: string
+        }[]
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -1160,6 +1690,7 @@ export type Database = {
         }
         Returns: boolean
       }
+      is_landlord_verified: { Args: { _user_id: string }; Returns: boolean }
       move_to_dlq: {
         Args: {
           dlq_name: string
@@ -1177,15 +1708,68 @@ export type Database = {
           read_ct: number
         }[]
       }
+      record_referral_commission: {
+        Args: {
+          _monthly_amount_cents: number
+          _plan_name: string
+          _user_id: string
+        }
+        Returns: undefined
+      }
+      sign_form_by_token: {
+        Args: {
+          _signature_data: string
+          _signer_email: string
+          _signer_ip: string
+          _signer_name: string
+          _token: string
+        }
+        Returns: {
+          content: Json
+          created_at: string
+          form_type: string
+          id: string
+          recipient_email: string | null
+          sent_at: string | null
+          sign_token: string | null
+          signature_data: string | null
+          signed_at: string | null
+          signer_ip: string | null
+          signer_name: string | null
+          status: string
+          tenant_id: string | null
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "rental_forms"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
     }
     Enums: {
       app_role: "landlord" | "tenant" | "admin"
       application_status: "pending" | "approved" | "declined"
+      commission_status: "pending" | "approved" | "paid" | "void"
       conversation_status:
         | "inquiry"
         | "showing_scheduled"
         | "approved"
         | "declined"
+      legal_entity_type:
+        | "individual"
+        | "sole_proprietor"
+        | "llc"
+        | "corporation"
+        | "partnership"
+        | "trust"
+      partner_status: "pending" | "active" | "suspended" | "rejected"
+      partner_type: "trainer" | "affiliate" | "student_ambassador"
+      referral_status: "signed_up" | "trialing" | "converted" | "churned"
+      verification_status: "draft" | "pending" | "verified" | "rejected"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -1315,12 +1899,25 @@ export const Constants = {
     Enums: {
       app_role: ["landlord", "tenant", "admin"],
       application_status: ["pending", "approved", "declined"],
+      commission_status: ["pending", "approved", "paid", "void"],
       conversation_status: [
         "inquiry",
         "showing_scheduled",
         "approved",
         "declined",
       ],
+      legal_entity_type: [
+        "individual",
+        "sole_proprietor",
+        "llc",
+        "corporation",
+        "partnership",
+        "trust",
+      ],
+      partner_status: ["pending", "active", "suspended", "rejected"],
+      partner_type: ["trainer", "affiliate", "student_ambassador"],
+      referral_status: ["signed_up", "trialing", "converted", "churned"],
+      verification_status: ["draft", "pending", "verified", "rejected"],
     },
   },
 } as const
