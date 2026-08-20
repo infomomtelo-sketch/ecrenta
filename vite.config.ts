@@ -1,28 +1,24 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
-import { componentTagger } from "lovable-tagger";
 import { VitePWA } from "vite-plugin-pwa";
 
-// https://vitejs.dev/config/
-export default defineConfig(({ mode }) => ({
+export default defineConfig(() => ({
   server: {
     host: "::",
     port: 8080,
-    hmr: {
-      overlay: false,
-    },
+    hmr: { overlay: false },
   },
   plugins: [
     react(),
-    mode === "development" && componentTagger(),
     VitePWA({
       registerType: "autoUpdate",
       includeAssets: ["favicon.png", "pwa-icon-192.png", "pwa-icon-512.png"],
       manifest: {
         name: "P8 – AI Property Manager",
         short_name: "P8",
-        description: "Your AI-powered property management assistant. Inspections, tenant comms, and maintenance triage — all from your phone.",
+        description:
+          "Your AI-powered property management assistant. Inspections, tenant comms, and maintenance triage — all from your phone.",
         theme_color: "#2E9D6A",
         background_color: "#f7f5f2",
         display: "standalone",
@@ -32,7 +28,7 @@ export default defineConfig(({ mode }) => ({
         icons: [
           { src: "/pwa-icon-192.png", sizes: "192x192", type: "image/png" },
           { src: "/pwa-icon-512.png", sizes: "512x512", type: "image/png" },
-          { src: "/pwa-icon-512.png", sizes: "512x512", type: "image/png", purpose: "maskable" },
+          { src: "/pwa-icon-512.png", sizes: "512x512", type: "image/png", purpose: "maskable" }
         ],
       },
       workbox: {
@@ -40,11 +36,29 @@ export default defineConfig(({ mode }) => ({
         globPatterns: ["**/*.{js,css,html,ico,png,svg,woff2}"],
       },
     }),
-  ].filter(Boolean),
-  resolve: {
-    alias: {
-      "@": path.resolve(__dirname, "./src"),
+  ],
+  build: {
+    outDir: "dist",
+    sourcemap: false,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          react: ["react", "react-dom", "react-router-dom"],
+          supabase: ["@supabase/supabase-js"],
+          recharts: ["recharts"],
+        },
+      },
     },
-    dedupe: ["react", "react-dom", "react/jsx-runtime", "react/jsx-dev-runtime", "@tanstack/react-query", "@tanstack/query-core"],
+  },
+  resolve: {
+    alias: { "@": path.resolve(__dirname, "./src") },
+    dedupe: [
+      "react",
+      "react-dom",
+      "react/jsx-runtime",
+      "react/jsx-dev-runtime",
+      "@tanstack/react-query",
+      "@tanstack/query-core",
+    ],
   },
 }));
